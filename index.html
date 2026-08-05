@@ -170,11 +170,11 @@
         <!-- Analytics Visuals Section -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            <!-- Overall Status Distribution (Natatanging Kulay: Amber, Emerald, Indigo, Rose/Stone para hindi pareho sa Issued Person) -->
+            <!-- Overall Status Distribution (Exact custom colors: Blue, Orange, Cyan, Green, Red) -->
             <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
                 <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
                     <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Overall Status Distribution</h2>
-                    <span class="text-[10px] bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-semibold border border-amber-200">Distinct Status Palette</span>
+                    <span class="text-[10px] bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-semibold border border-amber-200">Custom Palette View</span>
                 </div>
                 <div class="relative h-64 w-full flex items-center justify-center">
                     <canvas id="overallStatusPieChart"></canvas>
@@ -880,15 +880,15 @@
         }
 
         function initCharts() {
-            // 1. Overall Status Pie Chart (Natatangi at Propesyonal na Tono: Open=Amber, Closed=Emerald, Accepted=Indigo, Cancelled=Rose)
+            // 1. Overall Status Pie Chart (Updated Custom Palette: Blue, Orange, Cyan, Green, Red)
             const ctxOverallStatus = document.getElementById('overallStatusPieChart').getContext('2d');
             overallStatusPieChartInstance = new Chart(ctxOverallStatus, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Open', 'Closed', 'Accepted', 'Cancelled'],
+                    labels: ['Open', 'Closed', 'Accepted', 'Cancelled', 'Others'],
                     datasets: [{
-                        data: [0, 0, 0, 0],
-                        backgroundColor: ['#D97706', '#059669', '#4F46E5', '#E11D48'],
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#4F46E5', '#F97316', '#06B6D4', '#10B981', '#EF4444'],
                         borderWidth: 2,
                         borderColor: '#ffffff',
                         hoverOffset: 4
@@ -1034,7 +1034,7 @@
             let countAccepted = data.filter(i => i.status === 'Accepted').length;
             let countCancelled = data.filter(i => i.status === 'Cancelled').length;
             
-            overallStatusPieChartInstance.data.datasets[0].data = [countOpen, countClosed, countAccepted, countCancelled];
+            overallStatusPieChartInstance.data.datasets[0].data = [countOpen, countClosed, countAccepted, countCancelled, 0];
             overallStatusPieChartInstance.update();
 
             let dateCounts = {};
