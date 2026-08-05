@@ -78,7 +78,7 @@
         <section class="bg-white p-3.5 rounded-lg shadow-sm border border-[#E1DFDD] flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center space-x-3 w-full sm:w-auto">
                 <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
-                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Project / Entity Slicer:</span>
+                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Project / Property Slicer:</span>
                 <select id="globalProjectFilter" onchange="currentPage = 1; renderTable()" class="text-xs px-3.5 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
                     <option value="ALL">All Entities (Consolidated Executive View)</option>
                     <optgroup label="Project Sites">
@@ -310,16 +310,16 @@
                     <table id="auditTable" class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-[#F8F9FA] text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200">
-                                <th class="p-3 pl-4">Ref #</th>
+                                <th class="p-3 pl-4">Series #</th>
                                 <th class="p-3">Status</th>
-                                <th class="p-3">Project / Entity Name</th>
-                                <th class="p-3">Audit Category / Focus</th>
+                                <th class="p-3">Project / Property Name</th>
+                                <th class="p-3">Audit Category</th>
                                 <th class="p-3">Actual Findings</th>
                                 <th class="p-3 hidden">Recommended Action</th>
                                 <th class="p-3">Auditor-in-Charge</th>
                                 <th class="p-3">Responsible Dept</th>
                                 <th class="p-3">Issued Person</th>
-                                <th class="p-3">Risk Level</th>
+                                <th class="p-3">Rating Scale</th>
                                 <th class="p-3">Audit Date</th>
                                 <th class="p-3 pr-4 text-center">Actions</th>
                             </tr>
