@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Security and Material Control Inspection - Power BI Executive Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS Library para sa Excel Mass Upload at Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-[#F3F4F6] text-[#252423] antialiased min-h-screen flex flex-col">
+
+    <!-- Power BI / Construction Operations Group Top Header Bar (Max-Width 75%) -->
+    <header class="bg-[#111318] text-white shadow-md border-b border-slate-800">
+        <div class="max-w-[75%] mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white px-3 py-1.5 rounded shadow-sm flex items-center justify-center">
+                    <span class="text-slate-900 font-extrabold text-sm tracking-tight">DMCI HOMES</span>
+                </div>
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold tracking-wide text-slate-100 flex items-center gap-2">
+                        Site Security and Material Control Inspection - Dashboard 
+                        <span class="bg-[#0078D4] text-white text-[10px] font-semibold px-2 py-0.5 rounded">Executive BI View</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400">Internal Audit Department • Construction Operations Group</p>
+                </div>
+            </div>
+            <div class="mt-3 sm:mt-0 flex items-center space-x-2">
+                <span class="bg-[#1F232A] text-slate-300 text-xs px-3 py-1.5 rounded border border-slate-700 flex items-center shadow-inner">
+                    <i class="fa-solid fa-calendar text-[#0078D4] mr-1.5"></i> Audit Period: 2026
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[75%] mx-auto px-4 py-5 space-y-4 flex-grow w-full">
+
+        <!-- Filter Slicer Row -->
+        <section class="bg-white p-3.5 rounded-lg shadow-sm border border-[#E1DFDD] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 w-full sm:w-auto">
+                <i class="fa-solid fa-filter text-[#0078D4] ml-1"></i>
+                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Project / Entity Slicer:</span>
+                <select id="globalProjectFilter" onchange="currentPage = 1; renderTable()" class="text-xs px-3.5 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white font-medium w-full sm:w-80 shadow-sm">
+                    <option value="ALL">All Entities (Consolidated Executive View)</option>
+                    <optgroup label="Project Sites">
+                        <option value="The Oriana">The Oriana</option>
+                        <option value="One Delta Residences">One Delta Residences</option>
+                        <option value="Solmera Coast">Solmera Coast</option>
+                        <option value="Sage Residences">Sage Residences</option>
+                        <option value="Anissa Heights">Anissa Heights</option>
+                        <option value="Calinea Tower">Calinea Tower</option>
+                        <option value="The Valeron Tower">The Valeron Tower</option>
+                        <option value="One South Drive">One South Drive</option>
+                        <option value="Moncello Crest">Moncello Crest</option>
+                        <option value="Erin Heights">Erin Heights</option>
+                        <option value="Verdon Parc">Verdon Parc</option>
+                        <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
+                    </optgroup>
+                    <optgroup label="Landbank">
+                        <option value="Star Property">Star Property</option>
+                        <option value="Lia Property">Lia Property</option>
+                        <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
+                        <option value="Sovanna Towers">Sovanna Towers</option>
+                        <option value="Moriyama Nature Park">Moriyama Nature Park</option>
+                        <option value="Lyre Garden">Lyre Garden</option>
+                        <option value="Lisseo Residences">Lisseo Residences</option>
+                        <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
+                        <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
+                    </optgroup>
+                    <optgroup label="Support Groups">
+                        <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
+                        <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
+                        <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
+                        <option value="Central Warehouse">Central Warehouse</option>
+                        <option value="Formworks">Formworks</option>
+                        <option value="Equipment Services Group">Equipment Services Group</option>
+                        <option value="Zenith Mobility">Zenith Mobility</option>
+                        <option value="Fit-Out">Fit-Out</option>
+                        <option value="Unit Restoration Group">Unit Restoration Group</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="text-xs text-slate-500 font-medium italic">
+                <span>Power BI Professional Audit Matrix v2026.1</span>
+            </div>
+        </section>
+
+        <!-- KPI Cards Grid (5 Metrics) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#0078D4] border border-[#E1DFDD] flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Audit Checks</p>
+                    <h3 id="kpiTotal" class="text-xl font-bold text-[#111318] mt-0.5">0</h3>
+                    <span class="text-slate-500 text-[10px] font-medium">Active Records</span>
+                </div>
+                <div class="w-8 h-8 rounded bg-[#EFF6FC] text-[#0078D4] flex items-center justify-center text-sm shadow-inner">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#EAB308] border border-[#E1DFDD] flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Open Findings</p>
+                    <h3 id="kpiOpen" class="text-xl font-bold text-amber-600 mt-0.5">0</h3>
+                    <span class="text-amber-600 text-[10px] font-semibold">Pending Action</span>
+                </div>
+                <div class="w-8 h-8 rounded bg-amber-50 text-amber-600 flex items-center justify-center text-sm shadow-inner">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#107C10] border border-[#E1DFDD] flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Closed Rate</p>
+                    <h3 id="kpiClosedRate" class="text-xl font-bold text-[#107C10] mt-0.5">0%</h3>
+                    <span class="text-[#107C10] text-[10px] font-semibold">Resolved Items</span>
+                </div>
+                <div class="w-8 h-8 rounded bg-emerald-50 text-[#107C10] flex items-center justify-center text-sm shadow-inner">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#D83B01] border border-[#E1DFDD] flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Non-Compliance</p>
+                    <h3 id="kpiHighRisk" class="text-xl font-bold text-[#D83B01] mt-0.5">0%</h3>
+                    <span class="text-[#D83B01] text-[10px] font-semibold">Action Required</span>
+                </div>
+                <div class="w-8 h-8 rounded bg-[#FDF3F2] text-[#D83B01] flex items-center justify-center text-sm shadow-inner">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#A80000] border border-[#E1DFDD] flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">High Risk Areas</p>
+                    <h3 id="kpiNonCompliant" class="text-xl font-bold text-[#A80000] mt-0.5">0</h3>
+                    <span class="text-[#A80000] text-[10px] font-semibold">Critical Attention</span>
+                </div>
+                <div class="w-8 h-8 rounded bg-[#FDF2F2] text-[#A80000] flex items-center justify-center text-sm shadow-inner">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Visuals Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Overall Status Distribution (Natatanging Kulay: Amber, Emerald, Indigo, Rose/Stone para hindi pareho sa Issued Person) -->
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Overall Status Distribution</h2>
+                    <span class="text-[10px] bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-semibold border border-amber-200">Distinct Status Palette</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="overallStatusPieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Compliance Status Distribution</h2>
+                    <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-medium">Ratings</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="complianceStatusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings Trend Over Time</h2>
+                    <span class="text-[10px] bg-[#EFF6FC] text-[#0078D4] px-2 py-0.5 rounded font-semibold">Timeline</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="auditTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings (Category)</h2>
+                    <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Breakdown</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="auditCatChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Entity Findings Volume (Top Sites)</h2>
+                    <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Count Matrix</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="projectFindingsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Findings by Auditor-in-Charge</h2>
+                    <span class="text-[10px] bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-medium">Auditor Load</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="auditorFindingsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Findings by Responsible Department</h2>
+                    <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Department Load</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="deptFindingsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Status by Issued Person (Stacked View) -->
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
+                <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Status by Issued Person (Stacked View)</h2>
+                    <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-semibold">Executive Professional Palette</span>
+                </div>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="statusIssuedPersonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Audit Table Section -->
+        <section class="bg-white rounded-lg shadow-sm border border-[#E1DFDD] overflow-hidden">
+            <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div>
+                    <h2 class="font-bold text-slate-800 text-sm">Detailed Audit & Corrective Action Matrix</h2>
+                    <p class="text-[11px] text-slate-500">Comprehensive log of project sites, landbanking, and support group audit evaluations.</p>
+                </div>
+                <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+                    <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center cursor-pointer">
+                        <i class="fa-solid fa-file-excel mr-1.5"></i> Mass Upload Excel
+                        <input type="file" id="excelUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)">
+                    </label>
+
+                    <button onclick="openModal()" class="bg-[#0078D4] hover:bg-[#106EBE] text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
+                        <i class="fa-solid fa-plus mr-1.5"></i> Add Finding
+                    </button>
+                    <button onclick="exportToExcelFull()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
+                        <i class="fa-solid fa-file-arrow-down mr-1.5"></i> Export Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-3 bg-slate-50 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-2">
+                <div class="w-full sm:w-auto flex items-center gap-2">
+                    <input type="text" id="searchInput" onkeyup="currentPage = 1; renderTable()" placeholder="Search records across all attributes..." class="text-xs px-3.5 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#0078D4] w-full sm:w-80 shadow-sm bg-white">
+                    <select id="rowsPerPageSelect" onchange="currentPage = 1; renderTable()" class="text-xs px-2.5 py-1.5 border border-slate-300 rounded bg-white font-medium">
+                        <option value="5">5 rows</option>
+                        <option value="10" selected>10 rows</option>
+                        <option value="25">25 rows</option>
+                        <option value="50">50 rows</option>
+                    </select>
+                </div>
+                <div>
+                    <span id="rowCountBadge" class="bg-white text-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Items</span>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto w-full">
+                <table id="auditTable" class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-[#F8F9FA] text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200">
+                            <th class="p-3 pl-4">Ref #</th>
+                            <th class="p-3">Status</th>
+                            <th class="p-3">Project / Entity Name</th>
+                            <th class="p-3">Audit Category / Focus</th>
+                            <th class="p-3">Actual Findings</th>
+                            <th class="p-3 hidden">Recommended Action</th>
+                            <th class="p-3">Auditor-in-Charge</th>
+                            <th class="p-3">Responsible Dept</th>
+                            <th class="p-3">Issued Person</th>
+                            <th class="p-3">Risk Level</th>
+                            <th class="p-3">Audit Date</th>
+                            <th class="p-3 pr-4 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="p-3 bg-white border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <div id="paginationInfo" class="mb-2 sm:mb-0">
+                    Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> entries
+                </div>
+                <div class="flex items-center space-x-1">
+                    <button id="prevBtn" onclick="changePage(-1)" class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> Previous
+                    </button>
+                    <div id="pageNumbersContainer" class="flex items-center space-x-1 px-2">
+                    </div>
+                    <button id="nextBtn" onclick="changePage(1)" class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed">
+                        Next <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Form -->
+    <div id="auditModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl max-w-lg w-full p-5 space-y-3 border border-slate-200">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 id="modalTitle" class="font-bold text-slate-900 text-sm">Add New Audit Finding</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
+            </div>
+            <form id="auditForm" onsubmit="handleFormSubmit(event)" class="space-y-2.5 text-xs">
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Series Number (Ref #)</label>
+                        <input type="text" id="inputSeries" required placeholder="e.g., IAD-2026-0001" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white font-medium">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Finding Status</label>
+                        <select id="inputStatus" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white font-medium">
+                            <option value="Open">Open</option>
+                            <option value="Closed">Closed</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Project / Entity Name</label>
+                    <select id="inputProject" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white">
+                        <optgroup label="Project Sites">
+                            <option value="The Oriana">The Oriana</option>
+                            <option value="One Delta Residences">One Delta Residences</option>
+                            <option value="Solmera Coast">Solmera Coast</option>
+                            <option value="Sage Residences">Sage Residences</option>
+                            <option value="Anissa Heights">Anissa Heights</option>
+                            <option value="Calinea Tower">Calinea Tower</option>
+                            <option value="The Valeron Tower">The Valeron Tower</option>
+                            <option value="One South Drive">One South Drive</option>
+                            <option value="Moncello Crest">Moncello Crest</option>
+                            <option value="Erin Heights">Erin Heights</option>
+                            <option value="Verdon Parc">Verdon Parc</option>
+                            <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
+                        </optgroup>
+                        <optgroup label="Landbank">
+                            <option value="Star Property">Star Property</option>
+                            <option value="Lia Property">Lia Property</option>
+                            <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
+                            <option value="Sovanna Towers">Sovanna Towers</option>
+                            <option value="Moriyama Nature Park">Moriyama Nature Park</option>
+                            <option value="Lyre Garden">Lyre Garden</option>
+                            <option value="Lisseo Residences">Lisseo Residences</option>
+                            <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
+                            <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
+                        </optgroup>
+                        <optgroup label="Support Groups">
+                            <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
+                            <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
+                            <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
+                            <option value="Central Warehouse">Central Warehouse</option>
+                            <option value="Formworks">Formworks</option>
+                            <option value="Equipment Services Group">Equipment Services Group</option>
+                            <option value="Zenith Mobility">Zenith Mobility</option>
+                            <option value="Fit-Out">Fit-Out</option>
+                            <option value="Unit Restoration Group">Unit Restoration Group</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Audit Category / Focus</label>
+                    <select id="inputCategory" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white">
+                        <option value="I. Site Perimeter">I. Site Perimeter</option>
+                        <option value="II. Site Storage">II. Site Storage</option>
+                        <option value="III. Staging Area">III. Staging Area</option>
+                        <option value="IV. Other Storage">IV. Other Storage</option>
+                        <option value="V. Warehouse Safety">V. Warehouse Safety</option>
+                        <option value="VI. CCTV">VI. CCTV</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Actual Findings</label>
+                    <input type="text" id="inputFinding" required placeholder="e.g., Staging area management requires timber sleepers for rebars" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4]">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Recommended Action</label>
+                    <input type="text" id="inputProgram" required placeholder="e.g., Organize and sort by size/length within safety limits" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4]">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Auditor-in-Charge</label>
+                        <select id="inputAuditor" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white font-medium">
+                            <option value="Troy De Guzman">Troy De Guzman</option>
+                            <option value="Elmar Baria">Elmar Baria</option>
+                            <option value="Dianne Armas">Dianne Armas</option>
+                            <option value="Cijay Castro">Cijay Castro</option>
+                            <option value="Catherine Rosales">Catherine Rosales</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Responsible Dept</label>
+                        <select id="inputDept" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white">
+                            <option value="Asset Management Group (AMG)">Asset Management Group (AMG)</option>
+                            <option value="General Services Dept (GSD)">General Services Dept (GSD)</option>
+                            <option value="Construction Division">Construction Division</option>
+                            <option value="Equipment Services Group (ESG)">Equipment Services Group (ESG)</option>
+                            <option value="Purchasing Dept">Purchasing Dept</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Issued Person</label>
+                        <input type="text" id="inputIssuedPerson" required placeholder="e.g., Richard Guerrero" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Risk Level / Rating</label>
+                        <select id="inputSeverity" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4]">
+                            <option value="Non Compliant">Non Compliant</option>
+                            <option value="Partially Compliant">Partially Compliant</option>
+                            <option value="Generally Compliant">Generally Compliant</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Audit / Entry Date</label>
+                    <input type="date" id="inputDate" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#0078D4] bg-white">
+                </div>
+                <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closeModal()" class="px-3.5 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
+                    <button type="submit" class="px-3.5 py-1.5 bg-[#0078D4] text-white rounded hover:bg-[#106EBE] font-semibold shadow">Save Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const projectSites = [
+            "The Oriana", "One Delta Residences", "Solmera Coast", "Sage Residences", 
+            "Anissa Heights", "Calinea Tower", "The Valeron Tower", "One South Drive", 
+            "Moncello Crest", "Erin Heights", "Verdon Parc", "Mulberry Place Phase 2"
+        ];
+
+        const landbanks = [
+            "Star Property", "Lia Property", "Carbon V / Valeron Showroom", "Sovanna Towers", 
+            "Moriyama Nature Park", "Lyre Garden", "Lisseo Residences", "Sinclair Residences / Carbon R", 
+            "DHCS - Meycauayan Batching"
+        ];
+
+        const supportGroups = [
+            "Centralized Rebar Fabrication", "DHCS - Acacia Batching", "DHCS - Acacia CHB", 
+            "Central Warehouse", "Formworks", "Equipment Services Group", "Zenith Mobility", 
+            "Fit-Out", "Unit Restoration Group"
+        ];
+
+        function getEntityMeta(name) {
+            if (projectSites.includes(name)) {
+                return { type: "Project Site", bg: "bg-[#EFF6FC]", text: "text-[#0078D4]", border: "border-blue-200", icon: "fa-building" };
+            } else if (landbanks.includes(name)) {
+                return { type: "Landbank", bg: "bg-[#F0FDF4]", text: "text-[#107C10]", border: "border-emerald-200", icon: "fa-map-location-dot" };
+            } else if (supportGroups.includes(name)) {
+                return { type: "Support Group", bg: "bg-[#FDF4FF]", text: "text-[#86198F]", border: "border-purple-200", icon: "fa-gears" };
+            }
+            return { type: "Entity", bg: "bg-slate-100", text: "text-slate-700", border: "border-slate-200", icon: "fa-city" };
+        }
+
+        let auditData = JSON.parse(localStorage.getItem('auditDataPowerBI_2026')) || [
+            {
+                series: "IAD-2026-0001",
+                status: "Open",
+                project: "The Oriana",
+                category: "III. Staging Area",
+                finding: "Adequate Staging and Other Storage Material ManagementA. Material Storage Deficiencies at Other Storage (IIIA1 - IIIA9)IIIA8 - All previously identified inadequacies in staging area management, including those related to improper storage of rebars, no DR # on the rebar tags, improper storage of cement where properly addressed. 1. Elevated Rebars:- Place on timber sleepers or supports to prevent corrosion/damage.- Stable, organized, sorted by size/length; within safety height limits.2. Installed Barriers and Signage:- Barricades & warning signs in pedestrian/vehicle areas.3. Designate a Storage Area:- Level, dry, safe area away from traffic/excavation.",
+                program: "Enforce strict staging area compliance guidelines and establish designated timber sleeper supports.",
+                auditor: "Troy De Guzman",
+                dept: "General Services Dept (GSD)",
+                issuedPerson: "Richard Guerrero",
+                severity: "Generally Compliant",
+                date: "2026-08-02"
+            },
+            {
+                series: "IAD-2026-0002",
+                status: "Closed",
+                project: "Solmera Coast",
+                category: "II. Site Storage",
+                finding: "Adequate Site Warehouse Condition (Detail per project IIC1 - IIC2) IIC1 - IIC2 - All previously identified inadequacies in the warehouse condition, including those related to the warehouse aisles, have been addressed. The warehouses now have adequate lighting and ventilation, and the aisles within the storage areas are clear and free from obstructions.",
+                program: "Maintain routine bi-weekly warehouse inspections and proper illumination protocols.",
+                auditor: "Troy De Guzman",
+                dept: "Asset Management Group (AMG)",
+                issuedPerson: "Engr. Mario Reyes",
+                severity: "Generally Compliant",
+                date: "2026-08-03"
+            },
+            {
+                series: "IAD-2026-0003",
+                status: "Accepted",
+                project: "Sage Residences",
+                category: "V. Warehouse Safety",
+                finding: "Fire extinguisher inspection tags require timely renewal and clear access pathways must be maintained free from inventory boxes.",
+                program: "Update safety tags immediately and clear 1-meter perimeter around fire safety equipment.",
+                auditor: "Sally Pallano",
+                dept: "Construction Division",
+                issuedPerson: "Engr. Mark Villanueva",
+                severity: "Partially Compliant",
+                date: "2026-08-04"
+            }
+        ];
+
+        let currentPage = 1;
+
+        let auditCatChartInstance = null;
+        let complianceStatusChartInstance = null;
+        let projectFindingsChartInstance = null;
+        let auditorFindingsChartInstance = null;
+        let deptFindingsChartInstance = null;
+        let auditTrendChartInstance = null;
+        let statusIssuedPersonChartInstance = null;
+        let overallStatusPieChartInstance = null;
+
+        const pbiColors = ['#0078D4', '#00B7C3', '#5C2D91', '#B4009E', '#D83B01', '#107C10', '#E3008C', '#881798'];
+
+        window.onload = function() {
+            renderTable();
+            initCharts();
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('auditDataPowerBI_2026', JSON.stringify(auditData));
+        }
+
+        function getFilteredData() {
+            let selectedProject = document.getElementById('globalProjectFilter').value;
+            let searchFilter = document.getElementById('searchInput').value.toLowerCase();
+
+            return auditData.filter(item => {
+                let matchesProject = (selectedProject === 'ALL' || item.project === selectedProject);
+                let meta = getEntityMeta(item.project);
+                let matchesSearch = (item.series || '').toLowerCase().includes(searchFilter) ||
+                                    (item.status || '').toLowerCase().includes(searchFilter) ||
+                                    item.project.toLowerCase().includes(searchFilter) ||
+                                    item.category.toLowerCase().includes(searchFilter) ||
+                                    item.finding.toLowerCase().includes(searchFilter) ||
+                                    item.program.toLowerCase().includes(searchFilter) ||
+                                    (item.auditor || '').toLowerCase().includes(searchFilter) ||
+                                    item.dept.toLowerCase().includes(searchFilter) ||
+                                    (item.issuedPerson || '').toLowerCase().includes(searchFilter) ||
+                                    item.severity.toLowerCase().includes(searchFilter) ||
+                                    (item.date || '').toLowerCase().includes(searchFilter) ||
+                                    meta.type.toLowerCase().includes(searchFilter);
+                return matchesProject && matchesSearch;
+            });
+        }
+
+        function renderTable() {
+            let filteredData = getFilteredData();
+            let rowsPerPage = parseInt(document.getElementById('rowsPerPageSelect').value);
+            let totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
+
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            let startIndex = (currentPage - 1) * rowsPerPage;
+            let endIndex = startIndex + rowsPerPage;
+            let paginatedData = filteredData.slice(startIndex, endIndex);
+
+            let tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            document.getElementById('rowCountBadge').innerText = `${filteredData.length} Items`;
+
+            paginatedData.forEach((item) => {
+                let actualIndex = auditData.indexOf(item);
+                let meta = getEntityMeta(item.project);
+
+                let severityBadge = item.severity === 'Non Compliant' 
+                    ? '<span class="bg-[#FDF2F2] text-[#A80000] px-2.5 py-1 rounded font-semibold border border-red-200 whitespace-nowrap">Non Compliant</span>'
+                    : item.severity === 'Partially Compliant'
+                    ? '<span class="bg-[#FFF8DC] text-[#8A6D0B] px-2.5 py-1 rounded font-semibold border border-amber-200 whitespace-nowrap">Partially Compliant</span>'
+                    : '<span class="bg-[#F3F9F3] text-[#107C10] px-2.5 py-1 rounded font-semibold border border-emerald-200 whitespace-nowrap">Generally Compliant</span>';
+
+                let statusBadge = item.status === 'Closed'
+                    ? '<span class="bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded font-bold border border-emerald-200">Closed</span>'
+                    : item.status === 'Accepted'
+                    ? '<span class="bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded font-bold border border-indigo-200">Accepted</span>'
+                    : item.status === 'Cancelled'
+                    ? '<span class="bg-rose-50 text-rose-700 px-2.5 py-0.5 rounded font-bold border border-rose-200">Cancelled</span>'
+                    : '<span class="bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded font-bold border border-amber-200">Open</span>';
+
+                let row = `
+                    <tr class="hover:bg-slate-50 transition align-top">
+                        <td class="p-3 pl-4 font-mono font-bold text-[#0078D4] whitespace-nowrap">
+                            ${item.series || 'N/A'}
+                        </td>
+                        <td class="p-3 whitespace-nowrap">
+                            ${statusBadge}
+                        </td>
+                        <td class="p-3 whitespace-nowrap">
+                            <div class="flex flex-col space-y-1">
+                                <div class="font-semibold text-slate-900 flex items-center space-x-2">
+                                    <i class="fa-solid ${meta.icon} ${meta.text}"></i>
+                                    <span>${item.project}</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">
+                                        ${meta.type}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-3 text-slate-700 font-medium whitespace-nowrap">${item.category}</td>
+                        <td class="p-3 text-slate-600 max-w-sm">
+                            <div class="max-h-28 overflow-y-auto pr-1 text-xs leading-relaxed bg-slate-50/50 p-1.5 rounded border border-slate-100 custom-scrollbar">
+                                ${item.finding}
+                            </div>
+                        </td>
+                        <td class="p-3 hidden">${item.program}</td>
+                        <td class="p-3 font-medium text-slate-800 whitespace-nowrap">
+                            <i class="fa-solid fa-user-shield text-[#0078D4] mr-1"></i> ${item.auditor || 'N/A'}
+                        </td>
+                        <td class="p-3 font-medium text-slate-700 whitespace-nowrap">
+                            <span class="inline-block bg-slate-100 px-2 py-1 rounded border border-slate-200">${item.dept}</span>
+                        </td>
+                        <td class="p-3 font-medium text-slate-800 whitespace-nowrap">
+                            <i class="fa-solid fa-user-check text-[#0078D4] mr-1"></i> ${item.issuedPerson || 'N/A'}
+                        </td>
+                        <td class="p-3 whitespace-nowrap">${severityBadge}</td>
+                        <td class="p-3 font-semibold text-slate-700 whitespace-nowrap">
+                            <i class="fa-regular fa-calendar-days text-slate-400 mr-1"></i> ${item.date || 'N/A'}
+                        </td>
+                        <td class="p-3 pr-4 text-center space-x-2 whitespace-nowrap">
+                            <button onclick="editRecord(${actualIndex})" class="text-[#0078D4] hover:text-[#106EBE] p-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteRecord(${actualIndex})" class="text-[#A80000] hover:text-red-800 p-1" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+
+            let startDisplay = filteredData.length > 0 ? startIndex + 1 : 0;
+            let endDisplay = Math.min(endIndex, filteredData.length);
+            document.getElementById('paginationInfo').innerHTML = `Showing <strong>${startDisplay}</strong> to <strong>${endDisplay}</strong> of <strong>${filteredData.length}</strong> entries`;
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+
+            let pageNumbersContainer = document.getElementById('pageNumbersContainer');
+            pageNumbersContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                let btnClass = i === currentPage 
+                    ? 'px-3 py-1 rounded bg-[#0078D4] text-white font-semibold text-xs' 
+                    : 'px-3 py-1 rounded border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs';
+                pageNumbersContainer.innerHTML += `<button onclick="goToPage(${i})" class="${btnClass}">${i}</button>`;
+            }
+
+            updateKPIs(filteredData);
+            updateCharts(filteredData);
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+        }
+
+        function updateKPIs(data) {
+            document.getElementById('kpiTotal').innerText = data.length;
+            
+            let openCount = data.filter(i => (i.status || 'Open') === 'Open').length;
+            document.getElementById('kpiOpen').innerText = openCount;
+
+            let closedCount = data.filter(i => i.status === 'Closed').length;
+            let closedRatePct = data.length > 0 ? ((closedCount / data.length) * 100).toFixed(1) : 0;
+            document.getElementById('kpiClosedRate').innerText = `${closedRatePct}%`;
+
+            let nonCompliantCount = data.filter(i => i.severity === 'Non Compliant').length;
+            let nonCompliancePct = data.length > 0 ? ((nonCompliantCount / data.length) * 100).toFixed(1) : 0;
+            document.getElementById('kpiHighRisk').innerText = `${nonCompliancePct}%`;
+
+            document.getElementById('kpiNonCompliant').innerText = nonCompliantCount;
+        }
+
+        function openModal(index = -1) {
+            document.getElementById('auditModal').classList.remove('hidden');
+            document.getElementById('auditModal').classList.add('flex');
+            if (index === -1) {
+                document.getElementById('modalTitle').innerText = "Add New Audit Finding";
+                document.getElementById('editIndex').value = -1;
+                document.getElementById('auditForm').reset();
+                document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('inputStatus').value = 'Open';
+                
+                let nextNum = auditData.length + 1;
+                document.getElementById('inputSeries').value = `IAD-2026-${String(nextNum).padStart(4, '0')}`;
+            } else {
+                document.getElementById('modalTitle').innerText = "Edit Audit Finding";
+                document.getElementById('editIndex').value = index;
+                let item = auditData[index];
+                document.getElementById('inputSeries').value = item.series || '';
+                document.getElementById('inputStatus').value = item.status || 'Open';
+                document.getElementById('inputProject').value = item.project;
+                document.getElementById('inputCategory').value = item.category;
+                document.getElementById('inputFinding').value = item.finding;
+                document.getElementById('inputProgram').value = item.program;
+                document.getElementById('inputAuditor').value = item.auditor || 'Troy De Guzman';
+                document.getElementById('inputDept').value = item.dept;
+                document.getElementById('inputIssuedPerson').value = item.issuedPerson || '';
+                document.getElementById('inputSeverity').value = item.severity;
+                document.getElementById('inputDate').value = item.date || '';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('auditModal').classList.remove('flex');
+            document.getElementById('auditModal').classList.add('hidden');
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let index = parseInt(document.getElementById('editIndex').value);
+            let newItem = {
+                series: document.getElementById('inputSeries').value,
+                status: document.getElementById('inputStatus').value,
+                project: document.getElementById('inputProject').value,
+                category: document.getElementById('inputCategory').value,
+                finding: document.getElementById('inputFinding').value,
+                program: document.getElementById('inputProgram').value,
+                auditor: document.getElementById('inputAuditor').value,
+                dept: document.getElementById('inputDept').value,
+                issuedPerson: document.getElementById('inputIssuedPerson').value,
+                severity: document.getElementById('inputSeverity').value,
+                date: document.getElementById('inputDate').value
+            };
+
+            if (index === -1) {
+                auditData.push(newItem);
+            } else {
+                auditData[index] = newItem;
+            }
+
+            saveToLocalStorage();
+            closeModal();
+            renderTable();
+        }
+
+        function editRecord(index) {
+            openModal(index);
+        }
+
+        function deleteRecord(index) {
+            if (confirm("Are you sure you want to delete this audit record?")) {
+                auditData.splice(index, 1);
+                saveToLocalStorage();
+                renderTable();
+            }
+        }
+
+        function handleExcelUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    
+                    if (jsonData.length === 0) {
+                        alert("Walang nakitang data o laman ang Excel file.");
+                        return;
+                    }
+
+                    let addedCount = 0;
+
+                    jsonData.forEach((row) => {
+                        let series = row['Series No.'] || row['Series'] || row['Ref #'] || `IAD-2026-${String(auditData.length + 1 + addedCount).padStart(4, '0')}`;
+                        let status = row['Status'] || 'Open';
+                        let project = row['Project'] || 'The Oriana';
+                        let category = row['Finding Category'] || row['Category'] || 'I. Site Perimeter';
+                        let finding = row['Details of Findings'] || row['Finding'] || 'No details provided';
+                        let program = row['Corrective Action'] || row['Program'] || 'Standard Review';
+                        let auditor = row['Auditor-in-Charge'] || row['Auditor'] || 'Troy De Guzman';
+                        let dept = row['Responsible Department'] || row['Dept'] || 'General Services Dept (GSD)';
+                        let issuedPerson = row['Issued Person'] || row['Issued To'] || 'N/A';
+                        let severity = row['Rating'] || row['Severity'] || 'Non Compliant';
+                        let date = row['Date Approved'] || row['Date'] || new Date().toISOString().split('T')[0];
+
+                        auditData.push({
+                            series: String(series),
+                            status: String(status),
+                            project: String(project),
+                            category: String(category),
+                            finding: String(finding),
+                            program: String(program),
+                            auditor: String(auditor),
+                            dept: String(dept),
+                            issuedPerson: String(issuedPerson),
+                            severity: String(severity),
+                            date: String(date).split('T')[0]
+                        });
+
+                        addedCount++;
+                    });
+
+                    saveToLocalStorage();
+                    currentPage = 1;
+                    renderTable();
+                    
+                    alert(`Tagumpay! Nai-upload ang ${addedCount} na mga findings mula sa Excel file.`);
+                    event.target.value = '';
+
+                } catch (error) {
+                    console.error("Error sa pagbasa ng Excel:", error);
+                    alert("Nagkaroon ng problema sa pagbasa ng Excel file. Siguraduhing tama ang format nito.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function exportToExcelFull() {
+            let filteredData = getFilteredData();
+            
+            let exportData = filteredData.map(item => ({
+                "Series No.": item.series,
+                "Status": item.status || "Open",
+                "Project": item.project,
+                "Finding Category": item.category,
+                "Details of Findings": item.finding,
+                "Corrective Action": item.program, 
+                "Auditor-in-Charge": item.auditor || "Troy De Guzman",
+                "Responsible Department": item.dept,
+                "Issued Person": item.issuedPerson || "",
+                "Rating": item.severity,
+                "Date Approved": item.date
+            }));
+
+            let worksheet = XLSX.utils.json_to_sheet(exportData);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Full Audit Report");
+            
+            XLSX.writeFile(workbook, "Site_Audit_Full_Report_2026.xlsx");
+        }
+
+        function initCharts() {
+            // 1. Overall Status Pie Chart (Natatangi at Propesyonal na Tono: Open=Amber, Closed=Emerald, Accepted=Indigo, Cancelled=Rose)
+            const ctxOverallStatus = document.getElementById('overallStatusPieChart').getContext('2d');
+            overallStatusPieChartInstance = new Chart(ctxOverallStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Open', 'Closed', 'Accepted', 'Cancelled'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#D97706', '#059669', '#4F46E5', '#E11D48'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } }
+                    }
+                }
+            });
+
+            // 2. Compliance Status Chart
+            const ctxStatus = document.getElementById('complianceStatusChart').getContext('2d');
+            complianceStatusChartInstance = new Chart(ctxStatus, {
+                type: 'bar',
+                data: {
+                    labels: ['Generally Compliant', 'Partially Compliant', 'Non Compliant'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [0, 0, 0],
+                        backgroundColor: ['#107C10', '#EAB308', '#A80000'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 3. Trend Chart
+            const ctxTrend = document.getElementById('auditTrendChart').getContext('2d');
+            auditTrendChartInstance = new Chart(ctxTrend, {
+                type: 'line',
+                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], borderColor: '#0078D4', backgroundColor: 'rgba(0, 120, 212, 0.1)', borderWidth: 2, fill: true, tension: 0.3 }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 4. Category Chart
+            const ctxAudit = document.getElementById('auditCatChart').getContext('2d');
+            auditCatChartInstance = new Chart(ctxAudit, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{ data: [], backgroundColor: pbiColors, borderWidth: 1, borderColor: '#ffffff' }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Segoe UI' } } } }
+                }
+            });
+
+            // 5. Project Chart
+            const ctxProject = document.getElementById('projectFindingsChart').getContext('2d');
+            projectFindingsChartInstance = new Chart(ctxProject, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Number of Findings', data: [], backgroundColor: '#00B7C3', borderRadius: 2 }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 6. Auditor Chart
+            const ctxAuditor = document.getElementById('auditorFindingsChart').getContext('2d');
+            auditorFindingsChartInstance = new Chart(ctxAuditor, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#0078D4', borderRadius: 2 }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 7. Dept Chart
+            const ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
+            deptFindingsChartInstance = new Chart(ctxDept, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#5C2D91', borderRadius: 2 }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 8. Issued Person Stacked Chart
+            const ctxStatusIssued = document.getElementById('statusIssuedPersonChart').getContext('2d');
+            statusIssuedPersonChartInstance = new Chart(ctxStatusIssued, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'Open', data: [], backgroundColor: '#64748B', borderRadius: 2 },        
+                        { label: 'Closed', data: [], backgroundColor: '#0EA5E9', borderRadius: 2 },      
+                        { label: 'Accepted', data: [], backgroundColor: '#1E293B', borderRadius: 2 },    
+                        { label: 'Cancelled', data: [], backgroundColor: '#94A3B8', borderRadius: 2 }    
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10, family: 'Segoe UI' } } }
+                    }
+                }
+            });
+
+            updateAllDynamicCharts(auditData);
+        }
+
+        function updateCharts(data) {
+            if (!auditCatChartInstance || !complianceStatusChartInstance || !projectFindingsChartInstance || !auditorFindingsChartInstance || !deptFindingsChartInstance || !auditTrendChartInstance || !statusIssuedPersonChartInstance || !overallStatusPieChartInstance) return;
+            updateAllDynamicCharts(data);
+        }
+
+        function updateAllDynamicCharts(data) {
+            // Update Overall Status Pie Chart
+            let countOpen = data.filter(i => (i.status || 'Open') === 'Open').length;
+            let countClosed = data.filter(i => i.status === 'Closed').length;
+            let countAccepted = data.filter(i => i.status === 'Accepted').length;
+            let countCancelled = data.filter(i => i.status === 'Cancelled').length;
+            
+            overallStatusPieChartInstance.data.datasets[0].data = [countOpen, countClosed, countAccepted, countCancelled];
+            overallStatusPieChartInstance.update();
+
+            let dateCounts = {};
+            data.forEach(item => {
+                let d = item.date || 'Unspecified';
+                dateCounts[d] = (dateCounts[d] || 0) + 1;
+            });
+            let sortedDates = Object.keys(dateCounts).sort();
+            auditTrendChartInstance.data.labels = sortedDates;
+            auditTrendChartInstance.data.datasets[0].data = sortedDates.map(d => dateCounts[d]);
+            auditTrendChartInstance.update();
+
+            let genCount = data.filter(i => i.severity === 'Generally Compliant').length;
+            let partCount = data.filter(i => i.severity === 'Partially Compliant').length;
+            let nonCount = data.filter(i => i.severity === 'Non Compliant').length;
+            complianceStatusChartInstance.data.datasets[0].data = [genCount, partCount, nonCount];
+            complianceStatusChartInstance.update();
+
+            let categoryCounts = {};
+            data.forEach(item => {
+                let cat = item.category || 'Unspecified Category';
+                categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+            });
+            let sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
+            auditCatChartInstance.data.labels = sortedCategories;
+            auditCatChartInstance.data.datasets[0].data = sortedCategories.map(c => categoryCounts[c]);
+            auditCatChartInstance.update();
+
+            let projectCounts = {};
+            data.forEach(item => {
+                projectCounts[item.project] = (projectCounts[item.project] || 0) + 1;
+            });
+            let sortedProjects = Object.keys(projectCounts).sort((a, b) => projectCounts[b] - projectCounts[a]);
+            projectFindingsChartInstance.data.labels = sortedProjects;
+            projectFindingsChartInstance.data.datasets[0].data = sortedProjects.map(p => projectCounts[p]);
+            projectFindingsChartInstance.update();
+
+            let auditorCounts = {};
+            data.forEach(item => {
+                let aud = item.auditor || 'Unassigned Auditor';
+                auditorCounts[aud] = (auditorCounts[aud] || 0) + 1;
+            });
+            let sortedAuditors = Object.keys(auditorCounts).sort((a, b) => auditorCounts[b] - auditorCounts[a]);
+            auditorFindingsChartInstance.data.labels = sortedAuditors;
+            auditorFindingsChartInstance.data.datasets[0].data = sortedAuditors.map(a => auditorCounts[a]);
+            auditorFindingsChartInstance.update();
+
+            let deptCountsObj = {};
+            data.forEach(item => {
+                let deptName = item.dept || "Unassigned";
+                deptCountsObj[deptName] = (deptCountsObj[deptName] || 0) + 1;
+            });
+            let sortedDepts = Object.keys(deptCountsObj).sort((a, b) => deptCountsObj[b] - deptCountsObj[a]);
+            deptFindingsChartInstance.data.labels = sortedDepts;
+            deptFindingsChartInstance.data.datasets[0].data = sortedDepts.map(d => deptCountsObj[d]);
+            deptFindingsChartInstance.update();
+
+            let issuedPersonsMap = {};
+            data.forEach(item => {
+                let person = item.issuedPerson || 'Unassigned';
+                let st = item.status || 'Open';
+                if (!issuedPersonsMap[person]) {
+                    issuedPersonsMap[person] = { Open: 0, Closed: 0, Accepted: 0, Cancelled: 0 };
+                }
+                if (issuedPersonsMap[person][st] !== undefined) {
+                    issuedPersonsMap[person][st]++;
+                } else {
+                    issuedPersonsMap[person]['Open']++;
+                }
+            });
+
+            let sortedPersons = Object.keys(issuedPersonsMap).sort((a, b) => {
+                let totalA = Object.values(issuedPersonsMap[a]).reduce((x, y) => x + y, 0);
+                let totalB = Object.values(issuedPersonsMap[b]).reduce((x, y) => x + y, 0);
+                return totalB - totalA;
+            });
+
+            statusIssuedPersonChartInstance.data.labels = sortedPersons;
+            statusIssuedPersonChartInstance.data.datasets[0].data = sortedPersons.map(p => issuedPersonsMap[p]['Open']);
+            statusIssuedPersonChartInstance.data.datasets[1].data = sortedPersons.map(p => issuedPersonsMap[p]['Closed']);
+            statusIssuedPersonChartInstance.data.datasets[2].data = sortedPersons.map(p => issuedPersonsMap[p]['Accepted']);
+            statusIssuedPersonChartInstance.data.datasets[3].data = sortedPersons.map(p => issuedPersonsMap[p]['Cancelled']);
+            statusIssuedPersonChartInstance.update();
+        }
+    </script>
+</body>
+</html>
