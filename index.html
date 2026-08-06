@@ -16,7 +16,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
-        /* Pinagandang Custom Scrollbars para mas maluwag tingnan */
+        /* Custom Scrollbars */
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -36,7 +36,7 @@
 </head>
 <body class="bg-[#F3F4F6] text-[#252423] antialiased min-h-screen flex flex-col">
 
-    <!-- Power BI / Construction Operations Group Top Header Bar (Max-Width 75%) -->
+    <!-- DMCI Header Bar -->
     <header class="bg-[#002878] text-white shadow-md border-b border-[#003399]">
         <div class="max-w-[75%] mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -61,7 +61,7 @@
 
     <main class="max-w-[75%] mx-auto px-6 py-6 space-y-6 flex-grow w-full">
 
-        <!-- Navigation View Switcher (Pindutan para maglipat ng View) -->
+        <!-- View Switcher Tabs -->
         <section class="bg-white p-3.5 rounded-xl shadow-sm border border-[#E1DFDD] flex items-center justify-between flex-wrap gap-3">
             <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
                 <button id="btnViewDashboard" onclick="switchView('dashboard')" class="px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg transition flex items-center gap-2 shadow-sm">
@@ -88,43 +88,73 @@
                 <div class="flex items-center space-x-2.5 w-full sm:w-auto">
                     <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
                     <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Entity:</span>
-                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable(); renderTopSheet();" class="text-xs px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
+                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable(); renderTopSheet(); initCharts();" class="text-xs px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
                         <option value="ALL">All Entities (Consolidated Executive View)</option>
+                        
                         <optgroup label="🏗️ Project Sites (Blue Coding)" class="text-[#003399] font-bold bg-blue-50/50">
-                            <option value="The Oriana" class="text-[#003399] font-medium">The Oriana (ORN)</option>
-                            <option value="One Delta Residences" class="text-[#003399] font-medium">One Delta Residences (ODR)</option>
-                            <option value="Solmera Coast" class="text-[#003399] font-medium">Solmera Coast (SLC)</option>
-                            <option value="Sage Residences" class="text-[#003399] font-medium">Sage Residences (SGE)</option>
-                            <option value="Anissa Heights" class="text-[#003399] font-medium">Anissa Heights (ANH)</option>
-                            <option value="Calinea Tower" class="text-[#003399] font-medium">Calinea Tower (CLN)</option>
-                            <option value="The Valeron Tower" class="text-[#003399] font-medium">The Valeron Tower (VLR)</option>
-                            <option value="One South Drive" class="text-[#003399] font-medium">One South Drive (OSD)</option>
-                            <option value="Moncello Crest" class="text-[#003399] font-medium">Moncello Crest (MNC)</option>
-                            <option value="Erin Heights" class="text-[#003399] font-medium">Erin Heights (ERH)</option>
-                            <option value="Verdon Parc" class="text-[#003399] font-medium">Verdon Parc (VDP)</option>
-                            <option value="Mulberry Place Phase 2" class="text-[#003399] font-medium">Mulberry Place Phase 2 (MBP)</option>
+                            <option value="Anissa Heights ANH">Anissa Heights ANH</option>
+                            <option value="Solmera Coast SLC">Solmera Coast SLC</option>
+                            <option value="Moriyama Nature Park MRY">Moriyama Nature Park MRY</option>
+                            <option value="Erin Heights ERI">Erin Heights ERI</option>
+                            <option value="Kalea Heights KLH">Kalea Heights KLH</option>
+                            <option value="The Oriana ORI">The Oriana ORI</option>
+                            <option value="Mulberry Place Phase 2 MLP2">Mulberry Place Phase 2 MLP2</option>
+                            <option value="Calinea Tower CAL">Calinea Tower CAL</option>
+                            <option value="One Delta Residences ODT">One Delta Residences ODT</option>
+                            <option value="Sage Residences SGR">Sage Residences SGR</option>
+                            <option value="Moncello Crest MCC">Moncello Crest MCC</option>
+                            <option value="Fortis Residences FTR">Fortis Residences FTR</option>
+                            <option value="The Valeron Tower VAL">The Valeron Tower VAL</option>
+                            <option value="One South Drive OSD (Baguio)">One South Drive OSD (Baguio)</option>
+                            <option value="Avery Garden Residences AGR (QC)">Avery Garden Residences AGR (QC)</option>
+                            <option value="Allegra Garden Place">Allegra Garden Place</option>
+                            <option value="The Camden Place">The Camden Place</option>
+                            <option value="Alder Residences">Alder Residences</option>
+                            <option value="Sonora Garden Residences">Sonora Garden Residences</option>
                         </optgroup>
-                        <optgroup label="🏦 Landbank (Green Coding)" class="text-[#107C10] font-bold bg-emerald-50/50">
-                            <option value="Star Property" class="text-[#107C10] font-medium">Star Property (STR)</option>
-                            <option value="Lia Property" class="text-[#107C10] font-medium">Lia Property (LIA)</option>
-                            <option value="Carbon V / Valeron Showroom" class="text-[#107C10] font-medium">Carbon V / Valeron Showroom (CBV)</option>
-                            <option value="Sovanna Towers" class="text-[#107C10] font-medium">Sovanna Towers (SOV)</option>
-                            <option value="Moriyama Nature Park" class="text-[#107C10] font-medium">Moriyama Nature Park (MRY)</option>
-                            <option value="Lyre Garden" class="text-[#107C10] font-medium">Lyre Garden (LYR)</option>
-                            <option value="Lisseo Residences" class="text-[#107C10] font-medium">Lisseo Residences (LSS)</option>
-                            <option value="Sinclair Residences / Carbon R" class="text-[#107C10] font-medium">Sinclair Residences / Carbon R (SNR)</option>
-                        </optgroup>
+
                         <optgroup label="⚙️ Support Groups (Purple Coding)" class="text-[#86198F] font-bold bg-purple-50/50">
-                            <option value="Centralized Rebar Fabrication" class="text-[#86198F] font-medium">Centralized Rebar Fabrication (CRF)</option>
-                            <option value="DHCS - Acacia Batching" class="text-[#86198F] font-medium">DHCS - Acacia Batching (DAB)</option>
-                            <option value="DHCS - Acacia CHB" class="text-[#86198F] font-medium">DHCS - Acacia CHB (DAC)</option>
-                            <option value="Central Warehouse" class="text-[#86198F] font-medium">Central Warehouse (CWH)</option>
-                            <option value="Formworks" class="text-[#86198F] font-medium">Formworks (FRW)</option>
-                            <option value="Equipment Services Group" class="text-[#86198F] font-medium">Equipment Services Group (ESG)</option>
-                            <option value="Zenith Mobility" class="text-[#86198F] font-medium">Zenith Mobility (ZNT)</option>
-                            <option value="Fit-Out" class="text-[#86198F] font-medium">Fit-Out (FIT)</option>
-                            <option value="Unit Restoration Group" class="text-[#86198F] font-medium">Unit Restoration Group (URG)</option>
-                            <option value="DHCS - Meycauayan Batching" class="text-[#107C10] font-medium">DHCS - Meycauayan Batching (MEY)</option>
+                            <option value="Central Bodega CW">Central Bodega CW</option>
+                            <option value="Formworks FW">Formworks FW</option>
+                            <option value="Equipment Services Group ESG">Equipment Services Group ESG</option>
+                            <option value="Fit-out FO">Fit-out FO</option>
+                            <option value="Zenith Mobility ZEN">Zenith Mobility ZEN</option>
+                            <option value="DHCS - Acacia Batching DHCS-A">DHCS - Acacia Batching DHCS-A</option>
+                            <option value="DHCS - Acacia CHB DHCS-CHB">DHCS - Acacia CHB DHCS-CHB</option>
+                            <option value="DHCS - Meycauayan Batching DHCS-M">DHCS - Meycauayan Batching DHCS-M</option>
+                            <option value="Centralized Rebar Fabrication CRF">Centralized Rebar Fabrication CRF</option>
+                        </optgroup>
+
+                        <optgroup label="🏦 Landbank (Green Coding)" class="text-[#107C10] font-bold bg-emerald-50/50">
+                            <option value="Lisseo Residences (EDSA)">Lisseo Residences (EDSA)</option>
+                            <option value="Sinclair Residences / Carbon R (Fairview, Q.C)">Sinclair Residences / Carbon R (Fairview, Q.C)</option>
+                            <option value="Lyre Garden (Fairview, Q.C.)">Lyre Garden (Fairview, Q.C.)</option>
+                            <option value="Star Property (Aurora Blvd., Q.C)">Star Property (Aurora Blvd., Q.C)</option>
+                            <option value="Lia Property (15th Avenue, Q.C.)">Lia Property (15th Avenue, Q.C.)</option>
+                            <option value="Tongco Property (Malinta, Valenzuela)">Tongco Property (Malinta, Valenzuela)</option>
+                            <option value="Panda Property (Meycauayan, Bulacan)">Panda Property (Meycauayan, Bulacan)</option>
+                            <option value="Moonlight Detachment (Acacia)">Moonlight Detachment (Acacia)</option>
+                            <option value="Dreamland Detachment (Acacia)">Dreamland Detachment (Acacia)</option>
+                            <option value="OSD Detachment (Acacia)">OSD Detachment (Acacia)</option>
+                            <option value="Ornai Detachment (Acacia)">Ornai Detachment (Acacia)</option>
+                            <option value="Buffalo Detachment (Acacia)">Buffalo Detachment (Acacia)</option>
+                            <option value="M6 Detachment (Acacia)">M6 Detachment (Acacia)</option>
+                            <option value="Lacsina Detachment (Acacia)">Lacsina Detachment (Acacia)</option>
+                            <option value="Korean Road Detachment (Acacia)">Korean Road Detachment (Acacia)</option>
+                            <option value="6057 Detachment (Acacia)">6057 Detachment (Acacia)</option>
+                            <option value="Pusawan Detachment (Acacia)">Pusawan Detachment (Acacia)</option>
+                            <option value="Ibayo Detachment (Outside Acacia)">Ibayo Detachment (Outside Acacia)</option>
+                            <option value="Carbon V / Valeron Showroom (Pasig)">Carbon V / Valeron Showroom (Pasig)</option>
+                            <option value="Sovanna Towers (Buting, Pasig)">Sovanna Towers (Buting, Pasig)</option>
+                            <option value="Dama Property (Mabalcat. Pampanga)">Dama Property (Mabalcat. Pampanga)</option>
+                            <option value="Makalintal-UPDI (Solmera)">Makalintal-UPDI (Solmera)</option>
+                            <option value="Centro Roces Residences / Ziebart (Makati)">Centro Roces Residences / Ziebart (Makati)</option>
+                            <option value="Cardea Terraces (Antipolo, Rizal)">Cardea Terraces (Antipolo, Rizal)</option>
+                            <option value="Lucine Estates / Tirona Property (Bacoor, Cavite)">Lucine Estates / Tirona Property (Bacoor, Cavite)</option>
+                            <option value="Annie / Daang Bukid (Bacoor, Cavite)">Annie / Daang Bukid (Bacoor, Cavite)</option>
+                            <option value="Olea Estates / Balibago (Santa Rosa, Laguna)">Olea Estates / Balibago (Santa Rosa, Laguna)</option>
+                            <option value="Cari Property (Calamba, Laguna)">Cari Property (Calamba, Laguna)</option>
+                            <option value="Serissa Residences (Las Piñas)">Serissa Residences (Las Piñas)</option>
                         </optgroup>
                     </select>
                 </div>
@@ -228,7 +258,7 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
                     <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings (Category)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Pie Executive View</span>
+                        <span class="text-[10px] bg-blue-50 text-[#003399] px-2.5 py-1 rounded font-semibold border border-blue-200">Horizontal Category View</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="auditCatChart"></canvas>
@@ -238,10 +268,12 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
                     <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Entity Findings Volume (Top Sites)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Count Matrix</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Scrollable Volume View</span>
                     </div>
-                    <div class="relative h-64 w-full flex items-center justify-center">
-                        <canvas id="projectFindingsChart"></canvas>
+                    <div class="relative h-64 w-full overflow-y-auto custom-scrollbar">
+                        <div id="projectFindingsContainer" class="h-full w-full min-h-[240px]">
+                            <canvas id="projectFindingsChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -359,8 +391,6 @@
 
         <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 -->
         <div id="auditPlanViewContainer" class="hidden space-y-6">
-            
-            <!-- NEW DEDICATED AUDIT PLAN ANALYTICS CHARTS SECTION -->
             <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
                     <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
@@ -383,7 +413,6 @@
                 </div>
             </section>
 
-            <!-- Audit Plan Table Section -->
             <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -423,7 +452,6 @@
                     </div>
                 </div>
 
-                <!-- TABLE SPACING -->
                 <div class="overflow-x-auto w-full custom-scrollbar max-h-[650px]">
                     <table id="auditPlanTable" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
                         <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900 shadow-sm">
@@ -438,28 +466,24 @@
                             <tr class="bg-[#001f5c] text-[10px]">
                                 <th class="p-2.5 border-r border-blue-800">Construction Manager</th>
                                 <th class="p-2.5 border-r border-blue-800">Area Manager</th>
-                                <!-- Cycle 1 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Closing Date</th>
                                 <th class="p-2.5 border-r border-blue-800">QAS Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
-                                <!-- Cycle 2 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Closing Date</th>
                                 <th class="p-2.5 border-r border-blue-800">QAS Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
-                                <!-- Cycle 3 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Closing Date</th>
                                 <th class="p-2.5 border-r border-blue-800">QAS Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
-                                <!-- Cycle 4 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
                                 <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
@@ -482,13 +506,31 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
                     <div>
                         <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-trophy text-[#003399]"></i> Top 10 Projects & Entities Rating & Improvement Analysis (Cycle 1 to Cycle 4)
+                            <i class="fa-solid fa-trophy text-[#003399]"></i> Top Projects & Entities Rating & Improvement Analysis (Cycle 1 to Cycle 4)
                         </h2>
                         <p class="text-[11px] text-slate-500 mt-0.5">Nakahiwalay na Top Sheet para sa Project Sites, Support Groups, at Landbank batay sa Audit Plan 2026 na may Color Coding (Green, Yellow, Red) gamit ang porsyento (Na-ayos mula Pinakamataas patungong Pinakamababa).</p>
                     </div>
                     <button onclick="renderTopSheet()" class="bg-[#003399] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition flex items-center gap-2">
                         <i class="fa-solid fa-rotate"></i> Refresh Analysis
                     </button>
+                </div>
+
+                <!-- Compliance Scale Legend -->
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs flex flex-wrap items-center justify-between gap-3">
+                    <span class="font-bold text-slate-700 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                        <i class="fa-solid fa-sliders text-[#003399]"></i> Compliance Rating Scale & Range:
+                    </span>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded font-semibold text-[10px] border border-emerald-300">
+                            GENERALLY COMPLIANT (90% - 100%)
+                        </span>
+                        <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded font-semibold text-[10px] border border-amber-300">
+                            PARTIALLY COMPLIANT (50% - 89%)
+                        </span>
+                        <span class="px-2.5 py-1 bg-red-100 text-red-800 rounded font-semibold text-[10px] border border-red-300">
+                            NON COMPLIANT (0% - 49%)
+                        </span>
+                    </div>
                 </div>
 
                 <!-- 1. PROJECT SITES SECTION -->
@@ -883,6 +925,14 @@
     </div>
 
     <script>
+        let currentPage = 1;
+        let chartInstances = {};
+
+        function saveToLocalStorage() {
+            localStorage.setItem('auditDataPowerBI_2026', JSON.stringify(auditData));
+            localStorage.setItem('auditPlanData_2026', JSON.stringify(auditPlanData));
+        }
+
         function switchView(viewType) {
             const dashContainer = document.getElementById('dashboardViewContainer');
             const matrixContainer = document.getElementById('matrixViewContainer');
@@ -909,6 +959,7 @@
                 dashContainer.classList.remove('hidden');
                 btnDash.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Dashboard";
+                initCharts();
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
             } else if (viewType === 'matrix') {
                 matrixContainer.classList.remove('hidden');
@@ -920,6 +971,7 @@
                 btnAuditPlan.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Audit Plan 2026";
                 renderAuditPlanTable();
+                initAuditPlanCharts();
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
             } else if (viewType === 'topSheet') {
                 topSheetContainer.classList.remove('hidden');
@@ -929,22 +981,32 @@
             }
         }
 
+        /* STANDARDIZED LISTS FROM EXCEL FILE */
         const projectSites = [
-            "The Oriana", "One Delta Residences", "Solmera Coast", "Sage Residences", 
-            "Anissa Heights", "Calinea Tower", "The Valeron Tower", "One South Drive", 
-            "Moncello Crest", "Erin Heights", "Verdon Parc", "Mulberry Place Phase 2"
-        ];
-
-        const landbanks = [
-            "Star Property", "Lia Property", "Carbon V / Valeron Showroom", "Sovanna Towers", 
-            "Moriyama Nature Park", "Lyre Garden", "Lisseo Residences", "Sinclair Residences / Carbon R", 
-            "DHCS - Meycauayan Batching"
+            "Anissa Heights ANH", "Solmera Coast SLC", "Moriyama Nature Park MRY", "Erin Heights ERI", 
+            "Kalea Heights KLH", "The Oriana ORI", "Mulberry Place Phase 2 MLP2", "Calinea Tower CAL", 
+            "One Delta Residences ODT", "Sage Residences SGR", "Moncello Crest MCC", "Fortis Residences FTR", 
+            "The Valeron Tower VAL", "One South Drive OSD (Baguio)", "Avery Garden Residences AGR (QC)", 
+            "Allegra Garden Place", "The Camden Place", "Alder Residences", "Sonora Garden Residences"
         ];
 
         const supportGroups = [
-            "Centralized Rebar Fabrication", "DHCS - Acacia Batching", "DHCS - Acacia CHB", 
-            "Central Warehouse", "Formworks", "Equipment Services Group", "Zenith Mobility", 
-            "Fit-Out", "Unit Restoration Group"
+            "Central Bodega CW", "Formworks FW", "Equipment Services Group ESG", "Fit-out FO", 
+            "Zenith Mobility ZEN", "DHCS - Acacia Batching DHCS-A", "DHCS - Acacia CHB DHCS-CHB", 
+            "DHCS - Meycauayan Batching DHCS-M", "Centralized Rebar Fabrication CRF"
+        ];
+
+        const landbanks = [
+            "Lisseo Residences (EDSA)", "Sinclair Residences / Carbon R (Fairview, Q.C)", "Lyre Garden (Fairview, Q.C.)", 
+            "Star Property (Aurora Blvd., Q.C)", "Lia Property (15th Avenue, Q.C.)", "Tongco Property (Malinta, Valenzuela)", 
+            "Panda Property (Meycauayan, Bulacan)", "Moonlight Detachment (Acacia)", "Dreamland Detachment (Acacia)", 
+            "OSD Detachment (Acacia)", "Ornai Detachment (Acacia)", "Buffalo Detachment (Acacia)", 
+            "M6 Detachment (Acacia)", "Lacsina Detachment (Acacia)", "Korean Road Detachment (Acacia)", 
+            "6057 Detachment (Acacia)", "Pusawan Detachment (Acacia)", "Ibayo Detachment (Outside Acacia)", 
+            "Carbon V / Valeron Showroom (Pasig)", "Sovanna Towers (Buting, Pasig)", "Dama Property (Mabalcat. Pampanga)", 
+            "Makalintal-UPDI (Solmera)", "Centro Roces Residences / Ziebart (Makati)", "Cardea Terraces (Antipolo, Rizal)", 
+            "Lucine Estates / Tirona Property (Bacoor, Cavite)", "Annie / Daang Bukid (Bacoor, Cavite)", 
+            "Olea Estates / Balibago (Santa Rosa, Laguna)", "Cari Property (Calamba, Laguna)", "Serissa Residences (Las Piñas)"
         ];
 
         function modalUpdateProjectDropdown() {
@@ -966,11 +1028,11 @@
         }
 
         function getEntityMeta(name) {
-            if (projectSites.includes(name)) {
+            if (projectSites.some(p => name.includes(p) || p.includes(name))) {
                 return { type: "Project Site", bg: "bg-blue-50", text: "text-[#003399]", border: "border-blue-200", icon: "fa-building" };
-            } else if (landbanks.includes(name)) {
+            } else if (landbanks.some(l => name.includes(l) || l.includes(name))) {
                 return { type: "Landbank", bg: "bg-emerald-50", text: "text-[#107C10]", border: "border-emerald-200", icon: "fa-map-location-dot" };
-            } else if (supportGroups.includes(name)) {
+            } else if (supportGroups.some(s => name.includes(s) || s.includes(name))) {
                 return { type: "Support Group", bg: "bg-purple-50", text: "text-[#86198F]", border: "border-purple-200", icon: "fa-gears" };
             }
             return { type: "Entity", bg: "bg-slate-100", text: "text-slate-700", border: "border-slate-200", icon: "fa-city" };
@@ -980,8 +1042,8 @@
             {
                 series: "IAD-2026-0001",
                 status: "Open",
-                project: "The Oriana",
-                code: "ORN",
+                project: "The Oriana ORI",
+                code: "ORI",
                 category: "III. Staging Area",
                 finding: "Adequate Staging and Other Storage Material Management...",
                 program: "Enforce strict staging area compliance guidelines.",
@@ -995,7 +1057,8 @@
 
         let auditPlanData = JSON.parse(localStorage.getItem('auditPlanData_2026')) || [
             {
-                name: "Anissa Heights", entityType: "Project Site", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
+                id: "plan_default_1",
+                name: "Anissa Heights ANH", entityType: "Project Site", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
                 c1_auditor: "EJBaria", c1_status: "In Progress", c1_rating: 88, c1_svDate: "2026-03-12", c1_chkDate: "2026-03-15", c1_clDate: "", c1_qasDate: "",
                 c2_auditor: "SBTapalla", c2_status: "Pending", c2_rating: 75, c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
                 c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_rating: 90, c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
@@ -1016,7 +1079,7 @@
             return data.map((item, idx) => ({
                 series: item.series ? String(item.series).trim() : `IAD-2026-${String(idx + 1).padStart(4, '0')}`,
                 status: item.status || "Open",
-                project: item.project || item.project_name || "The Oriana",
+                project: item.project || item.project_name || "The Oriana ORI",
                 code: "N/A",
                 category: item.category || "III. Staging Area",
                 finding: item.finding || item.actual_findings || "N/A",
@@ -1105,7 +1168,7 @@
                         return {
                             series: String(seriesVal).trim(),
                             status: row['Status'] || row['status'] || 'Open',
-                            project: row['Project / Property Name'] || row['Project'] || row['project'] || 'The Oriana',
+                            project: row['Project / Property Name'] || row['Project'] || row['project'] || 'Anissa Heights ANH',
                             code: 'N/A',
                             category: row['Audit Category'] || row['Category'] || row['category'] || 'III. Staging Area',
                             finding: row['Actual Findings'] || row['Finding'] || row['finding'] || 'N/A',
@@ -1132,7 +1195,6 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // AUDIT PLAN EXCEL UPLOAD HANDLING
         function handleAuditPlanUpload(event) {
             let file = event.target.files[0];
             if (!file) return;
@@ -1279,7 +1341,7 @@
         }
 
         function deleteRecord(index) {
-            if (confirm("Sigurado ka bang gusto mong burahin ang record na ito?")) {
+            if (confirm("Are you sure you want to delete this record?")) {
                 auditData.splice(index, 1);
                 saveToLocalStorage();
                 renderTable();
@@ -1287,128 +1349,205 @@
             }
         }
 
-        function openPlanModal(index = -1) {
-            currentPlanEditIndex = index;
-            const modal = document.getElementById('auditPlanModal');
-            if (!modal) return;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        function filterData() {
+            let filterVal = document.getElementById('globalProjectFilter').value;
+            if (filterVal === 'ALL') return auditData;
+            return auditData.filter(item => item.project.includes(filterVal) || filterVal.includes(item.project));
+        }
 
-            if (index === -1) {
-                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry & Rating";
+        function renderTable() {
+            let filtered = filterData();
+            let searchVal = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchVal) {
+                filtered = filtered.filter(item => 
+                    Object.values(item).some(v => String(v).toLowerCase().includes(searchVal))
+                );
+            }
+
+            let rowsPerPage = parseInt(document.getElementById('rowsPerPageSelect').value);
+            let totalRows = filtered.length;
+            let totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            
+            if (currentPage > totalPages) currentPage = totalPages;
+            
+            let start = (currentPage - 1) * rowsPerPage;
+            let end = Math.min(start + rowsPerPage, totalRows);
+            let pageData = filtered.slice(start, end);
+
+            let tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (pageData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="11" class="p-8 text-center text-slate-400">No matching records found</td></tr>`;
+            } else {
+                pageData.forEach((item) => {
+                    let realIdx = auditData.indexOf(item);
+                    let meta = getEntityMeta(item.project);
+                    
+                    let statusBadge = item.status === 'Open' ? '<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]">Open</span>' :
+                                     item.status === 'Closed' ? '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">Closed</span>' :
+                                     '<span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full font-bold text-[10px]">' + item.status + '</span>';
+
+                    let severityBadge = item.severity === 'Non Compliant' ? '<span class="px-2 py-0.5 bg-red-100 text-red-800 rounded font-semibold text-[10px]">Non Compliant</span>' :
+                                        item.severity === 'Partially Compliant' ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-semibold text-[10px]">Partially Compliant</span>' :
+                                        '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold text-[10px]">Generally Compliant</span>';
+
+                    let tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                    tr.innerHTML = `
+                        <td class="p-3.5 pl-5 font-bold text-slate-800">${item.series}</td>
+                        <td class="p-3.5 font-medium">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded ${meta.bg} ${meta.text} border ${meta.border} font-semibold">
+                                <i class="fa-solid ${meta.icon}"></i> ${item.project}
+                            </span>
+                        </td>
+                        <td class="p-3.5">${statusBadge}</td>
+                        <td class="p-3.5 font-medium text-slate-600">${item.category}</td>
+                        <td class="p-3.5 text-slate-700 max-w-xs truncate" title="${item.finding}">${item.finding}</td>
+                        <td class="p-3.5 font-medium text-slate-700">${item.auditor}</td>
+                        <td class="p-3.5 text-slate-600">${item.dept}</td>
+                        <td class="p-3.5 text-slate-600">${item.issuedPerson}</td>
+                        <td class="p-3.5">${severityBadge}</td>
+                        <td class="p-3.5 text-slate-500 font-mono">${item.date}</td>
+                        <td class="p-3.5 pr-5 text-center">
+                            <div class="flex items-center justify-center space-x-2">
+                                <button onclick="editRecord(${realIdx})" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="deleteRecord(${realIdx})" class="p-1.5 text-red-600 hover:bg-red-50 rounded"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('rowCountBadge').innerText = `${totalRows} Items`;
+            document.getElementById('paginationInfo').innerHTML = `Showing <strong>${totalRows > 0 ? start + 1 : 0}</strong> to <strong>${end}</strong> of <strong>${totalRows}</strong> entries`;
+            
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+
+            let pageContainer = document.getElementById('pageNumbersContainer');
+            pageContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    let btn = document.createElement('button');
+                    btn.className = `px-3 py-1 rounded-lg text-xs font-semibold ${i === currentPage ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`;
+                    btn.innerText = i;
+                    btn.onclick = () => { currentPage = i; renderTable(); };
+                    pageContainer.appendChild(btn);
+                }
+            }
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            renderTable();
+        }
+
+        /* AUDIT PLAN FUNCTIONS */
+        function openPlanModal(idx) {
+            currentPlanEditIndex = idx;
+            document.getElementById('auditPlanModal').classList.remove('hidden');
+            document.getElementById('auditPlanModal').classList.add('flex');
+            
+            if (idx === -1) {
+                document.getElementById('planModalTitle').innerText = "Add New Audit Plan Entry";
                 document.getElementById('auditPlanForm').reset();
-                document.getElementById('planInputEntityType').value = 'Project Site';
             } else {
                 document.getElementById('planModalTitle').innerText = "Edit Audit Plan Entry & Rating";
-                let item = auditPlanData[index];
-                document.getElementById('planInputName').value = item.name || '';
-                document.getElementById('planInputEntityType').value = item.entityType || 'Project Site';
-                document.getElementById('planInputCode').value = 'N/A';
-                document.getElementById('planInputCM').value = item.cm || '';
-                document.getElementById('planInputAM').value = item.am || '';
-                
-                // Cycle 1
-                document.getElementById('planC1Auditor').value = item.c1_auditor || '';
-                document.getElementById('planC1Status').value = item.c1_status || 'Pending';
-                document.getElementById('planC1Rating').value = item.c1_rating ?? 85;
-                document.getElementById('planC1Date').value = item.c1_svDate || '';
-                document.getElementById('planC1ChkDate').value = item.c1_chkDate || '';
-                document.getElementById('planC1ClDate').value = item.c1_clDate || '';
-                document.getElementById('planC1QasDate').value = item.c1_qasDate || '';
+                let p = auditPlanData[idx];
+                document.getElementById('planInputEntityType').value = p.entityType || 'Project Site';
+                document.getElementById('planInputName').value = p.name;
+                document.getElementById('planInputCM').value = p.cm;
+                document.getElementById('planInputAM').value = p.am;
 
-                // Cycle 2
-                document.getElementById('planC2Auditor').value = item.c2_auditor || '';
-                document.getElementById('planC2Status').value = item.c2_status || 'Pending';
-                document.getElementById('planC2Rating').value = item.c2_rating ?? 85;
-                document.getElementById('planC2Date').value = item.c2_svDate || '';
-                document.getElementById('planC2ChkDate').value = item.c2_chkDate || '';
-                document.getElementById('planC2ClDate').value = item.c2_clDate || '';
-                document.getElementById('planC2QasDate').value = item.c2_qasDate || '';
+                document.getElementById('planC1Auditor').value = p.c1_auditor;
+                document.getElementById('planC1Status').value = p.c1_status;
+                document.getElementById('planC1Rating').value = p.c1_rating;
+                document.getElementById('planC1Date').value = p.c1_svDate;
+                document.getElementById('planC1ChkDate').value = p.c1_chkDate;
+                document.getElementById('planC1ClDate').value = p.c1_clDate;
+                document.getElementById('planC1QasDate').value = p.c1_qasDate;
 
-                // Cycle 3
-                document.getElementById('planC3Auditor').value = item.c3_auditor || '';
-                document.getElementById('planC3Status').value = item.c3_status || 'Pending';
-                document.getElementById('planC3Rating').value = item.c3_rating ?? 85;
-                document.getElementById('planC3Date').value = item.c3_svDate || '';
-                document.getElementById('planC3ChkDate').value = item.c3_chkDate || '';
-                document.getElementById('planC3ClDate').value = item.c3_clDate || '';
-                document.getElementById('planC3QasDate').value = item.c3_qasDate || '';
+                document.getElementById('planC2Auditor').value = p.c2_auditor;
+                document.getElementById('planC2Status').value = p.c2_status;
+                document.getElementById('planC2Rating').value = p.c2_rating;
+                document.getElementById('planC2Date').value = p.c2_svDate;
+                document.getElementById('planC2ChkDate').value = p.c2_chkDate;
+                document.getElementById('planC2ClDate').value = p.c2_clDate;
+                document.getElementById('planC2QasDate').value = p.c2_qasDate;
 
-                // Cycle 4
-                document.getElementById('planC4Auditor').value = item.c4_auditor || '';
-                document.getElementById('planC4Status').value = item.c4_status || 'Pending';
-                document.getElementById('planC4Rating').value = item.c4_rating ?? 85;
-                document.getElementById('planC4Date').value = item.c4_svDate || '';
-                document.getElementById('planC4ChkDate').value = item.c4_chkDate || '';
-                document.getElementById('planC4ClDate').value = item.c4_clDate || '';
-                document.getElementById('planC4QasDate').value = item.c4_qasDate || '';
+                document.getElementById('planC3Auditor').value = p.c3_auditor;
+                document.getElementById('planC3Status').value = p.c3_status;
+                document.getElementById('planC3Rating').value = p.c3_rating;
+                document.getElementById('planC3Date').value = p.c3_svDate;
+                document.getElementById('planC3ChkDate').value = p.c3_chkDate;
+                document.getElementById('planC3ClDate').value = p.c3_clDate;
+                document.getElementById('planC3QasDate').value = p.c3_qasDate;
+
+                document.getElementById('planC4Auditor').value = p.c4_auditor;
+                document.getElementById('planC4Status').value = p.c4_status;
+                document.getElementById('planC4Rating').value = p.c4_rating;
+                document.getElementById('planC4Date').value = p.c4_svDate;
+                document.getElementById('planC4ChkDate').value = p.c4_chkDate;
+                document.getElementById('planC4ClDate').value = p.c4_clDate;
+                document.getElementById('planC4QasDate').value = p.c4_qasDate;
             }
         }
 
         function closePlanModal() {
-            const modal = document.getElementById('auditPlanModal');
-            if (modal) {
-                modal.classList.remove('flex');
-                modal.classList.add('hidden');
-            }
+            document.getElementById('auditPlanModal').classList.remove('flex');
+            document.getElementById('auditPlanModal').classList.add('hidden');
         }
 
         function handlePlanFormSubmit(event) {
             event.preventDefault();
-
-            let c1Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC1Rating').value) || 0));
-            let c2Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC2Rating').value) || 0));
-            let c3Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC3Rating').value) || 0));
-            let c4Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC4Rating').value) || 0));
-
             let newItem = {
                 id: currentPlanEditIndex === -1 ? 'plan_' + Date.now() : auditPlanData[currentPlanEditIndex].id,
-                name: document.getElementById('planInputName').value,
+                name: document.getElementById('planInputName').value.trim(),
                 entityType: document.getElementById('planInputEntityType').value,
                 code: 'N/A',
-                cm: document.getElementById('planInputCM').value,
-                am: document.getElementById('planInputAM').value,
-                
-                c1_auditor: document.getElementById('planC1Auditor').value,
+                cm: document.getElementById('planInputCM').value.trim(),
+                am: document.getElementById('planInputAM').value.trim(),
+
+                c1_auditor: document.getElementById('planC1Auditor').value.trim(),
                 c1_status: document.getElementById('planC1Status').value,
-                c1_rating: c1Rate,
+                c1_rating: Number(document.getElementById('planC1Rating').value),
                 c1_svDate: document.getElementById('planC1Date').value,
                 c1_chkDate: document.getElementById('planC1ChkDate').value,
                 c1_clDate: document.getElementById('planC1ClDate').value,
                 c1_qasDate: document.getElementById('planC1QasDate').value,
 
-                c2_auditor: document.getElementById('planC2Auditor').value,
+                c2_auditor: document.getElementById('planC2Auditor').value.trim(),
                 c2_status: document.getElementById('planC2Status').value,
-                c2_rating: c2Rate,
+                c2_rating: Number(document.getElementById('planC2Rating').value),
                 c2_svDate: document.getElementById('planC2Date').value,
                 c2_chkDate: document.getElementById('planC2ChkDate').value,
                 c2_clDate: document.getElementById('planC2ClDate').value,
                 c2_qasDate: document.getElementById('planC2QasDate').value,
 
-                c3_auditor: document.getElementById('planC3Auditor').value,
+                c3_auditor: document.getElementById('planC3Auditor').value.trim(),
                 c3_status: document.getElementById('planC3Status').value,
-                c3_rating: c3Rate,
+                c3_rating: Number(document.getElementById('planC3Rating').value),
                 c3_svDate: document.getElementById('planC3Date').value,
                 c3_chkDate: document.getElementById('planC3ChkDate').value,
                 c3_clDate: document.getElementById('planC3ClDate').value,
                 c3_qasDate: document.getElementById('planC3QasDate').value,
 
-                c4_auditor: document.getElementById('planC4Auditor').value,
+                c4_auditor: document.getElementById('planC4Auditor').value.trim(),
                 c4_status: document.getElementById('planC4Status').value,
-                c4_rating: c4Rate,
+                c4_rating: Number(document.getElementById('planC4Rating').value),
                 c4_svDate: document.getElementById('planC4Date').value,
                 c4_chkDate: document.getElementById('planC4ChkDate').value,
                 c4_clDate: document.getElementById('planC4ClDate').value,
                 c4_qasDate: document.getElementById('planC4QasDate').value
             };
 
-            let cleaned = cleanAuditPlanData([newItem])[0];
-
             if (currentPlanEditIndex === -1) {
-                auditPlanData.push(cleaned);
+                auditPlanData.unshift(newItem);
             } else {
-                auditPlanData[currentPlanEditIndex] = cleaned;
+                auditPlanData[currentPlanEditIndex] = newItem;
             }
 
             saveToLocalStorage();
@@ -1418,9 +1557,9 @@
             initAuditPlanCharts();
         }
 
-        function deleteAuditPlanRecord(index) {
-            if (confirm("Sigurado ka bang gusto mong burahin ang Audit Plan entry na ito?")) {
-                auditPlanData.splice(index, 1);
+        function deletePlanRecord(idx) {
+            if (confirm("Are you sure you want to delete this plan entry?")) {
+                auditPlanData.splice(idx, 1);
                 saveToLocalStorage();
                 renderAuditPlanTable();
                 renderTopSheet();
@@ -1428,470 +1567,404 @@
             }
         }
 
-        function getRatingBadgeWithColor(ratingVal) {
-            let val = Number(ratingVal) || 0;
-            if (val >= 90) {
-                return `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> ${val}%</span>`;
-            } else if (val >= 75) {
-                return `<span class="bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> ${val}%</span>`;
-            } else {
-                return `<span class="bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-600"></span> ${val}%</span>`;
-            }
-        }
-
-        // DITO ANG UPDATE: INALIGN ANG DESIGN NG ENTITY TYPE BADGE SA ILALIM NG PROJECT NAME SA AUDIT PLAN TAB GAYA NG QAS DETAILED AUDIT
         function renderAuditPlanTable() {
-            let tbody = document.getElementById('auditPlanTableBody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            let search = document.getElementById('auditPlanSearchInput').value.toLowerCase();
+            let search = (document.getElementById('auditPlanSearchInput').value || '').toLowerCase();
             let statusFilter = document.getElementById('auditPlanStatusFilter').value;
-            let globalFilter = document.getElementById('globalProjectFilter').value;
+            let filterVal = document.getElementById('globalProjectFilter').value;
 
             let filtered = auditPlanData.filter(item => {
-                let matchesGlobal = (globalFilter === 'ALL' || item.name === globalFilter);
-                let matchesSearch = (item.name.toLowerCase().includes(search) || (item.cm && item.cm.toLowerCase().includes(search)) || (item.am && item.am.toLowerCase().includes(search)));
-                let matchesStatus = (statusFilter === 'ALL' || item.c1_status === statusFilter || item.c2_status === statusFilter || item.c3_status === statusFilter || item.c4_status === statusFilter);
+                let matchesGlobal = filterVal === 'ALL' || item.name.includes(filterVal) || filterVal.includes(item.name);
+                let matchesSearch = !search || Object.values(item).some(v => String(v).toLowerCase().includes(search));
+                let matchesStatus = statusFilter === 'ALL' || [item.c1_status, item.c2_status, item.c3_status, item.c4_status].includes(statusFilter);
                 return matchesGlobal && matchesSearch && matchesStatus;
             });
 
-            let countBadge = document.getElementById('auditPlanCountBadge');
-            if(countBadge) countBadge.innerText = `${filtered.length} Projects / Entities`;
+            let tbody = document.getElementById('auditPlanTableBody');
+            tbody.innerHTML = '';
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="27" class="p-6 text-center text-slate-400 italic">Walang nakitang data sa Audit Plan.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="27" class="p-8 text-center text-slate-400">No matching audit plan entries found</td></tr>`;
+                document.getElementById('auditPlanCountBadge').innerText = "0 Projects";
                 return;
             }
 
-            filtered.forEach((item, idx) => {
-                let realIndex = auditPlanData.findIndex(p => p.id === item.id);
-                if (realIndex === -1) realIndex = idx;
+            document.getElementById('auditPlanCountBadge').innerText = `${filtered.length} Projects`;
 
-                let tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+            filtered.forEach(item => {
+                let realIdx = auditPlanData.indexOf(item);
+                let meta = getEntityMeta(item.name);
 
-                // Pagtukoy ng tamang Entity Type Badge styling kagaya sa QAS Detailed Audit / Design Guidelines
-                let eType = item.entityType || getEntityMeta(item.name).type;
-                let badgeClass = "bg-blue-50 text-[#003399] border-blue-200";
-                let iconClass = "fa-building";
-                if (eType === 'Landbank') {
-                    badgeClass = "bg-emerald-50 text-[#107C10] border-emerald-200";
-                    iconClass = "fa-map-location-dot";
-                } else if (eType === 'Support Group') {
-                    badgeClass = "bg-purple-50 text-[#86198F] border-purple-200";
-                    iconClass = "fa-gears";
-                }
-
-                let renderCycleTD = (auditor, svDate, chkDate, clDate, qasDate, status, rating) => {
-                    let stColor = "bg-slate-100 text-slate-600";
-                    if (status === 'Done') stColor = "bg-emerald-100 text-emerald-800 font-bold";
-                    else if (status === 'In Progress') stColor = "bg-blue-100 text-[#003399] font-bold";
-                    else if (status === 'Delayed') stColor = "bg-rose-100 text-rose-800 font-bold";
+                let renderCycleCols = (status, auditor, sv, chk, cl, qas) => {
+                    let badgeClass = status === 'Done' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                     status === 'In Progress' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                                     status === 'Delayed' ? 'bg-red-100 text-red-800 border-red-300' :
+                                     'bg-slate-100 text-slate-600 border-slate-300';
 
                     return `
-                        <td class="p-2.5 border-r border-slate-100 text-center font-medium">${auditor || '-'}</td>
-                        <td class="p-2.5 border-r border-slate-100 text-center">${svDate || '-'}</td>
-                        <td class="p-2.5 border-r border-slate-100 text-center">${chkDate || '-'}</td>
-                        <td class="p-2.5 border-r border-slate-100 text-center">${clDate || '-'}</td>
-                        <td class="p-2.5 border-r border-slate-100 text-center">${qasDate || '-'}</td>
-                        <td class="p-2.5 border-r border-slate-100 text-center">
-                            <div class="flex flex-col items-center gap-1">
-                                <span class="px-2 py-0.5 rounded text-[9px] ${stColor}">${status}</span>
-                                ${getRatingBadgeWithColor(rating)}
-                            </div>
+                        <td class="p-2 border-r border-slate-200 text-center font-medium">${auditor || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center font-mono text-[10px]">${sv || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center font-mono text-[10px]">${chk || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center font-mono text-[10px]">${cl || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center font-mono text-[10px]">${qas || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">
+                            <span class="px-2 py-0.5 rounded font-bold text-[10px] border ${badgeClass}">${status || 'Pending'}</span>
                         </td>
                     `;
                 };
 
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
                 tr.innerHTML = `
-                    <td class="py-3 px-4 border-r border-slate-200 bg-white sticky left-0 z-10">
-                        <div class="font-bold text-slate-900 text-xs">${item.name}</div>
-                        <div class="mt-1 flex items-center gap-1.5 flex-wrap">
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-semibold ${badgeClass}">
-                                <i class="fa-solid ${iconClass}"></i> ${eType}
+                    <td class="p-3 border-r border-slate-200 font-bold text-slate-800">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded ${meta.bg} ${meta.text} border ${meta.border} font-semibold">
+                                <i class="fa-solid ${meta.icon}"></i> ${item.name}
                             </span>
-                        </div>
-                        <div class="mt-2 flex items-center gap-2">
-                            <button onclick="openPlanModal(${realIndex})" class="px-2.5 py-1 bg-blue-50 text-[#003399] hover:bg-[#003399] hover:text-white rounded text-[10px] font-semibold transition border border-blue-200">
-                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                            </button>
-                            <button onclick="deleteAuditPlanRecord(${realIndex})" class="px-2.5 py-1 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white rounded text-[10px] font-semibold transition border border-rose-200">
-                                <i class="fa-solid fa-trash"></i> Delete
-                            </button>
+                            <div class="flex items-center space-x-1">
+                                <button onclick="openPlanModal(${realIdx})" class="p-1 text-blue-600 hover:bg-blue-50 rounded"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="deletePlanRecord(${realIdx})" class="p-1 text-red-600 hover:bg-red-50 rounded"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
                         </div>
                     </td>
-                    <td class="p-2.5 border-r border-slate-100 font-medium">${item.cm || 'Unassigned'}</td>
-                    <td class="p-2.5 border-r border-slate-100 font-medium">${item.am || 'Unassigned'}</td>
-                    ${renderCycleTD(item.c1_auditor, item.c1_svDate, item.c1_chkDate, item.c1_clDate, item.c1_qasDate, item.c1_status, item.c1_rating)}
-                    ${renderCycleTD(item.c2_auditor, item.c2_svDate, item.c2_chkDate, item.c2_clDate, item.c2_qasDate, item.c2_status, item.c2_rating)}
-                    ${renderCycleTD(item.c3_auditor, item.c3_svDate, item.c3_chkDate, item.c3_clDate, item.c3_qasDate, item.c3_status, item.c3_rating)}
-                    ${renderCycleTD(item.c4_auditor, item.c4_svDate, item.c4_chkDate, item.c4_clDate, item.c4_qasDate, item.c4_status, item.c4_rating)}
+                    <td class="p-2.5 border-r border-slate-200 font-medium text-slate-700 text-center">${item.cm}</td>
+                    <td class="p-2.5 border-r border-slate-200 font-medium text-slate-700 text-center">${item.am}</td>
+                    ${renderCycleCols(item.c1_status, item.c1_auditor, item.c1_svDate, item.c1_chkDate, item.c1_clDate, item.c1_qasDate)}
+                    ${renderCycleCols(item.c2_status, item.c2_auditor, item.c2_svDate, item.c2_chkDate, item.c2_clDate, item.c2_qasDate)}
+                    ${renderCycleCols(item.c3_status, item.c3_auditor, item.c3_svDate, item.c3_chkDate, item.c3_clDate, item.c3_qasDate)}
+                    ${renderCycleCols(item.c4_status, item.c4_auditor, item.c4_svDate, item.c4_chkDate, item.c4_clDate, item.c4_qasDate)}
                 `;
                 tbody.appendChild(tr);
             });
         }
 
+        /* TOP 10 PROJECTS & ENTITIES ANALYSIS (CYCLE 1 TO CYCLE 4) */
+        function getRatingBadge(val) {
+            if (val === null || val === undefined || isNaN(val)) {
+                return `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded font-bold text-xs border border-slate-200">N/A</span>`;
+            }
+            let num = Number(val);
+            if (num >= 90) {
+                return `<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded font-bold text-xs border border-emerald-300">${num}%</span>`;
+            } else if (num >= 50) {
+                return `<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded font-bold text-xs border border-amber-300">${num}%</span>`;
+            } else {
+                return `<span class="px-2.5 py-1 bg-red-100 text-red-800 rounded font-bold text-xs border border-red-300">${num}%</span>`;
+            }
+        }
+
         function renderTopSheet() {
-            let selectedEntityFilter = document.getElementById('globalProjectFilter').value;
+            let filterVal = document.getElementById('globalProjectFilter').value;
+            let source = auditPlanData.filter(item => filterVal === 'ALL' || item.name.includes(filterVal) || filterVal.includes(item.name));
 
-            let sitesList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Project Site' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
-            let supportList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Support Group' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
-            let landbankList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Landbank' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
-
-            let calcAvg = (item) => Math.round(((Number(item.c1_rating) || 0) + (Number(item.c2_rating) || 0) + (Number(item.c3_rating) || 0) + (Number(item.c4_rating) || 0)) / 4);
-
-            sitesList.sort((a, b) => calcAvg(b) - calcAvg(a));
-            supportList.sort((a, b) => calcAvg(b) - calcAvg(a));
-            landbankList.sort((a, b) => calcAvg(b) - calcAvg(a));
-
-            let renderSection = (list, tbodyId) => {
+            let buildCategoryTable = (tbodyId, entityCategory) => {
                 let tbody = document.getElementById(tbodyId);
                 if (!tbody) return;
                 tbody.innerHTML = '';
-                if (list.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Walang nakitang rekord.</td></tr>`;
+
+                let items = source.filter(item => {
+                    let meta = getEntityMeta(item.name);
+                    return meta.type === entityCategory;
+                });
+
+                items.sort((a, b) => {
+                    let avgA = (Number(a.c1_rating || 0) + Number(a.c2_rating || 0) + Number(a.c3_rating || 0) + Number(a.c4_rating || 0)) / 4;
+                    let avgB = (Number(b.c1_rating || 0) + Number(b.c2_rating || 0) + Number(b.c3_rating || 0) + Number(b.c4_rating || 0)) / 4;
+                    return avgB - avgA;
+                });
+
+                if (items.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No records found for ${entityCategory}</td></tr>`;
                     return;
                 }
 
-                list.forEach((item, idx) => {
-                    let avg = calcAvg(item);
-                    let trendBadge = "";
-                    if (Number(item.c4_rating || 0) >= Number(item.c1_rating || 0)) {
-                        trendBadge = `<span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold text-[10px]"><i class="fa-solid fa-arrow-trend-up"></i> Improving (+${(Number(item.c4_rating || 0) - Number(item.c1_rating || 0))}%)</span>`;
-                    } else {
-                        trendBadge = `<span class="text-rose-700 bg-rose-50 px-2 py-0.5 rounded font-bold text-[10px]"><i class="fa-solid fa-arrow-trend-down"></i> Declining</span>`;
-                    }
+                items.forEach((item, idx) => {
+                    let meta = getEntityMeta(item.name);
+                    let c1 = Number(item.c1_rating || 0);
+                    let c4 = Number(item.c4_rating || 0);
+                    let diff = c4 - c1;
+                    
+                    let trendBadge = diff > 0 ? `<span class="text-emerald-700 font-bold"><i class="fa-solid fa-arrow-trend-up mr-1"></i>+${diff}% Improvement</span>` :
+                                     diff < 0 ? `<span class="text-red-700 font-bold"><i class="fa-solid fa-arrow-trend-down mr-1"></i>${diff}% Decline</span>` :
+                                     `<span class="text-slate-500 font-semibold"><i class="fa-solid fa-minus mr-1"></i>Maintained (0%)</span>`;
+
+                    let rankIcon = idx === 0 ? '<i class="fa-solid fa-trophy text-amber-500 text-sm mr-1"></i>' :
+                                   idx === 1 ? '<i class="fa-solid fa-medal text-slate-400 text-sm mr-1"></i>' :
+                                   idx === 2 ? '<i class="fa-solid fa-award text-amber-700 text-sm mr-1"></i>' : '';
 
                     let tr = document.createElement('tr');
                     tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
                     tr.innerHTML = `
-                        <td class="p-3 font-bold text-slate-800">#${idx + 1}</td>
-                        <td class="p-3 font-semibold text-slate-900">${item.name}</td>
-                        <td class="p-3 text-center">${getRatingBadgeWithColor(item.c1_rating)}</td>
-                        <td class="p-3 text-center">${getRatingBadgeWithColor(item.c2_rating)}</td>
-                        <td class="p-3 text-center">${getRatingBadgeWithColor(item.c3_rating)}</td>
-                        <td class="p-3 text-center">${getRatingBadgeWithColor(item.c4_rating)}</td>
+                        <td class="p-3 font-bold text-slate-800 flex items-center">${rankIcon} #${idx + 1}</td>
+                        <td class="p-3 font-semibold">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded ${meta.bg} ${meta.text} border ${meta.border}">
+                                <i class="fa-solid ${meta.icon}"></i> ${item.name}
+                            </span>
+                        </td>
+                        <td class="p-3 text-center">${getRatingBadge(item.c1_rating)}</td>
+                        <td class="p-3 text-center">${getRatingBadge(item.c2_rating)}</td>
+                        <td class="p-3 text-center">${getRatingBadge(item.c3_rating)}</td>
+                        <td class="p-3 text-center">${getRatingBadge(item.c4_rating)}</td>
                         <td class="p-3 text-center">${trendBadge}</td>
                     `;
                     tbody.appendChild(tr);
                 });
             };
 
-            renderSection(sitesList, 'topSitesTableBody');
-            renderSection(supportList, 'topSupportTableBody');
-            renderSection(landbankList, 'topLandbankTableBody');
+            buildCategoryTable('topSitesTableBody', 'Project Site');
+            buildCategoryTable('topSupportTableBody', 'Support Group');
+            buildCategoryTable('topLandbankTableBody', 'Landbank');
         }
 
-        let currentPage = 1;
-        function renderTable() {
-            let tbody = document.getElementById('tableBody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            let search = document.getElementById('searchInput').value.toLowerCase();
-            let rowsPerPage = parseInt(document.getElementById('rowsPerPageSelect').value);
-            let globalFilter = document.getElementById('globalProjectFilter').value;
-
-            let filtered = auditData.filter(item => {
-                let matchesGlobal = (globalFilter === 'ALL' || item.project === globalFilter);
-                let matchesSearch = (item.series.toLowerCase().includes(search) || item.project.toLowerCase().includes(search) || item.category.toLowerCase().includes(search) || item.finding.toLowerCase().includes(search) || item.auditor.toLowerCase().includes(search) || item.dept.toLowerCase().includes(search));
-                return matchesGlobal && matchesSearch;
-            });
-
-            let totalPages = Math.ceil(filtered.length / rowsPerPage) || 1;
-            if (currentPage > totalPages) currentPage = totalPages;
-
-            let start = (currentPage - 1) * rowsPerPage;
-            let paginated = filtered.slice(start, start + rowsPerPage);
-
-            document.getElementById('rowCountBadge').innerText = `${filtered.length} Items`;
-            document.getElementById('paginationInfo').innerHTML = `Showing <strong>${filtered.length > 0 ? start + 1 : 0}</strong> to <strong>${Math.min(start + rowsPerPage, filtered.length)}</strong> of <strong>${filtered.length}</strong> entries`;
-
-            if (paginated.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" class="p-6 text-center text-slate-400 italic">Walang nakitang rekord.</td></tr>`;
-                document.getElementById('pageNumbersContainer').innerHTML = '';
-                document.getElementById('prevBtn').disabled = true;
-                document.getElementById('nextBtn').disabled = true;
-                return;
-            }
-
-            paginated.forEach((item, index) => {
-                let realIndex = auditData.indexOf(item);
-                let tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
-
-                let statusBadge = "";
-                if (item.status === 'Open') statusBadge = `<span class="bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-md font-bold text-[10px]">Open</span>`;
-                else if (item.status === 'Closed') statusBadge = `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-1 rounded-md font-bold text-[10px]">Closed</span>`;
-                else if (item.status === 'Accepted') statusBadge = `<span class="bg-blue-100 text-[#003399] border border-blue-300 px-2.5 py-1 rounded-md font-bold text-[10px]">Accepted</span>`;
-                else statusBadge = `<span class="bg-slate-100 text-slate-600 border border-slate-300 px-2.5 py-1 rounded-md font-bold text-[10px]">${item.status}</span>`;
-
-                let sevBadge = "";
-                let sev = String(item.severity || '').trim().toLowerCase();
-                if (sev.includes("non")) {
-                    sevBadge = `<span class="bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-600"></span> Non Compliant</span>`;
-                } else if (sev.includes("part")) {
-                    sevBadge = `<span class="bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Partially Compliant</span>`;
-                } else {
-                    sevBadge = `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> Generally Compliant</span>`;
+        /* CHART INITIALIZATIONS */
+        function destroyCharts() {
+            Object.keys(chartInstances).forEach(key => {
+                if (chartInstances[key]) {
+                    chartInstances[key].destroy();
                 }
-
-                let meta = getEntityMeta(item.project);
-
-                tr.innerHTML = `
-                    <td class="p-3.5 pl-5 font-bold text-[#003399] whitespace-nowrap">${item.series}</td>
-                    <td class="p-3.5">
-                        <div class="font-bold text-slate-900">${item.project}</div>
-                        <div class="mt-1 flex items-center gap-1.5 flex-wrap">
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-semibold ${meta.bg} ${meta.text} ${meta.border}">
-                                <i class="fa-solid ${meta.icon}"></i> ${meta.type}
-                            </span>
-                        </div>
-                    </td>
-                    <td class="p-3.5 whitespace-nowrap">${statusBadge}</td>
-                    <td class="p-3.5 font-medium text-slate-800 whitespace-nowrap">${item.category}</td>
-                    <td class="p-3.5 text-slate-700 max-w-xs truncate" title="${item.finding}">${item.finding}</td>
-                    <td class="p-3.5 font-medium text-slate-700 whitespace-nowrap">${item.auditor}</td>
-                    <td class="p-3.5 text-slate-600 whitespace-nowrap">${item.dept}</td>
-                    <td class="p-3.5 font-semibold text-slate-800 whitespace-nowrap">${item.issuedPerson}</td>
-                    <td class="p-3.5 whitespace-nowrap">${sevBadge}</td>
-                    <td class="p-3.5 text-slate-500 whitespace-nowrap">${item.date}</td>
-                    <td class="p-3.5 pr-5 text-center whitespace-nowrap">
-                        <div class="flex items-center justify-center space-x-1.5">
-                            <button onclick="editRecord(${realIndex})" class="p-1.5 bg-blue-50 text-[#003399] rounded hover:bg-blue-100 transition shadow-xs" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteRecord(${realIndex})" class="p-1.5 bg-rose-50 text-rose-600 rounded hover:bg-rose-100 transition shadow-xs" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
             });
-
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages;
-
-            let pageNumContainer = document.getElementById('pageNumbersContainer');
-            pageNumContainer.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                let pBtn = document.createElement('button');
-                pBtn.className = `px-3 py-1.5 rounded-lg text-xs font-semibold ${i === currentPage ? 'bg-[#003399] text-white shadow-xs' : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'}`;
-                pBtn.innerText = i;
-                pBtn.onclick = () => { currentPage = i; renderTable(); };
-                pageNumContainer.appendChild(pBtn);
-            }
+            chartInstances = {};
         }
 
-        function changePage(direction) {
-            currentPage += direction;
-            renderTable();
-        }
-
-        function exportToExcelFull() {
-            let globalFilter = document.getElementById('globalProjectFilter').value;
-            let exportData = auditData.filter(item => globalFilter === 'ALL' || item.project === globalFilter);
-
-            let worksheetData = exportData.map(item => ({
-                "Series #": item.series,
-                "Status": item.status,
-                "Project / Property Name": item.project,
-                "Entity Type": getEntityMeta(item.project).type,
-                "Audit Category": item.category,
-                "Actual Findings": item.finding,
-                "Recommended Action": item.program,
-                "Auditor-in-Charge": item.auditor,
-                "Responsible Dept": item.dept,
-                "Issued Person": item.issuedPerson,
-                "Rating Scale": item.severity,
-                "Audit Date": item.date
-            }));
-
-            let worksheet = XLSX.utils.json_to_sheet(worksheetData);
-            let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "QAS Detailed Audit");
-            XLSX.writeFile(workbook, `QAS_Detailed_Audit_Export_${new Date().toISOString().split('T')[0]}.xlsx`);
-        }
-
-        function exportAuditPlanToExcel() {
-            let exportData = auditPlanData.map(item => ({
-                "Project Name": item.name,
-                "Entity Type": item.entityType,
-                "Construction Manager": item.cm,
-                "Area Manager": item.am,
-                "C1 Auditor": item.c1_auditor,
-                "C1 Status": item.c1_status,
-                "C1 Rating": item.c1_rating,
-                "C1 Site Visit Date": item.c1_svDate,
-                "C1 Checklist Date": item.c1_chkDate,
-                "C1 Closing Date": item.c1_clDate,
-                "C1 QAS Date": item.c1_qasDate,
-                "C2 Auditor": item.c2_auditor,
-                "C2 Status": item.c2_status,
-                "C2 Rating": item.c2_rating,
-                "C2 Site Visit Date": item.c2_svDate,
-                "C2 Checklist Date": item.c2_chkDate,
-                "C2 Closing Date": item.c2_clDate,
-                "C2 QAS Date": item.c2_qasDate,
-                "C3 Auditor": item.c3_auditor,
-                "C3 Status": item.c3_status,
-                "C3 Rating": item.c3_rating,
-                "C3 Site Visit Date": item.c3_svDate,
-                "C3 Checklist Date": item.c3_chkDate,
-                "C3 Closing Date": item.c3_clDate,
-                "C3 QAS Date": item.c3_qasDate,
-                "C4 Auditor": item.c4_auditor,
-                "C4 Status": item.c4_status,
-                "C4 Rating": item.c4_rating,
-                "C4 Site Visit Date": item.c4_svDate,
-                "C4 Checklist Date": item.c4_chkDate,
-                "C4 Closing Date": item.c4_clDate,
-                "C4 QAS Date": item.c4_qasDate
-            }));
-
-            let worksheet = XLSX.utils.json_to_sheet(exportData);
-            let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit Plan 2026");
-            XLSX.writeFile(workbook, `Site_Warehousing_Audit_Plan_2026_${new Date().toISOString().split('T')[0]}.xlsx`);
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('auditDataPowerBI_2026', JSON.stringify(auditData));
-            localStorage.setItem('auditPlanData_2026', JSON.stringify(auditPlanData));
-        }
-
-        let chartsInstance = {};
         function initCharts() {
-            let globalFilter = document.getElementById('globalProjectFilter').value;
-            let currentData = auditData.filter(item => globalFilter === 'ALL' || item.project === globalFilter);
+            destroyCharts();
+            let filtered = filterData();
 
-            let total = currentData.length;
-            let openCount = currentData.filter(i => i.status === 'Open').length;
-            let closedCount = currentData.filter(i => i.status === 'Closed').length;
-            let acceptedCount = currentData.filter(i => i.status === 'Accepted').length;
-            let closedRate = total > 0 ? Math.round((closedCount / total) * 100) : 0;
+            let openCount = filtered.filter(i => i.status === 'Open').length;
+            let closedCount = filtered.filter(i => i.status === 'Closed').length;
+            let acceptedCount = filtered.filter(i => i.status === 'Accepted').length;
+            let total = filtered.length;
 
-            let nonCompliantCount = currentData.filter(i => String(i.severity).toLowerCase().includes('non')).length;
-            let nonCompRate = total > 0 ? Math.round((nonCompliantCount / total) * 100) : 0;
+            let nonComp = filtered.filter(i => i.severity === 'Non Compliant').length;
+            let partComp = filtered.filter(i => i.severity === 'Partially Compliant').length;
+            let genComp = filtered.filter(i => i.severity === 'Generally Compliant').length;
 
             document.getElementById('kpiTotal').innerText = total;
             document.getElementById('kpiOpen').innerText = openCount;
-            document.getElementById('kpiClosedRate').innerText = closedRate + '%';
-            document.getElementById('kpiHighRisk').innerText = nonCompRate + '%';
-            document.getElementById('kpiNonCompliant').innerText = nonCompliantCount;
+            document.getElementById('kpiClosedRate').innerText = total > 0 ? Math.round((closedCount / total) * 100) + "%" : "0%";
+            document.getElementById('kpiHighRisk').innerText = total > 0 ? Math.round((nonComp / total) * 100) + "%" : "0%";
+            document.getElementById('kpiNonCompliant').innerText = nonComp;
 
-            let createOrUpdateChart = (id, type, data, options) => {
-                let ctx = document.getElementById(id);
-                if (!ctx) return;
-                if (chartsInstance[id]) chartsInstance[id].destroy();
-                chartsInstance[id] = new Chart(ctx, { type, data, options });
-            };
-
-            createOrUpdateChart('overallStatusPieChart', 'doughnut', {
-                labels: ['Open', 'Closed', 'Accepted'],
-                datasets: [{ data: [openCount, closedCount, acceptedCount], backgroundColor: ['#EAB308', '#107C10', '#003399'] }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let generallyComp = currentData.filter(i => String(i.severity).toLowerCase().includes('gen')).length;
-            let partiallyComp = currentData.filter(i => String(i.severity).toLowerCase().includes('part')).length;
-            createOrUpdateChart('complianceStatusChart', 'bar', {
-                labels: ['Generally Compliant', 'Partially Compliant', 'Non Compliant'],
-                datasets: [{ label: 'Count', data: [generallyComp, partiallyComp, nonCompliantCount], backgroundColor: ['#107C10', '#EAB308', '#D83B01'] }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            createOrUpdateChart('auditTrendChart', 'line', {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                datasets: [{ label: 'Findings', data: [2, 5, 3, 8, 4, 6, 7, total], borderColor: '#003399', backgroundColor: 'rgba(0,51,153,0.1)', fill: true, tension: 0.3 }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let cats = {};
-            currentData.forEach(i => cats[i.category] = (cats[i.category] || 0) + 1);
-            createOrUpdateChart('auditCatChart', 'pie', {
-                labels: Object.keys(cats),
-                datasets: [{ data: Object.values(cats), backgroundColor: ['#003399', '#107C10', '#EAB308', '#D83B01', '#86198F', '#0078D4'] }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let projs = {};
-            currentData.forEach(i => projs[i.project] = (projs[i.project] || 0) + 1);
-            createOrUpdateChart('projectFindingsChart', 'bar', {
-                labels: Object.keys(projs),
-                datasets: [{ label: 'Findings Count', data: Object.values(projs), backgroundColor: '#003399' }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let auditors = {};
-            currentData.forEach(i => auditors[i.auditor] = (auditors[i.auditor] || 0) + 1);
-            createOrUpdateChart('auditorFindingsChart', 'bar', {
-                labels: Object.keys(auditors),
-                datasets: [{ label: 'Auditor Load', data: Object.values(auditors), backgroundColor: '#0078D4' }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let depts = {};
-            currentData.forEach(i => depts[i.dept] = (depts[i.dept] || 0) + 1);
-            createOrUpdateChart('deptFindingsChart', 'bar', {
-                labels: Object.keys(depts),
-                datasets: [{ label: 'Department Load', data: Object.values(depts), backgroundColor: '#107C10' }]
-            }, { responsive: true, maintainAspectRatio: false });
-
-            let persons = {};
-            currentData.forEach(i => {
-                if(!persons[i.issuedPerson]) persons[i.issuedPerson] = { Open: 0, Closed: 0, Accepted: 0 };
-                if(i.status === 'Open') persons[i.issuedPerson].Open++;
-                else if(i.status === 'Closed') persons[i.issuedPerson].Closed++;
-                else if(i.status === 'Accepted') persons[i.issuedPerson].Accepted++;
+            // 1. Overall Status Pie
+            let ctxPie = document.getElementById('overallStatusPieChart').getContext('2d');
+            chartInstances['pie'] = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Open', 'Closed', 'Accepted'],
+                    datasets: [{
+                        data: [openCount, closedCount, acceptedCount],
+                        backgroundColor: ['#EAB308', '#107C10', '#003399']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
             });
-            let pKeys = Object.keys(persons);
-            createOrUpdateChart('statusIssuedPersonChart', 'bar', {
-                labels: pKeys,
-                datasets: [
-                    { label: 'Open', data: pKeys.map(k => persons[k].Open), backgroundColor: '#EAB308' },
-                    { label: 'Closed', data: pKeys.map(k => persons[k].Closed), backgroundColor: '#107C10' },
-                    { label: 'Accepted', data: pKeys.map(k => persons[k].Accepted), backgroundColor: '#003399' }
-                ]
-            }, { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } });
 
-            initAuditPlanCharts();
+            // 2. Compliance Status
+            let ctxComp = document.getElementById('complianceStatusChart').getContext('2d');
+            chartInstances['comp'] = new Chart(ctxComp, {
+                type: 'bar',
+                data: {
+                    labels: ['Generally Compliant', 'Partially Compliant', 'Non Compliant'],
+                    datasets: [{
+                        data: [genComp, partComp, nonComp],
+                        backgroundColor: ['#107C10', '#EAB308', '#D83B01']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // 3. Trend Chart
+            let dateCounts = {};
+            filtered.forEach(i => {
+                let d = i.date || 'Unknown';
+                dateCounts[d] = (dateCounts[d] || 0) + 1;
+            });
+            let sortedDates = Object.keys(dateCounts).sort();
+
+            let ctxTrend = document.getElementById('auditTrendChart').getContext('2d');
+            chartInstances['trend'] = new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: 'Findings Count',
+                        data: sortedDates.map(d => dateCounts[d]),
+                        borderColor: '#003399',
+                        tension: 0.3,
+                        fill: false
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 4. Category Chart
+            let catCounts = {};
+            filtered.forEach(i => {
+                catCounts[i.category] = (catCounts[i.category] || 0) + 1;
+            });
+            let ctxCat = document.getElementById('auditCatChart').getContext('2d');
+            chartInstances['cat'] = new Chart(ctxCat, {
+                type: 'bar',
+                indexAxis: 'y',
+                data: {
+                    labels: Object.keys(catCounts),
+                    datasets: [{
+                        data: Object.values(catCounts),
+                        backgroundColor: '#003399'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // 5. Project Findings Volume Chart
+            let projCounts = {};
+            filtered.forEach(i => {
+                projCounts[i.project] = (projCounts[i.project] || 0) + 1;
+            });
+            let ctxProj = document.getElementById('projectFindingsChart').getContext('2d');
+            chartInstances['proj'] = new Chart(ctxProj, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(projCounts),
+                    datasets: [{
+                        data: Object.values(projCounts),
+                        backgroundColor: '#86198F'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // 6. Auditor Load Chart
+            let auditorCounts = {};
+            filtered.forEach(i => {
+                auditorCounts[i.auditor] = (auditorCounts[i.auditor] || 0) + 1;
+            });
+            let ctxAud = document.getElementById('auditorFindingsChart').getContext('2d');
+            chartInstances['auditor'] = new Chart(ctxAud, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(auditorCounts),
+                    datasets: [{
+                        data: Object.values(auditorCounts),
+                        backgroundColor: ['#003399', '#107C10', '#EAB308', '#86198F', '#D83B01']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 7. Dept Load Chart
+            let deptCounts = {};
+            filtered.forEach(i => {
+                deptCounts[i.dept] = (deptCounts[i.dept] || 0) + 1;
+            });
+            let ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
+            chartInstances['dept'] = new Chart(ctxDept, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(deptCounts),
+                    datasets: [{
+                        data: Object.values(deptCounts),
+                        backgroundColor: '#002878'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // 8. Issued Person Stacked Chart
+            let issuedMap = {};
+            filtered.forEach(i => {
+                let person = i.issuedPerson || 'Unassigned';
+                if (!issuedMap[person]) issuedMap[person] = { Open: 0, Closed: 0, Accepted: 0 };
+                if (issuedMap[person][i.status] !== undefined) {
+                    issuedMap[person][i.status]++;
+                }
+            });
+            let issuedPersons = Object.keys(issuedMap);
+
+            let ctxIssued = document.getElementById('statusIssuedPersonChart').getContext('2d');
+            chartInstances['issued'] = new Chart(ctxIssued, {
+                type: 'bar',
+                data: {
+                    labels: issuedPersons,
+                    datasets: [
+                        { label: 'Open', data: issuedPersons.map(p => issuedMap[p].Open), backgroundColor: '#EAB308' },
+                        { label: 'Closed', data: issuedPersons.map(p => issuedMap[p].Closed), backgroundColor: '#107C10' },
+                        { label: 'Accepted', data: issuedPersons.map(p => issuedMap[p].Accepted), backgroundColor: '#003399' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { stacked: true }, y: { stacked: true } }
+                }
+            });
         }
 
         function initAuditPlanCharts() {
-            let globalFilter = document.getElementById('globalProjectFilter').value;
-            let currentPlan = auditPlanData.filter(i => globalFilter === 'ALL' || i.name === globalFilter);
+            let filterVal = document.getElementById('globalProjectFilter').value;
+            let source = auditPlanData.filter(item => filterVal === 'ALL' || item.name.includes(filterVal) || filterVal.includes(item.name));
 
-            let doneCount = 0, progCount = 0, pendCount = 0, delayCount = 0;
-            currentPlan.forEach(item => {
-                [item.c1_status, item.c2_status, item.c3_status, item.c4_status].forEach(st => {
-                    if (st === 'Done') doneCount++;
-                    else if (st === 'In Progress') progCount++;
-                    else if (st === 'Pending') pendCount++;
-                    else if (st === 'Delayed') delayCount++;
+            let statusCounts = { Done: 0, 'In Progress': 0, Pending: 0, Delayed: 0 };
+            source.forEach(p => {
+                [p.c1_status, p.c2_status, p.c3_status, p.c4_status].forEach(st => {
+                    if (statusCounts[st] !== undefined) statusCounts[st]++;
+                    else statusCounts.Pending++;
                 });
             });
 
-            let createOrUpdateChart = (id, type, data, options) => {
-                let ctx = document.getElementById(id);
-                if (!ctx) return;
-                if (chartsInstance[id]) chartsInstance[id].destroy();
-                chartsInstance[id] = new Chart(ctx, { type, data, options });
-            };
+            if (chartInstances['planPie']) chartInstances['planPie'].destroy();
+            let ctxPlanPie = document.getElementById('auditPlanStatusPieChart').getContext('2d');
+            chartInstances['planPie'] = new Chart(ctxPlanPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Done', 'In Progress', 'Pending', 'Delayed'],
+                    datasets: [{
+                        data: [statusCounts.Done, statusCounts['In Progress'], statusCounts.Pending, statusCounts.Delayed],
+                        backgroundColor: ['#107C10', '#003399', '#94a3b8', '#D83B01']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
 
-            createOrUpdateChart('auditPlanStatusPieChart', 'doughnut', {
-                labels: ['Done', 'In Progress', 'Pending', 'Delayed'],
-                datasets: [{ data: [doneCount, progCount, pendCount, delayCount], backgroundColor: ['#107C10', '#003399', '#EAB308', '#D83B01'] }]
-            }, { responsive: true, maintainAspectRatio: false });
+            let stageCounts = { 'Site Visit': 0, Checklist: 0, Closing: 0, QAS: 0 };
+            source.forEach(p => {
+                if (p.c1_svDate) stageCounts['Site Visit']++;
+                if (p.c1_chkDate) stageCounts['Checklist']++;
+                if (p.c1_clDate) stageCounts['Closing']++;
+                if (p.c1_qasDate) stageCounts['QAS']++;
+            });
 
-            createOrUpdateChart('auditPlanStagesBarChart', 'bar', {
-                labels: ['Cycle 1', 'Cycle 2', 'Cycle 3', 'Cycle 4'],
-                datasets: [{
-                    label: 'Average Rating per Cycle',
-                    data: [
-                        Math.round(currentPlan.reduce((acc, cur) => acc + (Number(cur.c1_rating)||0), 0) / (currentPlan.length || 1)),
-                        Math.round(currentPlan.reduce((acc, cur) => acc + (Number(cur.c2_rating)||0), 0) / (currentPlan.length || 1)),
-                        Math.round(currentPlan.reduce((acc, cur) => acc + (Number(cur.c3_rating)||0), 0) / (currentPlan.length || 1)),
-                        Math.round(currentPlan.reduce((acc, cur) => acc + (Number(cur.c4_rating)||0), 0) / (currentPlan.length || 1))
-                    ],
-                    backgroundColor: '#003399'
-                }]
-            }, { responsive: true, maintainAspectRatio: false });
+            if (chartInstances['planBar']) chartInstances['planBar'].destroy();
+            let ctxPlanBar = document.getElementById('auditPlanStagesBarChart').getContext('2d');
+            chartInstances['planBar'] = new Chart(ctxPlanBar, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(stageCounts),
+                    datasets: [{
+                        label: 'Completed Stages',
+                        data: Object.values(stageCounts),
+                        backgroundColor: '#003399'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function exportToExcelFull() {
+            let ws = XLSX.utils.json_to_sheet(auditData);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Audit Findings");
+            XLSX.writeFile(wb, "QAS_Audit_Findings_2026.xlsx");
+        }
+
+        function exportAuditPlanToExcel() {
+            let ws = XLSX.utils.json_to_sheet(auditPlanData);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Audit Plan 2026");
+            XLSX.writeFile(wb, "Site_Warehousing_Audit_Plan_2026.xlsx");
         }
 
         window.onload = function() {
+            modalUpdateProjectDropdown();
             renderTable();
             renderAuditPlanTable();
             renderTopSheet();
