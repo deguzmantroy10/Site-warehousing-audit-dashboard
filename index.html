@@ -60,13 +60,16 @@
     <main class="max-w-[75%] mx-auto px-4 py-5 space-y-4 flex-grow w-full">
 
         <!-- Navigation View Switcher (Pindutan para maglipat ng View) -->
-        <section class="bg-white p-2.5 rounded-lg shadow-sm border border-[#E1DFDD] flex items-center justify-between">
-            <div class="flex items-center space-x-2">
+        <section class="bg-white p-2.5 rounded-lg shadow-sm border border-[#E1DFDD] flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
                 <button id="btnViewDashboard" onclick="switchView('dashboard')" class="px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2">
                     <i class="fa-solid fa-chart-pie"></i> IAD Analytics Dashboard
                 </button>
                 <button id="btnViewMatrix" onclick="switchView('matrix')" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2">
                     <i class="fa-solid fa-table-list"></i> Detailed Audit & Corrective Action Matrix
+                </button>
+                <button id="btnViewAuditPlan" onclick="switchView('auditPlan')" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check"></i> Site Warehousing Audit Plan 2026
                 </button>
             </div>
             <div class="text-xs text-slate-500 font-medium italic pr-2">
@@ -74,50 +77,61 @@
             </div>
         </section>
 
-        <!-- Filter Slicer Row (Common para sa parehong views) -->
+        <!-- Filter Slicer Row (Common para sa parehong views - May kasamang Entity Type Dropdown) -->
         <section class="bg-white p-3.5 rounded-lg shadow-sm border border-[#E1DFDD] flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-3 w-full sm:w-auto">
-                <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
-                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Project / Property Slicer:</span>
-                <select id="globalProjectFilter" onchange="currentPage = 1; renderTable()" class="text-xs px-3.5 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
-                    <option value="ALL">All Entities (Consolidated Executive View)</option>
-                    <optgroup label="Project Sites">
-                        <option value="The Oriana">The Oriana</option>
-                        <option value="One Delta Residences">One Delta Residences</option>
-                        <option value="Solmera Coast">Solmera Coast</option>
-                        <option value="Sage Residences">Sage Residences</option>
-                        <option value="Anissa Heights">Anissa Heights</option>
-                        <option value="Calinea Tower">Calinea Tower</option>
-                        <option value="The Valeron Tower">The Valeron Tower</option>
-                        <option value="One South Drive">One South Drive</option>
-                        <option value="Moncello Crest">Moncello Crest</option>
-                        <option value="Erin Heights">Erin Heights</option>
-                        <option value="Verdon Parc">Verdon Parc</option>
-                        <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
-                    </optgroup>
-                    <optgroup label="Landbank">
-                        <option value="Star Property">Star Property</option>
-                        <option value="Lia Property">Lia Property</option>
-                        <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
-                        <option value="Sovanna Towers">Sovanna Towers</option>
-                        <option value="Moriyama Nature Park">Moriyama Nature Park</option>
-                        <option value="Lyre Garden">Lyre Garden</option>
-                        <option value="Lisseo Residences">Lisseo Residences</option>
-                        <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
-                        <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
-                    </optgroup>
-                    <optgroup label="Support Groups">
-                        <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
-                        <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
-                        <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
-                        <option value="Central Warehouse">Central Warehouse</option>
-                        <option value="Formworks">Formworks</option>
-                        <option value="Equipment Services Group">Equipment Services Group</option>
-                        <option value="Zenith Mobility">Zenith Mobility</option>
-                        <option value="Fit-Out">Fit-Out</option>
-                        <option value="Unit Restoration Group">Unit Restoration Group</option>
-                    </optgroup>
-                </select>
+            <div class="flex items-center space-x-3 w-full sm:w-auto flex-wrap gap-y-2">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Type Slicer:</span>
+                    <select id="globalEntityTypeFilter" onchange="filterProjectDropdown(); currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium shadow-sm">
+                        <option value="ALL">All Entity Types</option>
+                        <option value="Project Site">Project Site</option>
+                        <option value="Landbank">Landbank</option>
+                        <option value="Support Group">Support Group</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Entity:</span>
+                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3.5 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-64 shadow-sm">
+                        <option value="ALL">All Entities (Consolidated Executive View)</option>
+                        <optgroup label="Project Sites">
+                            <option value="The Oriana">The Oriana</option>
+                            <option value="One Delta Residences">One Delta Residences</option>
+                            <option value="Solmera Coast">Solmera Coast</option>
+                            <option value="Sage Residences">Sage Residences</option>
+                            <option value="Anissa Heights">Anissa Heights</option>
+                            <option value="Calinea Tower">Calinea Tower</option>
+                            <option value="The Valeron Tower">The Valeron Tower</option>
+                            <option value="One South Drive">One South Drive</option>
+                            <option value="Moncello Crest">Moncello Crest</option>
+                            <option value="Erin Heights">Erin Heights</option>
+                            <option value="Verdon Parc">Verdon Parc</option>
+                            <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
+                        </optgroup>
+                        <optgroup label="Landbank">
+                            <option value="Star Property">Star Property</option>
+                            <option value="Lia Property">Lia Property</option>
+                            <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
+                            <option value="Sovanna Towers">Sovanna Towers</option>
+                            <option value="Moriyama Nature Park">Moriyama Nature Park</option>
+                            <option value="Lyre Garden">Lyre Garden</option>
+                            <option value="Lisseo Residences">Lisseo Residences</option>
+                            <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
+                            <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
+                        </optgroup>
+                        <optgroup label="Support Groups">
+                            <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
+                            <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
+                            <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
+                            <option value="Central Warehouse">Central Warehouse</option>
+                            <option value="Formworks">Formworks</option>
+                            <option value="Equipment Services Group">Equipment Services Group</option>
+                            <option value="Zenith Mobility">Zenith Mobility</option>
+                            <option value="Fit-Out">Fit-Out</option>
+                            <option value="Unit Restoration Group">Unit Restoration Group</option>
+                        </optgroup>
+                    </select>
+                </div>
             </div>
             <div class="text-xs text-slate-500 font-medium">
                 <span id="activeViewIndicator" class="bg-blue-50 text-[#003399] px-2.5 py-1 rounded font-semibold border border-blue-200">Active View: Dashboard</span>
@@ -126,7 +140,7 @@
 
         <!-- CONTAINER 1: DASHBOARD VIEW (KPIs + Charts) -->
         <div id="dashboardViewContainer" class="space-y-4">
-            <!-- KPI Cards Grid (5 Metrics) -->
+            <!-- (Sinasadyang hindi iniba ang laman ng Dashboard para manatili ang dating disenyo) -->
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#003399] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
@@ -268,7 +282,7 @@
             </section>
         </div>
 
-        <!-- CONTAINER 2: DETAILED AUDIT & CORRECTIVE ACTION MATRIX (Naka-hidden muna) -->
+        <!-- CONTAINER 2: DETAILED AUDIT & CORRECTIVE ACTION MATRIX -->
         <div id="matrixViewContainer" class="hidden space-y-4">
             <section class="bg-white rounded-lg shadow-sm border border-[#E1DFDD] overflow-hidden">
                 <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -311,8 +325,10 @@
                         <thead>
                             <tr class="bg-[#F8F9FA] text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200">
                                 <th class="p-3 pl-4">Series #</th>
-                                <th class="p-3">Status</th>
                                 <th class="p-3">Project / Property Name</th>
+                                <th class="p-3">Project Code</th> <!-- ADDED -->
+                                <th class="p-3">Entity Type</th> <!-- ADDED -->
+                                <th class="p-3">Status</th>
                                 <th class="p-3">Audit Category</th>
                                 <th class="p-3">Actual Findings</th>
                                 <th class="p-3 hidden">Recommended Action</th>
@@ -348,9 +364,97 @@
             </section>
         </div>
 
+        <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 -->
+        <div id="auditPlanViewContainer" class="hidden space-y-4">
+            <section class="bg-white rounded-lg shadow-sm border border-[#E1DFDD] overflow-hidden">
+                <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <span>Site Warehousing Audit Plan 2026 (Master Schedule & Cycles)</span>
+                            <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded">Interactive & Editable</span>
+                        </h2>
+                        <p class="text-[11px] text-slate-500">Internal Audit Department - Construction Operations Group.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-wrap gap-y-2">
+                        <button onclick="openPlanModal(-1)" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
+                            <i class="fa-solid fa-plus mr-1.5"></i> Add Plan Entry
+                        </button>
+                        <button onclick="cleanAndValidateAuditPlan()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Linisin & Format Data
+                        </button>
+                        <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center cursor-pointer">
+                            <i class="fa-solid fa-file-excel mr-1.5"></i> Upload Template (.xlsx)
+                            <input type="file" id="auditPlanUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleAuditPlanUpload(event)">
+                        </label>
+                        <button onclick="exportAuditPlanToExcel()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
+                            <i class="fa-solid fa-file-arrow-down mr-1.5"></i> Export Plan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 w-full sm:w-80">
+                        <input type="text" id="auditPlanSearchInput" onkeyup="renderAuditPlanTable()" placeholder="Search audit plan entries..." class="text-xs px-3.5 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#003399] w-full shadow-sm bg-white">
+                    </div>
+                    <div>
+                        <span id="auditPlanCountBadge" class="bg-white text-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Projects</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto w-full custom-scrollbar max-h-[600px]">
+                    <table id="auditPlanTable" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
+                        <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900">
+                            <tr>
+                                <th class="p-2 border-r border-blue-800 min-w-[200px]" rowspan="2">Project Name & Actions</th>
+                                <th class="p-2 border-r border-blue-800" rowspan="2">Code</th>
+                                <th class="p-2 border-r border-blue-800" rowspan="2">Entity Type</th>
+                                <th class="p-2 border-r border-blue-800" colspan="2">Construction Division</th>
+                                <th class="p-2 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 1</th>
+                                <th class="p-2 border-r border-blue-800 bg-[#002878]" colspan="5">Cycle 2</th>
+                                <th class="p-2 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 3</th>
+                                <th class="p-2 bg-[#002878]" colspan="5">Cycle 4</th>
+                            </tr>
+                            <tr class="bg-[#001f5c] text-[10px]">
+                                <!-- Construction Division -->
+                                <th class="p-1.5 border-r border-blue-800">CM</th>
+                                <th class="p-1.5 border-r border-blue-800">AM</th>
+                                <!-- Cycle 1 -->
+                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
+                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-1.5 border-r border-blue-800">Closing</th>
+                                <th class="p-1.5 border-r border-blue-800">QAS</th>
+                                <!-- Cycle 2 -->
+                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
+                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-1.5 border-r border-blue-800">Closing</th>
+                                <th class="p-1.5 border-r border-blue-800">QAS</th>
+                                <!-- Cycle 3 -->
+                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
+                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-1.5 border-r border-blue-800">Closing</th>
+                                <th class="p-1.5 border-r border-blue-800">QAS</th>
+                                <!-- Cycle 4 -->
+                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
+                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-1.5 border-r border-blue-800">Closing</th>
+                                <th class="p-1.5">QAS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditPlanTableBody" class="divide-y divide-slate-100 text-slate-700 bg-white">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
     </main>
 
-    <!-- Modal Form -->
+    <!-- Modal Form (Finding Modal) -->
     <div id="auditModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-2xl max-w-lg w-full p-5 space-y-3 border border-slate-200">
             <div class="flex justify-between items-center border-b border-slate-100 pb-2">
@@ -374,47 +478,29 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Project / Entity Name</label>
-                    <select id="inputProject" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
-                        <optgroup label="Project Sites">
-                            <option value="The Oriana">The Oriana</option>
-                            <option value="One Delta Residences">One Delta Residences</option>
-                            <option value="Solmera Coast">Solmera Coast</option>
-                            <option value="Sage Residences">Sage Residences</option>
-                            <option value="Anissa Heights">Anissa Heights</option>
-                            <option value="Calinea Tower">Calinea Tower</option>
-                            <option value="The Valeron Tower">The Valeron Tower</option>
-                            <option value="One South Drive">One South Drive</option>
-                            <option value="Moncello Crest">Moncello Crest</option>
-                            <option value="Erin Heights">Erin Heights</option>
-                            <option value="Verdon Parc">Verdon Parc</option>
-                            <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
-                        </optgroup>
-                        <optgroup label="Landbank">
-                            <option value="Star Property">Star Property</option>
-                            <option value="Lia Property">Lia Property</option>
-                            <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
-                            <option value="Sovanna Towers">Sovanna Towers</option>
-                            <option value="Moriyama Nature Park">Moriyama Nature Park</option>
-                            <option value="Lyre Garden">Lyre Garden</option>
-                            <option value="Lisseo Residences">Lisseo Residences</option>
-                            <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
-                            <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
-                        </optgroup>
-                        <optgroup label="Support Groups">
-                            <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
-                            <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
-                            <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
-                            <option value="Central Warehouse">Central Warehouse</option>
-                            <option value="Formworks">Formworks</option>
-                            <option value="Equipment Services Group">Equipment Services Group</option>
-                            <option value="Zenith Mobility">Zenith Mobility</option>
-                            <option value="Fit-Out">Fit-Out</option>
-                            <option value="Unit Restoration Group">Unit Restoration Group</option>
-                        </optgroup>
-                    </select>
+                
+                <!-- CHANGED TO 3 COLUMNS TO ACCOMMODATE PROJECT CODE -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Entity Type</label>
+                        <select id="inputModalEntityType" onchange="modalUpdateProjectDropdown()" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                            <option value="Project Site">Project Site</option>
+                            <option value="Landbank">Landbank</option>
+                            <option value="Support Group">Support Group</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Project Name</label>
+                        <select id="inputProject" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Project Code</label>
+                        <input type="text" id="inputProjectCode" required placeholder="e.g. ORN" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                    </div>
                 </div>
+
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Audit Category / Focus</label>
                     <select id="inputCategory" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
@@ -438,7 +524,7 @@
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Auditor-in-Charge</label>
                         <select id="inputAuditor" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium">
-                            <option value="Troy De Guzman">Troy De Guzman</option>
+                            <option value="Troy Sombillo De Guzman">Troy Sombillo De Guzman</option>
                             <option value="Elmar Baria">Elmar Baria</option>
                             <option value="Dianne Armas">Dianne Armas</option>
                             <option value="Cijay Castro">Cijay Castro</option>
@@ -482,33 +568,138 @@
         </div>
     </div>
 
+    <!-- MODAL: EDIT AUDIT PLAN MODAL -->
+    <!-- (Hindi binago ang Audit Plan Modal layout base sa requirement) -->
+    <div id="auditPlanModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
+        <div class="bg-white rounded-lg shadow-2xl max-w-3xl w-full p-5 space-y-4 border border-slate-200 my-8">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 id="planModalTitle" class="font-bold text-slate-900 text-sm">Edit Audit Plan Entry</h3>
+                <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
+            </div>
+            <form id="auditPlanForm" onsubmit="handlePlanFormSubmit(event)" class="space-y-4 text-xs">
+                <!-- Basic Project Info -->
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-slate-50 p-3 rounded border border-slate-200">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Project Name</label>
+                        <input type="text" id="planInputName" required placeholder="Project Name" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Project Code</label>
+                        <input type="text" id="planInputCode" required placeholder="e.g. ANH" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">CM (Construction Mgr)</label>
+                        <input type="text" id="planInputCM" placeholder="CM Name" class="w-full px-3 py-1.5 border border-slate-300 rounded">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">AM (Area Mgr)</label>
+                        <input type="text" id="planInputAM" placeholder="AM Name" class="w-full px-3 py-1.5 border border-slate-300 rounded">
+                    </div>
+                </div>
+
+                <!-- Cycles Inputs Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto custom-scrollbar p-1">
+                    <!-- Cycle 1 -->
+                    <div class="border border-blue-200 bg-blue-50/30 p-2.5 rounded space-y-2">
+                        <span class="font-bold text-xs text-[#003399] flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="planC1Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
+                            <input type="date" id="planC1Date" class="px-2 py-1 border rounded bg-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <select id="planC1Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">Checklist: Pending</option><option value="Done">Checklist: Done</option><option value="Delayed">Checklist: Delayed</option></select>
+                            <select id="planC1Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">Closing: Pending</option><option value="Done">Closing: Done</option><option value="Delayed">Closing: Delayed</option></select>
+                            <select id="planC1Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">QAS: Pending</option><option value="Done">QAS: Done</option><option value="Delayed">QAS: Delayed</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Cycle 2 -->
+                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="planC2Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
+                            <input type="date" id="planC2Date" class="px-2 py-1 border rounded bg-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <select id="planC2Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC2Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC2Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Cycle 3 -->
+                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="planC3Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
+                            <input type="date" id="planC3Date" class="px-2 py-1 border rounded bg-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <select id="planC3Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC3Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC3Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Cycle 4 -->
+                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="planC4Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
+                            <input type="date" id="planC4Date" class="px-2 py-1 border rounded bg-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <select id="planC4Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC4Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC4Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closePlanModal()" class="px-3.5 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
+                    <button type="submit" class="px-3.5 py-1.5 bg-[#003399] text-white rounded hover:bg-blue-800 font-semibold shadow">I-save ang Audit Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // JavaScript para sa pag-switch ng View
         function switchView(viewType) {
             const dashContainer = document.getElementById('dashboardViewContainer');
             const matrixContainer = document.getElementById('matrixViewContainer');
+            const auditPlanContainer = document.getElementById('auditPlanViewContainer');
+            
             const btnDash = document.getElementById('btnViewDashboard');
             const btnMatrix = document.getElementById('btnViewMatrix');
+            const btnAuditPlan = document.getElementById('btnViewAuditPlan');
             const indicator = document.getElementById('activeViewIndicator');
+
+            // I-hide lahat muna
+            dashContainer.classList.add('hidden');
+            matrixContainer.classList.add('hidden');
+            auditPlanContainer.classList.add('hidden');
+
+            btnDash.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
+            btnMatrix.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
+            btnAuditPlan.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
 
             if (viewType === 'dashboard') {
                 dashContainer.classList.remove('hidden');
-                matrixContainer.classList.add('hidden');
-                
                 btnDash.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
-                btnMatrix.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
                 indicator.innerText = "Active View: Dashboard";
-                
-                // I-trigger ang chart resize kung kinakailangan para mag-adjust sa display
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
-            } else {
-                dashContainer.classList.add('hidden');
+            } else if (viewType === 'matrix') {
                 matrixContainer.classList.remove('hidden');
-                
                 btnMatrix.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
-                btnDash.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
                 indicator.innerText = "Active View: Matrix Table";
                 renderTable();
+            } else if (viewType === 'auditPlan') {
+                auditPlanContainer.classList.remove('hidden');
+                btnAuditPlan.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
+                indicator.innerText = "Active View: Audit Plan 2026";
+                renderAuditPlanTable();
             }
         }
 
@@ -530,6 +721,56 @@
             "Fit-Out", "Unit Restoration Group"
         ];
 
+        // Function para i-filter ang Project Dropdown base sa napiling Entity Type sa Slicer
+        function filterProjectDropdown() {
+            let entityType = document.getElementById('globalEntityTypeFilter').value;
+            let projectSelect = document.getElementById('globalProjectFilter');
+            
+            projectSelect.innerHTML = '<option value="ALL">All Entities (Consolidated Executive View)</option>';
+            
+            let groupsToAppend = [];
+            if (entityType === 'ALL' || entityType === 'Project Site') {
+                groupsToAppend.push({ label: 'Project Sites', items: projectSites });
+            }
+            if (entityType === 'ALL' || entityType === 'Landbank') {
+                groupsToAppend.push({ label: 'Landbank', items: landbanks });
+            }
+            if (entityType === 'ALL' || entityType === 'Support Group') {
+                groupsToAppend.push({ label: 'Support Groups', items: supportGroups });
+            }
+
+            groupsToAppend.forEach(group => {
+                let optgroup = document.createElement('optgroup');
+                optgroup.label = group.label;
+                group.items.forEach(item => {
+                    let opt = document.createElement('option');
+                    opt.value = item;
+                    opt.textContent = item;
+                    optgroup.appendChild(opt);
+                });
+                projectSelect.appendChild(optgroup);
+            });
+        }
+
+        // Function para sa Modal Entity Type at Project Dropdown synchronization
+        function modalUpdateProjectDropdown() {
+            let modalEntityType = document.getElementById('inputModalEntityType').value;
+            let modalProjectSelect = document.getElementById('inputProject');
+            
+            modalProjectSelect.innerHTML = '';
+            let items = [];
+            if (modalEntityType === 'Project Site') items = projectSites;
+            else if (modalEntityType === 'Landbank') items = landbanks;
+            else if (modalEntityType === 'Support Group') items = supportGroups;
+
+            items.forEach(item => {
+                let opt = document.createElement('option');
+                opt.value = item;
+                opt.textContent = item;
+                modalProjectSelect.appendChild(opt);
+            });
+        }
+
         function getEntityMeta(name) {
             if (projectSites.includes(name)) {
                 return { type: "Project Site", bg: "bg-[#EFF6FC]", text: "text-[#003399]", border: "border-blue-200", icon: "fa-building" };
@@ -546,10 +787,11 @@
                 series: "IAD-2026-0001",
                 status: "Open",
                 project: "The Oriana",
+                code: "ORN",
                 category: "III. Staging Area",
                 finding: "Adequate Staging and Other Storage Material Management...",
                 program: "Enforce strict staging area compliance guidelines.",
-                auditor: "Troy De Guzman",
+                auditor: "Troy Sombillo De Guzman",
                 dept: "General Services Dept (GSD)",
                 issuedPerson: "Richard Guerrero",
                 severity: "Generally Compliant",
@@ -559,16 +801,186 @@
                 series: "IAD-2026-0002",
                 status: "Closed",
                 project: "Solmera Coast",
+                code: "SLC",
                 category: "II. Site Storage",
                 finding: "Adequate Site Warehouse Condition...",
                 program: "Maintain routine bi-weekly warehouse inspections.",
-                auditor: "Troy De Guzman",
+                auditor: "Troy Sombillo De Guzman",
                 dept: "Asset Management Group (AMG)",
                 issuedPerson: "Engr. Mario Reyes",
                 severity: "Generally Compliant",
                 date: "2026-08-03"
             }
         ];
+
+        let auditPlanData = JSON.parse(localStorage.getItem('auditPlanData_2026')) || [
+            {
+                name: "Anissa Heights", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_svDate: "2026-03-12", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
+                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
+                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
+                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+            },
+            {
+                name: "Solmera Coast", code: "SLC", cm: "Jeremiah Franz B. Aquino", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_svDate: "2026-03-27", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
+                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
+                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
+                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+            },
+            {
+                name: "Moriyama Nature Park", code: "MRY", cm: "Lorenzo Emmanuel C. Del Castillo", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_svDate: "2026-04-17", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
+                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
+                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
+                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+            }
+        ];
+
+        function cleanAuditPlanData(data) {
+            return data.map((item, idx) => ({
+                id: item.id || 'plan_' + Date.now() + '_' + idx,
+                name: (item.name || 'Unassigned Project').trim(),
+                code: (item.code || 'N/A').trim().toUpperCase(),
+                cm: (item.cm || 'Unassigned').trim(),
+                am: (item.am || 'Unassigned').trim(),
+                c1_auditor: (item.c1_auditor || '').trim(),
+                c1_svDate: (item.c1_svDate || '').trim(),
+                c1_chk: (item.c1_chk || 'Pending').trim(),
+                c1_cl: (item.c1_cl || 'Pending').trim(),
+                c1_qas: (item.c1_qas || 'Pending').trim(),
+                c2_auditor: (item.c2_auditor || '').trim(),
+                c2_svDate: (item.c2_svDate || '').trim(),
+                c2_chk: (item.c2_chk || '').trim(),
+                c2_cl: (item.c2_cl || '').trim(),
+                c2_qas: (item.c2_qas || '').trim(),
+                c3_auditor: (item.c3_auditor || '').trim(),
+                c3_svDate: (item.c3_svDate || '').trim(),
+                c3_chk: (item.c3_chk || '').trim(),
+                c3_cl: (item.c3_cl || '').trim(),
+                c3_qas: (item.c3_qas || '').trim(),
+                c4_auditor: (item.c4_auditor || '').trim(),
+                c4_svDate: (item.c4_svDate || '').trim(),
+                c4_chk: (item.c4_chk || '').trim(),
+                c4_cl: (item.c4_cl || '').trim(),
+                c4_qas: (item.c4_qas || '').trim()
+            }));
+        }
+
+        auditPlanData = cleanAuditPlanData(auditPlanData);
+
+        let currentPlanEditIndex = -1;
+
+        function openPlanModal(index = -1) {
+            currentPlanEditIndex = index;
+            const modal = document.getElementById('auditPlanModal');
+            if (!modal) return;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (index === -1) {
+                document.getElementById('planModalTitle').innerText = "Magdagdag ng Bagong Audit Plan Entry";
+                document.getElementById('auditPlanForm').reset();
+            } else {
+                document.getElementById('planModalTitle').innerText = "I-edit ang Audit Plan Entry";
+                let item = auditPlanData[index];
+                document.getElementById('planInputName').value = item.name || '';
+                document.getElementById('planInputCode').value = item.code || '';
+                document.getElementById('planInputCM').value = item.cm || '';
+                document.getElementById('planInputAM').value = item.am || '';
+                
+                document.getElementById('planC1Auditor').value = item.c1_auditor || '';
+                document.getElementById('planC1Date').value = item.c1_svDate || '';
+                document.getElementById('planC1Chk').value = item.c1_chk || 'Pending';
+                document.getElementById('planC1Cl').value = item.c1_cl || 'Pending';
+                document.getElementById('planC1Qas').value = item.c1_qas || 'Pending';
+
+                document.getElementById('planC2Auditor').value = item.c2_auditor || '';
+                document.getElementById('planC2Date').value = item.c2_svDate || '';
+                document.getElementById('planC2Chk').value = item.c2_chk || '';
+                document.getElementById('planC2Cl').value = item.c2_cl || '';
+                document.getElementById('planC2Qas').value = item.c2_qas || '';
+
+                document.getElementById('planC3Auditor').value = item.c3_auditor || '';
+                document.getElementById('planC3Date').value = item.c3_svDate || '';
+                document.getElementById('planC3Chk').value = item.c3_chk || '';
+                document.getElementById('planC3Cl').value = item.c3_cl || '';
+                document.getElementById('planC3Qas').value = item.c3_qas || '';
+
+                document.getElementById('planC4Auditor').value = item.c4_auditor || '';
+                document.getElementById('planC4Date').value = item.c4_svDate || '';
+                document.getElementById('planC4Chk').value = item.c4_chk || '';
+                document.getElementById('planC4Cl').value = item.c4_cl || '';
+                document.getElementById('planC4Qas').value = item.c4_qas || '';
+            }
+        }
+
+        function closePlanModal() {
+            const modal = document.getElementById('auditPlanModal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        function handlePlanFormSubmit(event) {
+            event.preventDefault();
+            let newItem = {
+                id: currentPlanEditIndex === -1 ? 'plan_' + Date.now() : auditPlanData[currentPlanEditIndex].id,
+                name: document.getElementById('planInputName').value,
+                code: document.getElementById('planInputCode').value,
+                cm: document.getElementById('planInputCM').value,
+                am: document.getElementById('planInputAM').value,
+                c1_auditor: document.getElementById('planC1Auditor').value,
+                c1_svDate: document.getElementById('planC1Date').value,
+                c1_chk: document.getElementById('planC1Chk').value,
+                c1_cl: document.getElementById('planC1Cl').value,
+                c1_qas: document.getElementById('planC1Qas').value,
+                c2_auditor: document.getElementById('planC2Auditor').value,
+                c2_svDate: document.getElementById('planC2Date').value,
+                c2_chk: document.getElementById('planC2Chk').value,
+                c2_cl: document.getElementById('planC2Cl').value,
+                c2_qas: document.getElementById('planC2Qas').value,
+                c3_auditor: document.getElementById('planC3Auditor').value,
+                c3_svDate: document.getElementById('planC3Date').value,
+                c3_chk: document.getElementById('planC3Chk').value,
+                c3_cl: document.getElementById('planC3Cl').value,
+                c3_qas: document.getElementById('planC3Qas').value,
+                c4_auditor: document.getElementById('planC4Auditor').value,
+                c4_svDate: document.getElementById('planC4Date').value,
+                c4_chk: document.getElementById('planC4Chk').value,
+                c4_cl: document.getElementById('planC4Cl').value,
+                c4_qas: document.getElementById('planC4Qas').value
+            };
+
+            let cleaned = cleanAuditPlanData([newItem])[0];
+
+            if (currentPlanEditIndex === -1) {
+                auditPlanData.push(cleaned);
+            } else {
+                auditPlanData[currentPlanEditIndex] = cleaned;
+            }
+
+            saveToLocalStorage();
+            closePlanModal();
+            renderAuditPlanTable();
+        }
+
+        function deleteAuditPlanRecord(index) {
+            if (confirm("Sigurado ka bang gusto mong burahin ang Audit Plan entry na ito?")) {
+                auditPlanData.splice(index, 1);
+                saveToLocalStorage();
+                renderAuditPlanTable();
+            }
+        }
+
+        function cleanAndValidateAuditPlan() {
+            auditPlanData = cleanAuditPlanData(auditPlanData);
+            saveToLocalStorage();
+            renderAuditPlanTable();
+            alert("Matagumpay na nilinis at na-format ang lahat ng data sa Audit Plan!");
+        }
 
         let currentPage = 1;
 
@@ -584,22 +996,29 @@
         const pbiColors = ['#003399', '#00B7C3', '#5C2D91', '#B4009E', '#D83B01', '#107C10', '#E3008C', '#881798'];
 
         window.onload = function() {
+            filterProjectDropdown();
             renderTable();
+            renderAuditPlanTable();
             initCharts();
         };
 
         function saveToLocalStorage() {
             localStorage.setItem('auditDataPowerBI_2026', JSON.stringify(auditData));
+            localStorage.setItem('auditPlanData_2026', JSON.stringify(auditPlanData));
         }
 
         function getFilteredData() {
+            let entityTypeFilter = document.getElementById('globalEntityTypeFilter').value;
             let selectedProject = document.getElementById('globalProjectFilter').value;
             let searchFilter = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
 
             return auditData.filter(item => {
-                let matchesProject = (selectedProject === 'ALL' || item.project === selectedProject);
                 let meta = getEntityMeta(item.project);
+                let matchesEntityType = (entityTypeFilter === 'ALL' || meta.type === entityTypeFilter);
+                let matchesProject = (selectedProject === 'ALL' || item.project === selectedProject);
+                
                 let matchesSearch = (item.series || '').toLowerCase().includes(searchFilter) ||
+                                    (item.code || '').toLowerCase().includes(searchFilter) ||
                                     (item.status || '').toLowerCase().includes(searchFilter) ||
                                     item.project.toLowerCase().includes(searchFilter) ||
                                     item.category.toLowerCase().includes(searchFilter) ||
@@ -611,7 +1030,7 @@
                                     item.severity.toLowerCase().includes(searchFilter) ||
                                     (item.date || '').toLowerCase().includes(searchFilter) ||
                                     meta.type.toLowerCase().includes(searchFilter);
-                return matchesProject && matchesSearch;
+                return matchesEntityType && matchesProject && matchesSearch;
             });
         }
 
@@ -646,26 +1065,27 @@
                     : '<span class="bg-[#F3F9F3] text-[#107C10] px-2.5 py-1 rounded font-semibold border border-emerald-200 whitespace-nowrap">Generally Compliant</span>';
 
                 let statusBadge = item.status === 'Closed'
-                    ? '<span class="bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded font-bold border border-emerald-200">Closed</span>'
+                    ? '<span class="text-[#38a169] font-semibold">Closed</span>'
                     : item.status === 'Accepted'
-                    ? '<span class="bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded font-bold border border-indigo-200">Accepted</span>'
+                    ? '<span class="text-[#4c51bf] font-semibold">Accepted</span>'
                     : item.status === 'Cancelled'
-                    ? '<span class="bg-rose-50 text-rose-700 px-2.5 py-0.5 rounded font-bold border border-rose-200">Cancelled</span>'
-                    : '<span class="bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded font-bold border border-amber-200">Open</span>';
+                    ? '<span class="text-rose-600 font-semibold">Cancelled</span>'
+                    : '<span class="text-[#b7791f] font-semibold">Open</span>';
 
                 let row = `
                     <tr class="hover:bg-slate-50 transition align-top">
                         <td class="p-3 pl-4 font-mono font-bold text-[#003399] whitespace-nowrap">${item.series || 'N/A'}</td>
-                        <td class="p-3 whitespace-nowrap">${statusBadge}</td>
                         <td class="p-3 whitespace-nowrap">
                             <div class="flex flex-col space-y-1">
                                 <div class="font-semibold text-slate-900 flex items-center space-x-2">
                                     <i class="fa-solid ${meta.icon} ${meta.text}"></i>
                                     <span>${item.project}</span>
                                 </div>
-                                <div><span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">${meta.type}</span></div>
                             </div>
                         </td>
+                        <td class="p-3 whitespace-nowrap font-bold text-slate-700 font-mono">${item.code || 'N/A'}</td>
+                        <td class="p-3 whitespace-nowrap"><span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">${meta.type}</span></td>
+                        <td class="p-3 whitespace-nowrap">${statusBadge}</td>
                         <td class="p-3 text-slate-700 font-medium whitespace-nowrap">${item.category}</td>
                         <td class="p-3 text-slate-600 max-w-sm">
                             <div class="max-h-28 overflow-y-auto pr-1 text-xs leading-relaxed bg-slate-50/50 p-1.5 rounded border border-slate-100 custom-scrollbar">
@@ -712,6 +1132,204 @@
             updateCharts(filteredData);
         }
 
+        function renderAuditPlanTable() {
+            let entityTypeFilter = document.getElementById('globalEntityTypeFilter').value;
+            let selectedProject = document.getElementById('globalProjectFilter').value;
+            let searchFilter = document.getElementById('auditPlanSearchInput') ? document.getElementById('auditPlanSearchInput').value.toLowerCase() : '';
+
+            let filtered = auditPlanData.filter(item => {
+                let meta = getEntityMeta(item.name);
+                let matchesEntityType = (entityTypeFilter === 'ALL' || meta.type === entityTypeFilter);
+                let matchesProject = (selectedProject === 'ALL' || item.name === selectedProject);
+                
+                let matchesSearch = (item.name || '').toLowerCase().includes(searchFilter) ||
+                                    (item.code || '').toLowerCase().includes(searchFilter) ||
+                                    (item.cm || '').toLowerCase().includes(searchFilter) ||
+                                    (item.am || '').toLowerCase().includes(searchFilter) ||
+                                    (item.c1_auditor || '').toLowerCase().includes(searchFilter) ||
+                                    (item.c2_auditor || '').toLowerCase().includes(searchFilter) ||
+                                    (item.c3_auditor || '').toLowerCase().includes(searchFilter) ||
+                                    (item.c4_auditor || '').toLowerCase().includes(searchFilter);
+                return matchesEntityType && matchesProject && matchesSearch;
+            });
+
+            let tbody = document.getElementById('auditPlanTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let countBadge = document.getElementById('auditPlanCountBadge');
+            if (countBadge) countBadge.innerText = `${filtered.length} Projects`;
+
+            const formatBadge = (val) => {
+                if (!val) return '<span class="text-slate-300">-</span>';
+                if (val === 'Done' || val === 'Completed' || val === 'Passed') {
+                    return `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                } else if (val === 'Pending' || val === 'Ongoing') {
+                    return `<span class="bg-amber-100 text-amber-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                } else if (val === 'Delayed' || val === 'Failed') {
+                    return `<span class="bg-rose-100 text-rose-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                }
+                return `<span class="bg-slate-100 text-slate-700 text-[10px] font-medium px-1.5 py-0.5 rounded">${val}</span>`;
+            };
+
+            filtered.forEach(item => {
+                let actualIndex = auditPlanData.indexOf(item);
+                let meta = getEntityMeta(item.name);
+                let row = `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="p-2 border-r border-slate-200 font-semibold text-slate-900 sticky left-0 bg-white shadow-xs">
+                            <div class="flex items-center justify-between space-x-2">
+                                <span>${item.name}</span>
+                                <div class="flex items-center space-x-1">
+                                    <button onclick="openPlanModal(${actualIndex})" class="text-blue-600 hover:text-blue-800 px-1.5 py-0.5 rounded hover:bg-blue-50" title="I-edit ang Audit Plan">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button onclick="deleteAuditPlanRecord(${actualIndex})" class="text-red-600 hover:text-red-800 px-1.5 py-0.5 rounded hover:bg-red-50" title="Burahin">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-2 border-r border-slate-200 font-mono text-center font-bold text-[#003399]">${item.code || ''}</td>
+                        <td class="p-2 border-r border-slate-200 text-center"><span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">${meta.type}</span></td>
+                        <td class="p-2 border-r border-slate-200 text-slate-600">${item.cm || ''}</td>
+                        <td class="p-2 border-r border-slate-200 text-slate-600">${item.am || ''}</td>
+                        
+                        <!-- Cycle 1 -->
+                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c1_auditor || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c1_svDate || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_chk)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_cl)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_qas)}</td>
+
+                        <!-- Cycle 2 -->
+                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c2_auditor || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c2_svDate || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_chk)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_cl)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_qas)}</td>
+
+                        <!-- Cycle 3 -->
+                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c3_auditor || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c3_svDate || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_chk)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_cl)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_qas)}</td>
+
+                        <!-- Cycle 4 -->
+                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c4_auditor || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c4_svDate || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c4_chk)}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c4_cl)}</td>
+                        <td class="p-2 text-center">${formatBadge(item.c4_qas)}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function handleAuditPlanUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    if (jsonData.length < 6) {
+                        alert("Masyadong maikli ang Excel file o hindi tugma sa Audit Plan template.");
+                        return;
+                    }
+
+                    let newPlanData = [];
+                    for (let i = 6; i < jsonData.length; i++) {
+                        let row = jsonData[i];
+                        if (!row || !row[0]) continue;
+
+                        newPlanData.push({
+                            name: String(row[0] || ''),
+                            code: String(row[1] || ''),
+                            cm: String(row[2] || ''),
+                            am: String(row[3] || ''),
+                            c1_auditor: String(row[5] || ''),
+                            c1_svDate: String(row[7] || ''),
+                            c1_chk: String(row[9] || ''),
+                            c1_cl: String(row[12] || ''),
+                            c1_qas: String(row[15] || ''),
+                            c2_auditor: String(row[21] || ''),
+                            c2_svDate: String(row[23] || ''),
+                            c2_chk: String(row[25] || ''),
+                            c2_cl: String(row[28] || ''),
+                            c2_qas: String(row[31] || ''),
+                            c3_auditor: String(row[38] || ''),
+                            c3_svDate: String(row[40] || ''),
+                            c3_chk: String(row[42] || ''),
+                            c3_cl: String(row[45] || ''),
+                            c3_qas: String(row[48] || ''),
+                            c4_auditor: String(row[54] || ''),
+                            c4_svDate: String(row[56] || ''),
+                            c4_chk: String(row[58] || ''),
+                            c4_cl: String(row[61] || ''),
+                            c4_qas: String(row[64] || '')
+                        });
+                    }
+
+                    if (newPlanData.length > 0) {
+                        auditPlanData = cleanAuditPlanData(newPlanData);
+                        saveToLocalStorage();
+                        renderAuditPlanTable();
+                        alert(`Tagumpay! Nai-upload at nalinis ang ${newPlanData.length} na entries sa Site Warehousing Audit Plan 2026.`);
+                    } else {
+                        alert("Walang nakitang valid na data rows sa Excel template.");
+                    }
+                    event.target.value = '';
+                } catch (err) {
+                    console.error("Error sa pagbasa ng Audit Plan Excel:", err);
+                    alert("Nagkaroon ng problema sa pagbasa ng Audit Plan Excel file.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function exportAuditPlanToExcel() {
+            let exportRows = auditPlanData.map(item => ({
+                "Project Name": item.name,
+                "Code": item.code,
+                "Entity Type": getEntityMeta(item.name).type,
+                "CM": item.cm,
+                "AM": item.am,
+                "C1 Auditor": item.c1_auditor,
+                "C1 SV Date": item.c1_svDate,
+                "C1 Checklist": item.c1_chk,
+                "C1 Closing": item.c1_cl,
+                "C1 QAS": item.c1_qas,
+                "C2 Auditor": item.c2_auditor,
+                "C2 SV Date": item.c2_svDate,
+                "C2 Checklist": item.c2_chk,
+                "C2 Closing": item.c2_cl,
+                "C2 QAS": item.c2_qas,
+                "C3 Auditor": item.c3_auditor,
+                "C3 SV Date": item.c3_svDate,
+                "C3 Checklist": item.c3_chk,
+                "C3 Closing": item.c3_cl,
+                "C3 QAS": item.c3_qas,
+                "C4 Auditor": item.c4_auditor,
+                "C4 SV Date": item.c4_svDate,
+                "C4 Checklist": item.c4_chk,
+                "C4 Closing": item.c4_cl,
+                "C4 QAS": item.c4_qas
+            }));
+            let worksheet = XLSX.utils.json_to_sheet(exportRows);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit Plan 2026");
+            XLSX.writeFile(workbook, "Site_Warehousing_Audit_Plan_2026.xlsx");
+        }
+
         function changePage(direction) {
             currentPage += direction;
             renderTable();
@@ -741,10 +1359,13 @@
         function openModal(index = -1) {
             document.getElementById('auditModal').classList.remove('hidden');
             document.getElementById('auditModal').classList.add('flex');
+            
             if (index === -1) {
                 document.getElementById('modalTitle').innerText = "Add New Audit Finding";
                 document.getElementById('editIndex').value = -1;
                 document.getElementById('auditForm').reset();
+                document.getElementById('inputModalEntityType').value = 'Project Site';
+                modalUpdateProjectDropdown();
                 document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
                 document.getElementById('inputStatus').value = 'Open';
                 let nextNum = auditData.length + 1;
@@ -755,11 +1376,17 @@
                 let item = auditData[index];
                 document.getElementById('inputSeries').value = item.series || '';
                 document.getElementById('inputStatus').value = item.status || 'Open';
+                
+                let meta = getEntityMeta(item.project);
+                document.getElementById('inputModalEntityType').value = meta.type;
+                modalUpdateProjectDropdown();
                 document.getElementById('inputProject').value = item.project;
+                document.getElementById('inputProjectCode').value = item.code || '';
+                
                 document.getElementById('inputCategory').value = item.category;
                 document.getElementById('inputFinding').value = item.finding;
                 document.getElementById('inputProgram').value = item.program;
-                document.getElementById('inputAuditor').value = item.auditor || 'Troy De Guzman';
+                document.getElementById('inputAuditor').value = item.auditor || 'Troy Sombillo De Guzman';
                 document.getElementById('inputDept').value = item.dept;
                 document.getElementById('inputIssuedPerson').value = item.issuedPerson || '';
                 document.getElementById('inputSeverity').value = item.severity;
@@ -779,6 +1406,7 @@
                 series: document.getElementById('inputSeries').value,
                 status: document.getElementById('inputStatus').value,
                 project: document.getElementById('inputProject').value,
+                code: document.getElementById('inputProjectCode').value,
                 category: document.getElementById('inputCategory').value,
                 finding: document.getElementById('inputFinding').value,
                 program: document.getElementById('inputProgram').value,
@@ -835,10 +1463,11 @@
                         let series = row['Series No.'] || row['Series'] || row['Ref #'] || `IAD-2026-${String(auditData.length + 1 + addedCount).padStart(4, '0')}`;
                         let status = row['Status'] || 'Open';
                         let project = row['Project'] || 'The Oriana';
+                        let code = row['Project Code'] || row['Code'] || 'N/A';
                         let category = row['Finding Category'] || row['Category'] || 'I. Site Perimeter';
                         let finding = row['Details of Findings'] || row['Finding'] || 'No details provided';
                         let program = row['Corrective Action'] || row['Program'] || 'Standard Review';
-                        let auditor = row['Auditor-in-Charge'] || row['Auditor'] || 'Troy De Guzman';
+                        let auditor = row['Auditor-in-Charge'] || row['Auditor'] || 'Troy Sombillo De Guzman';
                         let dept = row['Responsible Department'] || row['Dept'] || 'General Services Dept (GSD)';
                         let issuedPerson = row['Issued Person'] || row['Issued To'] || 'N/A';
                         let severity = row['Rating'] || row['Severity'] || 'Non Compliant';
@@ -848,6 +1477,7 @@
                             series: String(series),
                             status: String(status),
                             project: String(project),
+                            code: String(code),
                             category: String(category),
                             finding: String(finding),
                             program: String(program),
@@ -878,11 +1508,13 @@
             let exportData = filteredData.map(item => ({
                 "Series No.": item.series,
                 "Status": item.status || "Open",
+                "Entity Type": getEntityMeta(item.project).type,
                 "Project": item.project,
+                "Project Code": item.code || "N/A",
                 "Finding Category": item.category,
                 "Details of Findings": item.finding,
                 "Corrective Action": item.program, 
-                "Auditor-in-Charge": item.auditor || "Troy De Guzman",
+                "Auditor-in-Charge": item.auditor || "Troy Sombillo De Guzman",
                 "Responsible Department": item.dept,
                 "Issued Person": item.issuedPerson || "",
                 "Rating": item.severity,
@@ -1077,9 +1709,10 @@
             auditorFindingsChartInstance.data.datasets[0].data = sortedAuditors.map(a => auditorCounts[a]);
             auditorFindingsChartInstance.update();
 
+            // FIXED TRUNCATED CODE HERE
             let deptCountsObj = {};
             data.forEach(item => {
-                let deptName = item.dept || "Unassigned";
+                let deptName = item.dept || 'Unassigned Dept';
                 deptCountsObj[deptName] = (deptCountsObj[deptName] || 0) + 1;
             });
             let sortedDepts = Object.keys(deptCountsObj).sort((a, b) => deptCountsObj[b] - deptCountsObj[a]);
@@ -1087,31 +1720,27 @@
             deptFindingsChartInstance.data.datasets[0].data = sortedDepts.map(d => deptCountsObj[d]);
             deptFindingsChartInstance.update();
 
-            let issuedPersonsMap = {};
+            let issuedStatusObj = {};
             data.forEach(item => {
                 let person = item.issuedPerson || 'Unassigned';
-                let st = item.status || 'Open';
-                if (!issuedPersonsMap[person]) {
-                    issuedPersonsMap[person] = { Open: 0, Closed: 0, Accepted: 0, Cancelled: 0 };
-                }
-                if (issuedPersonsMap[person][st] !== undefined) {
-                    issuedPersonsMap[person][st]++;
-                } else {
-                    issuedPersonsMap[person]['Open']++;
+                if (!issuedStatusObj[person]) issuedStatusObj[person] = { 'Open': 0, 'Closed': 0, 'Accepted': 0, 'Cancelled': 0 };
+                let stat = item.status || 'Open';
+                if (issuedStatusObj[person][stat] !== undefined) {
+                    issuedStatusObj[person][stat]++;
                 }
             });
-
-            let sortedPersons = Object.keys(issuedPersonsMap).sort((a, b) => {
-                let totalA = Object.values(issuedPersonsMap[a]).reduce((x, y) => x + y, 0);
-                let totalB = Object.values(issuedPersonsMap[b]).reduce((x, y) => x + y, 0);
+            
+            let sortedPersons = Object.keys(issuedStatusObj).sort((a, b) => {
+                let totalA = Object.values(issuedStatusObj[a]).reduce((sum, val) => sum + val, 0);
+                let totalB = Object.values(issuedStatusObj[b]).reduce((sum, val) => sum + val, 0);
                 return totalB - totalA;
-            });
+            }).slice(0, 10); // top 10
 
             statusIssuedPersonChartInstance.data.labels = sortedPersons;
-            statusIssuedPersonChartInstance.data.datasets[0].data = sortedPersons.map(p => issuedPersonsMap[p]['Open']);
-            statusIssuedPersonChartInstance.data.datasets[1].data = sortedPersons.map(p => issuedPersonsMap[p]['Closed']);
-            statusIssuedPersonChartInstance.data.datasets[2].data = sortedPersons.map(p => issuedPersonsMap[p]['Accepted']);
-            statusIssuedPersonChartInstance.data.datasets[3].data = sortedPersons.map(p => issuedPersonsMap[p]['Cancelled']);
+            statusIssuedPersonChartInstance.data.datasets[0].data = sortedPersons.map(p => issuedStatusObj[p]['Open']);
+            statusIssuedPersonChartInstance.data.datasets[1].data = sortedPersons.map(p => issuedStatusObj[p]['Closed']);
+            statusIssuedPersonChartInstance.data.datasets[2].data = sortedPersons.map(p => issuedStatusObj[p]['Accepted']);
+            statusIssuedPersonChartInstance.data.datasets[3].data = sortedPersons.map(p => issuedStatusObj[p]['Cancelled']);
             statusIssuedPersonChartInstance.update();
         }
     </script>
