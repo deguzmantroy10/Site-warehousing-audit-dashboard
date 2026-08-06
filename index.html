@@ -73,6 +73,9 @@
                 <button id="btnViewAuditPlan" onclick="switchView('auditPlan')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check"></i> Site Warehousing Audit Plan 2026
                 </button>
+                <button id="btnViewTopSheet" onclick="switchView('topSheet')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-trophy"></i> Top 10 Projects Rating per Cycle
+                </button>
             </div>
             <div class="text-xs text-slate-500 font-medium italic pr-2">
                 <span>IAD Construction Ops v2026.2</span>
@@ -85,7 +88,7 @@
                 <div class="flex items-center space-x-2.5 w-full sm:w-auto">
                     <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
                     <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Entity:</span>
-                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
+                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable(); renderTopSheet();" class="text-xs px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
                         <option value="ALL">All Entities (Consolidated Executive View)</option>
                         <optgroup label="🏗️ Project Sites (Blue Coding)" class="text-[#003399] font-bold bg-blue-50/50">
                             <option value="The Oriana" class="text-[#003399] font-medium">The Oriana (ORN)</option>
@@ -265,7 +268,7 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
                     <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Status by Issued Person (Stacked View)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-700 px-2.5 py-1 rounded font-semibold">Issued Person Load</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-700 px-2.5 py-1 rounded font-semibold">OPEN, CLOSED & ACCEPTED</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="statusIssuedPersonChart"></canvas>
@@ -473,6 +476,107 @@
             </section>
         </div>
 
+        <!-- CONTAINER 4: TOP 10 PROJECTS RATING PER CYCLE VIEW -->
+        <div id="topSheetViewContainer" class="hidden space-y-6">
+            <section class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD] space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-[#003399]"></i> Top 10 Projects & Entities Rating & Improvement Analysis (Cycle 1 to Cycle 4)
+                        </h2>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Nakahiwalay na Top Sheet para sa Project Sites, Support Groups, at Landbank batay sa Audit Plan 2026 na may Color Coding (Green, Yellow, Red) gamit ang porsyento (Na-ayos mula Pinakamataas patungong Pinakamababa).</p>
+                    </div>
+                    <button onclick="renderTopSheet()" class="bg-[#003399] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate"></i> Refresh Analysis
+                    </button>
+                </div>
+
+                <!-- 1. PROJECT SITES SECTION -->
+                <div class="space-y-3">
+                    <div class="bg-blue-50 border-l-4 border-l-[#003399] p-3 rounded-r-lg flex justify-between items-center">
+                        <h3 class="font-bold text-xs text-[#003399] uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-building"></i> Top Project Sites - Improvement Tracking & Ratings per Cycle
+                        </h3>
+                        <span class="text-[10px] bg-white text-[#003399] px-2.5 py-1 rounded font-semibold border border-blue-200">Project Sites</span>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200 text-[11px]">
+                                    <th class="p-3">Rank</th>
+                                    <th class="p-3">Project Site Name</th>
+                                    <th class="p-3 text-center">Cycle 1 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 2 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 3 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 4 Rating (%)</th>
+                                    <th class="p-3 text-center">Improvement Trend (C1 to C4)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topSitesTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. SUPPORT GROUPS SECTION -->
+                <div class="space-y-3 pt-4">
+                    <div class="bg-purple-50 border-l-4 border-l-[#86198F] p-3 rounded-r-lg flex justify-between items-center">
+                        <h3 class="font-bold text-xs text-[#86198F] uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-gears"></i> Top Support Groups - Improvement Tracking & Ratings per Cycle
+                        </h3>
+                        <span class="text-[10px] bg-white text-[#86198F] px-2.5 py-1 rounded font-semibold border border-purple-200">Support Groups</span>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200 text-[11px]">
+                                    <th class="p-3">Rank</th>
+                                    <th class="p-3">Support Group Name</th>
+                                    <th class="p-3 text-center">Cycle 1 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 2 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 3 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 4 Rating (%)</th>
+                                    <th class="p-3 text-center">Improvement Trend (C1 to C4)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topSupportTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 3. LANDBANK SECTION -->
+                <div class="space-y-3 pt-4">
+                    <div class="bg-emerald-50 border-l-4 border-l-[#107C10] p-3 rounded-r-lg flex justify-between items-center">
+                        <h3 class="font-bold text-xs text-[#107C10] uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot"></i> Top Landbank Properties - Improvement Tracking & Ratings per Cycle
+                        </h3>
+                        <span class="text-[10px] bg-white text-[#107C10] px-2.5 py-1 rounded font-semibold border border-emerald-200">Landbank</span>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200 text-[11px]">
+                                    <th class="p-3">Rank</th>
+                                    <th class="p-3">Landbank Property Name</th>
+                                    <th class="p-3 text-center">Cycle 1 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 2 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 3 Rating (%)</th>
+                                    <th class="p-3 text-center">Cycle 4 Rating (%)</th>
+                                    <th class="p-3 text-center">Improvement Trend (C1 to C4)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topLandbankTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
     </main>
 
     <!-- Modal Form (Finding Modal) -->
@@ -564,7 +668,7 @@
                         <input type="text" id="inputIssuedPerson" required placeholder="e.g., Richard Guerrero" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Risk Level / Rating</label>
+                        <label class="block font-semibold text-slate-700 mb-1">Rating Scale</label>
                         <select id="inputSeverity" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399]">
                             <option value="Non Compliant">Non Compliant</option>
                             <option value="Partially Compliant">Partially Compliant</option>
@@ -588,7 +692,7 @@
     <div id="auditPlanModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
         <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-6 space-y-4 border border-slate-200 my-8">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 id="planModalTitle" class="font-bold text-slate-900 text-sm">Edit Audit Plan Entry</h3>
+                <h3 id="planModalTitle" class="font-bold text-slate-900 text-sm">Edit Audit Plan Entry & Rating</h3>
                 <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
             <form id="auditPlanForm" onsubmit="handlePlanFormSubmit(event)" class="space-y-4 text-xs">
@@ -619,7 +723,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-[420px] overflow-y-auto custom-scrollbar p-1">
                     <!-- Cycle 1 Inputs -->
                     <div class="border border-blue-200 bg-blue-50/30 p-3.5 rounded-xl space-y-2.5">
-                        <span class="font-bold text-xs text-[#003399] flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details</span>
+                        <span class="font-bold text-xs text-[#003399] flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details & Rating</span>
                         <div class="grid grid-cols-2 gap-2.5">
                             <input type="text" id="planC1Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                             <select id="planC1Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
@@ -631,29 +735,33 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2.5">
                             <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Rating [0 - 100]</label>
+                                <input type="number" id="planC1Rating" min="0" max="100" step="1" value="85" placeholder="85" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white font-bold text-[#003399]">
+                            </div>
+                            <div>
                                 <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
                                 <input type="date" id="planC1Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
                             </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
-                                <input type="date" id="planC1ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
-                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2.5">
+                        <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
-                                <input type="date" id="planC1ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC1ChkDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
-                                <input type="date" id="planC1QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC1ClDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC1QasDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                         </div>
                     </div>
 
                     <!-- Cycle 2 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details</span>
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details & Rating</span>
                         <div class="grid grid-cols-2 gap-2.5">
                             <input type="text" id="planC2Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                             <select id="planC2Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
@@ -665,29 +773,33 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2.5">
                             <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Rating [0 - 100]</label>
+                                <input type="number" id="planC2Rating" min="0" max="100" step="1" value="85" placeholder="85" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white font-bold text-[#003399]">
+                            </div>
+                            <div>
                                 <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
                                 <input type="date" id="planC2Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
                             </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
-                                <input type="date" id="planC2ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
-                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2.5">
+                        <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
-                                <input type="date" id="planC2ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC2ChkDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
-                                <input type="date" id="planC2QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC2ClDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC2QasDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                         </div>
                     </div>
 
                     <!-- Cycle 3 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details</span>
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details & Rating</span>
                         <div class="grid grid-cols-2 gap-2.5">
                             <input type="text" id="planC3Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                             <select id="planC3Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
@@ -699,29 +811,33 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2.5">
                             <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Rating [0 - 100]</label>
+                                <input type="number" id="planC3Rating" min="0" max="100" step="1" value="85" placeholder="85" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white font-bold text-[#003399]">
+                            </div>
+                            <div>
                                 <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
                                 <input type="date" id="planC3Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
                             </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
-                                <input type="date" id="planC3ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
-                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2.5">
+                        <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
-                                <input type="date" id="planC3ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC3ChkDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
-                                <input type="date" id="planC3QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC3ClDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC3QasDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                         </div>
                     </div>
 
                     <!-- Cycle 4 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details</span>
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details & Rating</span>
                         <div class="grid grid-cols-2 gap-2.5">
                             <input type="text" id="planC4Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                             <select id="planC4Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
@@ -733,22 +849,26 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2.5">
                             <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Rating [0 - 100]</label>
+                                <input type="number" id="planC4Rating" min="0" max="100" step="1" value="85" placeholder="85" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white font-bold text-[#003399]">
+                            </div>
+                            <div>
                                 <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
                                 <input type="date" id="planC4Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
                             </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
-                                <input type="date" id="planC4ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
-                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2.5">
+                        <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
-                                <input type="date" id="planC4ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC4ChkDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
-                                <input type="date" id="planC4QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC4ClDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC4QasDate" class="w-full px-2 py-1 border border-slate-300 rounded-lg bg-white text-[10px]">
                             </div>
                         </div>
                     </div>
@@ -756,7 +876,7 @@
 
                 <div class="flex justify-end space-x-2.5 pt-3 border-t border-slate-100">
                     <button type="button" onclick="closePlanModal()" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-[#003399] text-white rounded-lg hover:bg-blue-800 font-semibold shadow">Save Audit Plan</button>
+                    <button type="submit" class="px-4 py-2 bg-[#003399] text-white rounded-lg hover:bg-blue-800 font-semibold shadow">Save Audit Plan & Ratings</button>
                 </div>
             </form>
         </div>
@@ -767,19 +887,23 @@
             const dashContainer = document.getElementById('dashboardViewContainer');
             const matrixContainer = document.getElementById('matrixViewContainer');
             const auditPlanContainer = document.getElementById('auditPlanViewContainer');
+            const topSheetContainer = document.getElementById('topSheetViewContainer');
             
             const btnDash = document.getElementById('btnViewDashboard');
             const btnMatrix = document.getElementById('btnViewMatrix');
             const btnAuditPlan = document.getElementById('btnViewAuditPlan');
+            const btnTopSheet = document.getElementById('btnViewTopSheet');
             const indicator = document.getElementById('activeViewIndicator');
 
             dashContainer.classList.add('hidden');
             matrixContainer.classList.add('hidden');
             auditPlanContainer.classList.add('hidden');
+            topSheetContainer.classList.add('hidden');
 
             btnDash.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
             btnMatrix.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
             btnAuditPlan.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
+            if(btnTopSheet) btnTopSheet.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
 
             if (viewType === 'dashboard') {
                 dashContainer.classList.remove('hidden');
@@ -797,6 +921,11 @@
                 indicator.innerText = "Active View: Audit Plan 2026";
                 renderAuditPlanTable();
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
+            } else if (viewType === 'topSheet') {
+                topSheetContainer.classList.remove('hidden');
+                if(btnTopSheet) btnTopSheet.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
+                indicator.innerText = "Active View: Top 10 Projects Rating per Cycle";
+                renderTopSheet();
             }
         }
 
@@ -861,53 +990,45 @@
                 issuedPerson: "Richard Guerrero",
                 severity: "Generally Compliant",
                 date: "2026-08-02"
-            },
-            {
-                series: "IAD-2026-0002",
-                status: "Closed",
-                project: "Solmera Coast",
-                code: "SLC",
-                category: "II. Site Storage",
-                finding: "Adequate Site Warehouse Condition...",
-                program: "Maintain routine bi-weekly warehouse inspections.",
-                auditor: "Troy Sombillo De Guzman",
-                dept: "Asset Management Group (AMG)",
-                issuedPerson: "Engr. Mario Reyes",
-                severity: "Generally Compliant",
-                date: "2026-08-03"
             }
         ];
 
         let auditPlanData = JSON.parse(localStorage.getItem('auditPlanData_2026')) || [
             {
                 name: "Anissa Heights", entityType: "Project Site", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_status: "In Progress", c1_svDate: "2026-03-12", c1_chkDate: "2026-03-15", c1_clDate: "", c1_qasDate: "",
-                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
-                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
-                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
-            },
-            {
-                name: "Solmera Coast", entityType: "Project Site", code: "SLC", cm: "Jeremiah Franz B. Aquino", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_status: "In Progress", c1_svDate: "2026-03-27", c1_chkDate: "2026-03-30", c1_clDate: "", c1_qasDate: "",
-                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
-                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
-                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
-            },
-            {
-                name: "Moriyama Nature Park", entityType: "Landbank", code: "MRY", cm: "Lorenzo Emmanuel C. Del Castillo", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_status: "Pending", c1_svDate: "2026-04-17", c1_chkDate: "", c1_clDate: "", c1_qasDate: "",
-                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
-                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
-                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
-            },
-            {
-                name: "Central Warehouse", entityType: "Support Group", code: "CWH", cm: "Logistics Team", am: "Operations",
-                c1_auditor: "EJBaria", c1_status: "Done", c1_svDate: "2026-02-10", c1_chkDate: "2026-02-12", c1_clDate: "2026-02-15", c1_qasDate: "2026-02-18",
-                c2_auditor: "", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
-                c3_auditor: "", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
-                c4_auditor: "", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
+                c1_auditor: "EJBaria", c1_status: "In Progress", c1_rating: 88, c1_svDate: "2026-03-12", c1_chkDate: "2026-03-15", c1_clDate: "", c1_qasDate: "",
+                c2_auditor: "SBTapalla", c2_status: "Pending", c2_rating: 75, c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
+                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_rating: 90, c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
+                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_rating: 92, c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
             }
         ];
+
+        // HELPER FUNCTION PARA SA SEVERITY MAPPING (HINDI NA MAG-DEFAULT SA GENERALLY COMPLIANT)
+        function parseSeverity(val) {
+            if (!val) return "Generally Compliant";
+            let s = String(val).trim().toLowerCase();
+            if (s.includes("non")) return "Non Compliant";
+            if (s.includes("part")) return "Partially Compliant";
+            if (s.includes("gen")) return "Generally Compliant";
+            return String(val).trim(); // Kung anuman ang nilagay sa template, tatanggapin nang buo
+        }
+
+        function cleanAuditData(data) {
+            return data.map((item, idx) => ({
+                series: item.series ? String(item.series).trim() : `IAD-2026-${String(idx + 1).padStart(4, '0')}`,
+                status: item.status || "Open",
+                project: item.project || item.project_name || "The Oriana",
+                code: "N/A",
+                category: item.category || "III. Staging Area",
+                finding: item.finding || item.actual_findings || "N/A",
+                program: item.program || item.recommended_action || "N/A",
+                auditor: item.auditor || "Troy Sombillo De Guzman",
+                dept: item.dept || item.responsible_dept || "General Services Dept (GSD)",
+                issuedPerson: item.issuedPerson || item.issued_person || "N/A",
+                severity: parseSeverity(item.severity || item.rating_scale),
+                date: item.date || item.audit_date || new Date().toISOString().split('T')[0]
+            }));
+        }
 
         function cleanAuditPlanData(data) {
             return data.map((item, idx) => {
@@ -924,6 +1045,7 @@
                     am: (item.am || 'Unassigned').trim(),
                     c1_auditor: (item.c1_auditor || '').trim(),
                     c1_status: (item.c1_status || 'Pending').trim(),
+                    c1_rating: isNaN(item.c1_rating) ? 85 : Number(item.c1_rating),
                     c1_svDate: (item.c1_svDate || '').trim(),
                     c1_chkDate: (item.c1_chkDate || '').trim(),
                     c1_clDate: (item.c1_clDate || '').trim(),
@@ -931,6 +1053,7 @@
                     
                     c2_auditor: (item.c2_auditor || '').trim(),
                     c2_status: (item.c2_status || 'Pending').trim(),
+                    c2_rating: isNaN(item.c2_rating) ? 85 : Number(item.c2_rating),
                     c2_svDate: (item.c2_svDate || '').trim(),
                     c2_chkDate: (item.c2_chkDate || '').trim(),
                     c2_clDate: (item.c2_clDate || '').trim(),
@@ -938,6 +1061,7 @@
 
                     c3_auditor: (item.c3_auditor || '').trim(),
                     c3_status: (item.c3_status || 'Pending').trim(),
+                    c3_rating: isNaN(item.c3_rating) ? 85 : Number(item.c3_rating),
                     c3_svDate: (item.c3_svDate || '').trim(),
                     c3_chkDate: (item.c3_chkDate || '').trim(),
                     c3_clDate: (item.c3_clDate || '').trim(),
@@ -945,6 +1069,7 @@
 
                     c4_auditor: (item.c4_auditor || '').trim(),
                     c4_status: (item.c4_status || 'Pending').trim(),
+                    c4_rating: isNaN(item.c4_rating) ? 85 : Number(item.c4_rating),
                     c4_svDate: (item.c4_svDate || '').trim(),
                     c4_chkDate: (item.c4_chkDate || '').trim(),
                     c4_clDate: (item.c4_clDate || '').trim(),
@@ -953,8 +1078,144 @@
             });
         }
 
+        auditData = cleanAuditData(auditData);
         auditPlanData = cleanAuditPlanData(auditPlanData);
         let currentPlanEditIndex = -1;
+
+        // EXCEL UPLOAD HANDLING (SINASALO ANG ANUMANG SERIES NUMBER AT TAMANG SEVERITY)
+        function handleExcelUpload(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = new Uint8Array(e.target.result);
+                    let workbook = XLSX.read(data, {type: 'array'});
+                    let firstSheetName = workbook.SheetNames[0];
+                    let worksheet = workbook.Sheets[firstSheetName];
+                    let json = XLSX.utils.sheet_to_json(worksheet);
+
+                    if (json.length === 0) {
+                        alert("Walang nakitang data sa Excel file.");
+                        return;
+                    }
+
+                    let imported = json.map((row, idx) => {
+                        // Kunin ang series number mula sa iba't ibang posibleng column names
+                        let seriesVal = row['Series #'] || row['Series'] || row['series'] || row['Ref #'] || `SERIES-${Date.now()}-${idx}`;
+                        
+                        // Kunin ang severity nang wasto (hindi pinuwersa sa Generally Compliant)
+                        let rawSeverity = row['Rating Scale'] || row['Severity'] || row['severity'] || row['rating_scale'] || 'Generally Compliant';
+
+                        return {
+                            series: String(seriesVal).trim(),
+                            status: row['Status'] || row['status'] || 'Open',
+                            project: row['Project / Property Name'] || row['Project'] || row['project'] || 'The Oriana',
+                            code: 'N/A',
+                            category: row['Audit Category'] || row['Category'] || row['category'] || 'III. Staging Area',
+                            finding: row['Actual Findings'] || row['Finding'] || row['finding'] || 'N/A',
+                            program: row['Recommended Action'] || row['Program'] || row['program'] || 'N/A',
+                            auditor: row['Auditor-in-Charge'] || row['Auditor'] || row['auditor'] || 'Troy Sombillo De Guzman',
+                            dept: row['Responsible Dept'] || row['Dept'] || row['dept'] || 'General Services Dept (GSD)',
+                            issuedPerson: row['Issued Person'] || row['Issued_Person'] || row['issuedPerson'] || 'N/A',
+                            severity: parseSeverity(rawSeverity),
+                            date: row['Audit Date'] || row['Date'] || row['date'] || new Date().toISOString().split('T')[0]
+                        };
+                    });
+
+                    auditData = auditData.concat(imported);
+                    saveToLocalStorage();
+                    renderTable();
+                    initCharts();
+                    alert(`Matagumpay na na-upload ang ${imported.length} records!`);
+                } catch (err) {
+                    console.error(err);
+                    alert("May error sa pagbasa ng Excel file.");
+                }
+                event.target.value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function openModal() {
+            document.getElementById('auditModal').classList.remove('hidden');
+            document.getElementById('auditModal').classList.add('flex');
+            document.getElementById('modalTitle').innerText = "Add New Audit Finding";
+            document.getElementById('auditForm').reset();
+            document.getElementById('editIndex').value = "-1";
+            modalUpdateProjectDropdown();
+            // Awtomatikong maglagay ng default series number pero pwede itong baguhin nang malaya
+            document.getElementById('inputSeries').value = "IAD-2026-" + String(auditData.length + 1).padStart(4, '0');
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeModal() {
+            document.getElementById('auditModal').classList.remove('flex');
+            document.getElementById('auditModal').classList.add('hidden');
+        }
+
+        // FORM SUBMIT (WALA NANG UNIQUE SERIES NUMBER BLOCKING - KAHIT ANONG SERIES PWEDE)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let editIndex = parseInt(document.getElementById('editIndex').value);
+            
+            let newItem = {
+                series: document.getElementById('inputSeries').value.trim(),
+                status: document.getElementById('inputStatus').value,
+                project: document.getElementById('inputProject').value,
+                code: document.getElementById('inputProjectCode').value || 'N/A',
+                category: document.getElementById('inputCategory').value,
+                finding: document.getElementById('inputFinding').value,
+                program: document.getElementById('inputProgram').value,
+                auditor: document.getElementById('inputAuditor').value,
+                dept: document.getElementById('inputDept').value,
+                issuedPerson: document.getElementById('inputIssuedPerson').value,
+                severity: document.getElementById('inputSeverity').value, // Tinatanggap nang buo ang Non Compliant, etc.
+                date: document.getElementById('inputDate').value
+            };
+
+            if (editIndex === -1) {
+                auditData.unshift(newItem); // Ilagay sa unahan
+            } else {
+                auditData[editIndex] = newItem;
+            }
+
+            saveToLocalStorage();
+            closeModal();
+            renderTable();
+            initCharts();
+        }
+
+        function editRecord(index) {
+            let item = auditData[index];
+            openModal();
+            document.getElementById('modalTitle').innerText = "Edit Audit Finding";
+            document.getElementById('editIndex').value = index;
+            document.getElementById('inputSeries').value = item.series;
+            document.getElementById('inputStatus').value = item.status;
+            
+            let meta = getEntityMeta(item.project);
+            document.getElementById('inputModalEntityType').value = meta.type;
+            modalUpdateProjectDropdown();
+            document.getElementById('inputProject').value = item.project;
+            document.getElementById('inputCategory').value = item.category;
+            document.getElementById('inputFinding').value = item.finding;
+            document.getElementById('inputProgram').value = item.program;
+            document.getElementById('inputAuditor').value = item.auditor;
+            document.getElementById('inputDept').value = item.dept;
+            document.getElementById('inputIssuedPerson').value = item.issuedPerson;
+            document.getElementById('inputSeverity').value = item.severity;
+            document.getElementById('inputDate').value = item.date;
+        }
+
+        function deleteRecord(index) {
+            if (confirm("Sigurado ka bang gusto mong burahin ang record na ito?")) {
+                auditData.splice(index, 1);
+                saveToLocalStorage();
+                renderTable();
+                initCharts();
+            }
+        }
 
         function openPlanModal(index = -1) {
             currentPlanEditIndex = index;
@@ -965,11 +1226,11 @@
             modal.classList.add('flex');
 
             if (index === -1) {
-                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry";
+                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry & Rating";
                 document.getElementById('auditPlanForm').reset();
                 document.getElementById('planInputEntityType').value = 'Project Site';
             } else {
-                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry";
+                document.getElementById('planModalTitle').innerText = "Edit Audit Plan Entry & Rating";
                 let item = auditPlanData[index];
                 document.getElementById('planInputName').value = item.name || '';
                 document.getElementById('planInputEntityType').value = item.entityType || 'Project Site';
@@ -980,6 +1241,7 @@
                 // Cycle 1
                 document.getElementById('planC1Auditor').value = item.c1_auditor || '';
                 document.getElementById('planC1Status').value = item.c1_status || 'Pending';
+                document.getElementById('planC1Rating').value = item.c1_rating ?? 85;
                 document.getElementById('planC1Date').value = item.c1_svDate || '';
                 document.getElementById('planC1ChkDate').value = item.c1_chkDate || '';
                 document.getElementById('planC1ClDate').value = item.c1_clDate || '';
@@ -988,6 +1250,7 @@
                 // Cycle 2
                 document.getElementById('planC2Auditor').value = item.c2_auditor || '';
                 document.getElementById('planC2Status').value = item.c2_status || 'Pending';
+                document.getElementById('planC2Rating').value = item.c2_rating ?? 85;
                 document.getElementById('planC2Date').value = item.c2_svDate || '';
                 document.getElementById('planC2ChkDate').value = item.c2_chkDate || '';
                 document.getElementById('planC2ClDate').value = item.c2_clDate || '';
@@ -996,6 +1259,7 @@
                 // Cycle 3
                 document.getElementById('planC3Auditor').value = item.c3_auditor || '';
                 document.getElementById('planC3Status').value = item.c3_status || 'Pending';
+                document.getElementById('planC3Rating').value = item.c3_rating ?? 85;
                 document.getElementById('planC3Date').value = item.c3_svDate || '';
                 document.getElementById('planC3ChkDate').value = item.c3_chkDate || '';
                 document.getElementById('planC3ClDate').value = item.c3_clDate || '';
@@ -1004,6 +1268,7 @@
                 // Cycle 4
                 document.getElementById('planC4Auditor').value = item.c4_auditor || '';
                 document.getElementById('planC4Status').value = item.c4_status || 'Pending';
+                document.getElementById('planC4Rating').value = item.c4_rating ?? 85;
                 document.getElementById('planC4Date').value = item.c4_svDate || '';
                 document.getElementById('planC4ChkDate').value = item.c4_chkDate || '';
                 document.getElementById('planC4ClDate').value = item.c4_clDate || '';
@@ -1021,6 +1286,12 @@
 
         function handlePlanFormSubmit(event) {
             event.preventDefault();
+
+            let c1Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC1Rating').value) || 0));
+            let c2Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC2Rating').value) || 0));
+            let c3Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC3Rating').value) || 0));
+            let c4Rate = Math.min(100, Math.max(0, Number(document.getElementById('planC4Rating').value) || 0));
+
             let newItem = {
                 id: currentPlanEditIndex === -1 ? 'plan_' + Date.now() : auditPlanData[currentPlanEditIndex].id,
                 name: document.getElementById('planInputName').value,
@@ -1031,6 +1302,7 @@
                 
                 c1_auditor: document.getElementById('planC1Auditor').value,
                 c1_status: document.getElementById('planC1Status').value,
+                c1_rating: c1Rate,
                 c1_svDate: document.getElementById('planC1Date').value,
                 c1_chkDate: document.getElementById('planC1ChkDate').value,
                 c1_clDate: document.getElementById('planC1ClDate').value,
@@ -1038,6 +1310,7 @@
 
                 c2_auditor: document.getElementById('planC2Auditor').value,
                 c2_status: document.getElementById('planC2Status').value,
+                c2_rating: c2Rate,
                 c2_svDate: document.getElementById('planC2Date').value,
                 c2_chkDate: document.getElementById('planC2ChkDate').value,
                 c2_clDate: document.getElementById('planC2ClDate').value,
@@ -1045,6 +1318,7 @@
 
                 c3_auditor: document.getElementById('planC3Auditor').value,
                 c3_status: document.getElementById('planC3Status').value,
+                c3_rating: c3Rate,
                 c3_svDate: document.getElementById('planC3Date').value,
                 c3_chkDate: document.getElementById('planC3ChkDate').value,
                 c3_clDate: document.getElementById('planC3ClDate').value,
@@ -1052,6 +1326,7 @@
 
                 c4_auditor: document.getElementById('planC4Auditor').value,
                 c4_status: document.getElementById('planC4Status').value,
+                c4_rating: c4Rate,
                 c4_svDate: document.getElementById('planC4Date').value,
                 c4_chkDate: document.getElementById('planC4ChkDate').value,
                 c4_clDate: document.getElementById('planC4ClDate').value,
@@ -1069,6 +1344,7 @@
             saveToLocalStorage();
             closePlanModal();
             renderAuditPlanTable();
+            renderTopSheet();
         }
 
         function deleteAuditPlanRecord(index) {
@@ -1076,7 +1352,85 @@
                 auditPlanData.splice(index, 1);
                 saveToLocalStorage();
                 renderAuditPlanTable();
+                renderTopSheet();
             }
+        }
+
+        function getRatingBadgeWithColor(ratingVal) {
+            let val = Number(ratingVal) || 0;
+            if (val >= 90) {
+                return `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> ${val}%</span>`;
+            } else if (val >= 75) {
+                return `<span class="bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> ${val}%</span>`;
+            } else {
+                return `<span class="bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-1 rounded-md font-bold text-[10px] inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-600"></span> ${val}%</span>`;
+            }
+        }
+
+        function renderTopSheet() {
+            let selectedEntityFilter = document.getElementById('globalProjectFilter').value;
+
+            let sitesList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Project Site' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
+            let supportList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Support Group' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
+            let landbankList = auditPlanData.filter(i => (i.entityType || getEntityMeta(i.name).type) === 'Landbank' && (selectedEntityFilter === 'ALL' || i.name === selectedEntityFilter));
+
+            sitesList.sort((a, b) => b.c1_rating - a.c1_rating);
+            supportList.sort((a, b) => b.c1_rating - a.c1_rating);
+            landbankList.sort((a, b) => b.c1_rating - a.c1_rating);
+
+            function getImprovementBadge(c1, c4) {
+                let diff = c4 - c1;
+                if (diff > 0) {
+                    return `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-md font-bold text-[10px]"><i class="fa-solid fa-arrow-trend-up text-emerald-600 mr-1"></i> +${diff}%</span>`;
+                } else if (diff === 0) {
+                    return `<span class="bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-md font-bold text-[10px]"><i class="fa-solid fa-equals text-blue-600 mr-1"></i> 0%</span>`;
+                } else {
+                    return `<span class="bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-md font-bold text-[10px]"><i class="fa-solid fa-arrow-trend-down text-rose-600 mr-1"></i> ${diff}%</span>`;
+                }
+            }
+
+            function populateSubTable(list, tbodyId) {
+                let tbody = document.getElementById(tbodyId);
+                if (!tbody) return;
+                tbody.innerHTML = '';
+
+                if (list.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Walang nahanap na record para sa kategoryang ito.</td></tr>`;
+                    return;
+                }
+
+                let top10 = list.slice(0, 10);
+                top10.forEach((item, index) => {
+                    let actualIndex = auditPlanData.indexOf(item);
+                    let meta = getEntityMeta(item.name);
+                    let row = `
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                            <td class="p-3 font-bold text-slate-500 text-center">#${index + 1}</td>
+                            <td class="p-3 font-bold text-slate-900 flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0 shadow-xs">
+                                        <i class="fa-solid ${meta.icon}"></i>
+                                    </span>
+                                    ${item.name}
+                                </div>
+                                <button onclick="openPlanModal(${actualIndex})" class="text-[#003399] hover:text-blue-800 bg-blue-50 hover:bg-blue-100 p-1.5 rounded transition" title="Edit Ratings">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                </button>
+                            </td>
+                            <td class="p-3 text-center">${getRatingBadgeWithColor(item.c1_rating)}</td>
+                            <td class="p-3 text-center">${getRatingBadgeWithColor(item.c2_rating)}</td>
+                            <td class="p-3 text-center">${getRatingBadgeWithColor(item.c3_rating)}</td>
+                            <td class="p-3 text-center">${getRatingBadgeWithColor(item.c4_rating)}</td>
+                            <td class="p-3 text-center">${getImprovementBadge(item.c1_rating, item.c4_rating)}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+
+            populateSubTable(sitesList, 'topSitesTableBody');
+            populateSubTable(supportList, 'topSupportTableBody');
+            populateSubTable(landbankList, 'topLandbankTableBody');
         }
 
         let currentPage = 1;
@@ -1094,14 +1448,16 @@
 
         const complianceColors = {
             'Generally Compliant': '#107C10',
-            'Partially Compliant': '#CA8A04',
+            'Partially Compliant': '#EAB308',
             'Non Compliant': '#DC2626'
         };
-        const defaultChartColors = ['#1E3A8A', '#0284C7', '#0D9488', '#4F46E5', '#7C3AED', '#DB2777', '#475569'];
+
+        const defaultChartColors = ['#002878', '#0284C7', '#0D9488', '#7C3AED', '#D97706', '#E11D48', '#475569', '#2563EB'];
 
         window.onload = function() {
             renderTable();
             renderAuditPlanTable();
+            renderTopSheet();
             initCharts();
             initAuditPlanCharts();
         };
@@ -1163,15 +1519,15 @@
                     ? '<span class="bg-[#FDF2F2] text-[#A80000] px-3 py-1.5 rounded-md font-semibold border border-red-200 whitespace-nowrap">Non Compliant</span>'
                     : item.severity === 'Partially Compliant'
                     ? '<span class="bg-[#FFF8DC] text-[#8A6D0B] px-3 py-1.5 rounded-md font-semibold border border-amber-200 whitespace-nowrap">Partially Compliant</span>'
-                    : '<span class="bg-[#F3F9F3] text-[#107C10] px-3 py-1.5 rounded-md font-semibold border border-emerald-200 whitespace-nowrap">Generally Compliant</span>';
+                    : `<span class="bg-[#F3F9F3] text-[#107C10] px-3 py-1.5 rounded-md font-semibold border border-emerald-200 whitespace-nowrap">${item.severity}</span>`;
 
                 let statusBadge = item.status === 'Closed'
-                    ? '<span class="text-[#38a169] font-semibold">Closed</span>'
+                    ? '<span class="text-[#107C10] font-semibold">Closed</span>'
                     : item.status === 'Accepted'
-                    ? '<span class="text-[#4c51bf] font-semibold">Accepted</span>'
+                    ? '<span class="text-[#0284C7] font-semibold">Accepted</span>'
                     : item.status === 'Cancelled'
                     ? '<span class="text-rose-600 font-semibold">Cancelled</span>'
-                    : '<span class="text-[#b7791f] font-semibold">Open</span>';
+                    : '<span class="text-[#D97706] font-semibold">Open</span>';
 
                 let row = `
                     <tr class="hover:bg-slate-50 transition align-top">
@@ -1209,511 +1565,32 @@
                 tbody.innerHTML += row;
             });
 
-            let startDisplay = filteredData.length > 0 ? startIndex + 1 : 0;
-            let endDisplay = Math.min(endIndex, filteredData.length);
+            // Pagination info & buttons
             let paginationInfo = document.getElementById('paginationInfo');
-            if (paginationInfo) paginationInfo.innerHTML = `Showing <strong>${startDisplay}</strong> to <strong>${endDisplay}</strong> of <strong>${filteredData.length}</strong> entries`;
+            if (paginationInfo) {
+                let startEntry = filteredData.length > 0 ? startIndex + 1 : 0;
+                let endEntry = Math.min(endIndex, filteredData.length);
+                paginationInfo.innerHTML = `Showing <strong>${startEntry}</strong> to <strong>${endEntry}</strong> of <strong>${filteredData.length}</strong> entries`;
+            }
 
             let prevBtn = document.getElementById('prevBtn');
             let nextBtn = document.getElementById('nextBtn');
-            if (prevBtn) prevBtn.disabled = currentPage === 1;
-            if (nextBtn) nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+            if (prevBtn) prevBtn.disabled = (currentPage === 1);
+            if (nextBtn) nextBtn.disabled = (currentPage === totalPages || totalPages === 0);
 
             let pageNumbersContainer = document.getElementById('pageNumbersContainer');
             if (pageNumbersContainer) {
                 pageNumbersContainer.innerHTML = '';
-                for (let i = 1; i <= totalPages; i++) {
-                    let btnClass = i === currentPage 
-                        ? 'px-3.5 py-1.5 rounded-lg bg-[#003399] text-white font-semibold text-xs shadow-xs' 
-                        : 'px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs';
-                    pageNumbersContainer.innerHTML += `<button onclick="goToPage(${i})" class="${btnClass}">${i}</button>`;
+                for (let p = 1; p <= totalPages; p++) {
+                    if (p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)) {
+                        let btn = document.createElement('button');
+                        btn.className = `px-3 py-1.5 rounded-lg text-xs font-semibold border ${p === currentPage ? 'bg-[#003399] text-white border-[#003399]' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'}`;
+                        btn.innerText = p;
+                        btn.onclick = () => { currentPage = p; renderTable(); };
+                        pageNumbersContainer.appendChild(btn);
+                    }
                 }
             }
-
-            updateKPIs(filteredData);
-            updateCharts(filteredData);
-        }
-
-        function calculateAgingAndBadge(status, svDate, chkDate, clDate, qasDate) {
-            if (!svDate) return '<span class="text-slate-300">-</span>';
-            
-            let visitDate = new Date(svDate);
-            let today = new Date();
-            let diffDays = Math.floor((today - visitDate) / (1000 * 60 * 60 * 24));
-            
-            let isDelayed = false;
-            if (chkDate) {
-                let checklistDateObj = new Date(chkDate);
-                let visitToChecklistDays = Math.floor((checklistDateObj - visitDate) / (1000 * 60 * 60 * 24));
-                if (visitToChecklistDays > 7) {
-                    isDelayed = true;
-                }
-            }
-
-            let statusBadge = '';
-            if (status === 'Done') {
-                statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Done</span>';
-            } else if (status === 'In Progress') {
-                statusBadge = '<span class="bg-blue-100 text-blue-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">In Progress</span>';
-            } else if (status === 'Delayed' || isDelayed) {
-                statusBadge = '<span class="bg-rose-100 text-rose-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Late / Delayed</span>';
-            } else {
-                statusBadge = '<span class="bg-amber-100 text-amber-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Pending</span>';
-            }
-
-            let agingText = '';
-            if (status === 'Done') {
-                agingText = `<span class="text-[9px] text-slate-500 block mt-0.5">Completed</span>`;
-            } else {
-                if (diffDays >= 0) {
-                    agingText = `<span class="text-[9px] text-amber-700 font-bold block mt-0.5">Aging: ${diffDays}d</span>`;
-                } else {
-                    agingText = `<span class="text-[9px] text-slate-400 block mt-0.5">Upcoming</span>`;
-                }
-            }
-            return `<div class="flex flex-col items-center">${statusBadge}${agingText}</div>`;
-        }
-
-        function renderAuditPlanTable() {
-            let selectedProject = document.getElementById('globalProjectFilter').value;
-            let searchFilter = document.getElementById('auditPlanSearchInput') ? document.getElementById('auditPlanSearchInput').value.toLowerCase() : '';
-            let statusFilter = document.getElementById('auditPlanStatusFilter') ? document.getElementById('auditPlanStatusFilter').value : 'ALL';
-
-            let filtered = auditPlanData.filter(item => {
-                let matchesProject = (selectedProject === 'ALL' || item.name === selectedProject);
-                
-                let matchesSearch = (item.name || '').toLowerCase().includes(searchFilter) ||
-                                    (item.cm || '').toLowerCase().includes(searchFilter) ||
-                                    (item.am || '').toLowerCase().includes(searchFilter) ||
-                                    (item.entityType || '').toLowerCase().includes(searchFilter) ||
-                                    (item.c1_auditor || '').toLowerCase().includes(searchFilter) ||
-                                    (item.c2_auditor || '').toLowerCase().includes(searchFilter) ||
-                                    (item.c3_auditor || '').toLowerCase().includes(searchFilter) ||
-                                    (item.c4_auditor || '').toLowerCase().includes(searchFilter);
-
-                let matchesStatus = (statusFilter === 'ALL' || 
-                                     item.c1_status === statusFilter || 
-                                     item.c2_status === statusFilter || 
-                                     item.c3_status === statusFilter || 
-                                     item.c4_status === statusFilter);
-
-                return matchesProject && matchesSearch && matchesStatus;
-            });
-
-            let tbody = document.getElementById('auditPlanTableBody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            let countBadge = document.getElementById('auditPlanCountBadge');
-            if (countBadge) countBadge.innerText = `${filtered.length} Projects`;
-
-            filtered.forEach(item => {
-                let actualIndex = auditPlanData.indexOf(item);
-                let meta = getEntityMeta(item.name);
-                let currentEntityType = item.entityType || meta.type;
-                
-                // Entity-specific color coding integration directly under project name
-                let entityBadgeClass = currentEntityType === 'Project Site' ? 'bg-blue-50 text-[#003399] border-blue-200' : currentEntityType === 'Landbank' ? 'bg-emerald-50 text-[#107C10] border-emerald-200' : 'bg-purple-50 text-[#86198F] border-purple-200';
-
-                let row = `
-                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="py-4 px-5 border-r border-slate-200 sticky left-0 bg-white shadow-xs">
-                            <div class="flex items-center justify-between space-x-3">
-                                <div class="flex items-center space-x-3">
-                                    <span class="w-8 h-8 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0 shadow-xs">
-                                        <i class="fa-solid ${meta.icon}"></i>
-                                    </span>
-                                    <div>
-                                        <div class="font-bold text-slate-900 leading-tight">${item.name}</div>
-                                        <span class="inline-block mt-1 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded border ${entityBadgeClass}">${currentEntityType}</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center space-x-1.5 shrink-0">
-                                    <button onclick="openPlanModal(${actualIndex})" class="text-blue-600 hover:text-blue-800 p-1.5 rounded-md hover:bg-blue-50" title="I-edit ang Audit Plan">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button onclick="deleteAuditPlanRecord(${actualIndex})" class="text-red-600 hover:text-red-800 p-1.5 rounded-md hover:bg-red-50" title="Burahin">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.cm || 'Unassigned'}</td>
-                        <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.am || 'Unassigned'}</td>
-                        
-                        <!-- Cycle 1 -->
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_auditor || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_chkDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_clDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_qasDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c1_status, item.c1_svDate, item.c1_chkDate, item.c1_clDate, item.c1_qasDate)}</td>
-
-                        <!-- Cycle 2 -->
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_auditor || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_chkDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_clDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_qasDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c2_status, item.c2_svDate, item.c2_chkDate, item.c2_clDate, item.c2_qasDate)}</td>
-
-                        <!-- Cycle 3 -->
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_auditor || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_chkDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_clDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_qasDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c3_status, item.c3_svDate, item.c3_chkDate, item.c3_clDate, item.c3_qasDate)}</td>
-
-                        <!-- Cycle 4 -->
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_auditor || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_chkDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_clDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_qasDate || '-'}</td>
-                        <td class="p-3 text-center">${calculateAgingAndBadge(item.c4_status, item.c4_svDate, item.c4_chkDate, item.c4_clDate, item.c4_qasDate)}</td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-
-            updateAuditPlanCharts(filtered);
-        }
-
-        function updateKPIs(data) {
-            let total = data.length;
-            let open = data.filter(i => i.status === 'Open').length;
-            let closed = data.filter(i => i.status === 'Closed').length;
-            let closedRate = total > 0 ? Math.round((closed / total) * 100) : 0;
-            let nonCompliant = data.filter(i => i.severity === 'Non Compliant').length;
-            let nonCompliantRate = total > 0 ? Math.round((nonCompliant / total) * 100) : 0;
-
-            document.getElementById('kpiTotal').innerText = total;
-            document.getElementById('kpiOpen').innerText = open;
-            document.getElementById('kpiClosedRate').innerText = closedRate + '%';
-            document.getElementById('kpiHighRisk').innerText = nonCompliantRate + '%';
-            document.getElementById('kpiNonCompliant').innerText = nonCompliant;
-        }
-
-        function initCharts() {
-            let ctxPie = document.getElementById('overallStatusPieChart').getContext('2d');
-            overallStatusPieChartInstance = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: defaultChartColors, borderWidth: 2, borderColor: '#ffffff' }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } } }
-            });
-
-            let ctxComp = document.getElementById('complianceStatusChart').getContext('2d');
-            complianceStatusChartInstance = new Chart(ctxComp, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: [], borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
-            });
-
-            let ctxTrend = document.getElementById('auditTrendChart').getContext('2d');
-            auditTrendChartInstance = new Chart(ctxTrend, {
-                type: 'line',
-                data: { labels: [], datasets: [{ label: 'Findings', data: [], borderColor: '#003399', backgroundColor: 'rgba(0, 51, 153, 0.08)', fill: true, tension: 0.3, borderWidth: 2.5, pointBackgroundColor: '#003399' }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
-            });
-
-            let ctxCat = document.getElementById('auditCatChart').getContext('2d');
-            auditCatChartInstance = new Chart(ctxCat, {
-                type: 'pie',
-                data: { 
-                    labels: [], 
-                    datasets: [{ 
-                        data: [], 
-                        backgroundColor: [
-                            '#1D4ED8', '#0EA5E9', '#14B8A6', '#6366F1', '#8B5CF6', '#EC4899'
-                        ], 
-                        borderWidth: 2, 
-                        borderColor: '#ffffff' 
-                    }] 
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { 
-                            position: 'bottom', 
-                            labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } 
-                        } 
-                    } 
-                }
-            });
-
-            let ctxProj = document.getElementById('projectFindingsChart').getContext('2d');
-            projectFindingsChartInstance = new Chart(ctxProj, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: '#0284C7', borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
-            });
-
-            let ctxAuditor = document.getElementById('auditorFindingsChart').getContext('2d');
-            auditorFindingsChartInstance = new Chart(ctxAuditor, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: '#0D9488', borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
-            });
-
-            let ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
-            deptFindingsChartInstance = new Chart(ctxDept, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: '#475569', borderRadius: 6 }] },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, grid: { color: '#f1f5f9' } }, y: { grid: { display: false } } } }
-            });
-
-            let ctxStatusPerson = document.getElementById('statusIssuedPersonChart').getContext('2d');
-            statusIssuedPersonChartInstance = new Chart(ctxStatusPerson, {
-                type: 'bar',
-                data: { labels: [], datasets: [] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, grid: { color: '#f1f5f9' } } } }
-            });
-
-            updateCharts(auditData);
-        }
-
-        function initAuditPlanCharts() {
-            let ctxPlanPie = document.getElementById('auditPlanStatusPieChart').getContext('2d');
-            auditPlanStatusPieChartInstance = new Chart(ctxPlanPie, {
-                type: 'doughnut',
-                data: { 
-                    labels: ['Done', 'In Progress', 'Pending', 'Delayed'], 
-                    datasets: [{ 
-                        data: [0, 0, 0, 0], 
-                        backgroundColor: ['#107C10', '#0284C7', '#EAB308', '#DC2626'], 
-                        borderWidth: 2, 
-                        borderColor: '#ffffff' 
-                    }] 
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } } }
-            });
-
-            let ctxPlanBar = document.getElementById('auditPlanStagesBarChart').getContext('2d');
-            auditPlanStagesBarChartInstance = new Chart(ctxPlanBar, {
-                type: 'bar',
-                data: {
-                    labels: ['Site Visit', 'Checklist', 'Closing Meeting', 'QAS'],
-                    datasets: [
-                        { label: 'Done', data: [0, 0, 0, 0], backgroundColor: '#107C10', borderRadius: 4 },
-                        { label: 'In Progress / Pending', data: [0, 0, 0, 0], backgroundColor: '#0284C7', borderRadius: 4 }
-                    ]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        x: { stacked: false, grid: { display: false } }, 
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } } 
-                    },
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } }
-                }
-            });
-        }
-
-        function updateAuditPlanCharts(filteredData) {
-            if (!auditPlanStatusPieChartInstance || !auditPlanStagesBarChartInstance) return;
-
-            let statusCounts = { 'Done': 0, 'In Progress': 0, 'Pending': 0, 'Delayed': 0 };
-            let stageStats = {
-                'Site Visit': { done: 0, active: 0 },
-                'Checklist': { done: 0, active: 0 },
-                'Closing Meeting': { done: 0, active: 0 },
-                'QAS': { done: 0, active: 0 }
-            };
-
-            filteredData.forEach(item => {
-                ['c1_', 'c2_', 'c3_', 'c4_'].forEach(prefix => {
-                    let st = item[prefix + 'status'] || 'Pending';
-                    if (statusCounts[st] !== undefined) statusCounts[st]++;
-                    else statusCounts['Pending']++;
-
-                    if (item[prefix + 'svDate']) stageStats['Site Visit'].done++; else stageStats['Site Visit'].active++;
-                    if (item[prefix + 'chkDate']) stageStats['Checklist'].done++; else stageStats['Checklist'].active++;
-                    if (item[prefix + 'clDate']) stageStats['Closing Meeting'].done++; else stageStats['Closing Meeting'].active++;
-                    if (item[prefix + 'qasDate']) stageStats['QAS'].done++; else stageStats['QAS'].active++;
-                });
-            });
-
-            auditPlanStatusPieChartInstance.data.datasets[0].data = [
-                statusCounts['Done'], 
-                statusCounts['In Progress'], 
-                statusCounts['Pending'], 
-                statusCounts['Delayed']
-            ];
-            auditPlanStatusPieChartInstance.update();
-
-            auditPlanStagesBarChartInstance.data.datasets[0].data = [
-                stageStats['Site Visit'].done,
-                stageStats['Checklist'].done,
-                stageStats['Closing Meeting'].done,
-                stageStats['QAS'].done
-            ];
-            auditPlanStagesBarChartInstance.update();
-        }
-
-        function updateCharts(data) {
-            if (!overallStatusPieChartInstance) return;
-
-            let statusCount = {};
-            let compCount = { 'Generally Compliant': 0, 'Partially Compliant': 0, 'Non Compliant': 0 };
-            let trendCount = {};
-            let catCount = {};
-            let projCount = {};
-            let auditorCount = {};
-            let deptCount = {};
-            let issuedPersonMap = {};
-
-            data.forEach(item => {
-                statusCount[item.status] = (statusCount[item.status] || 0) + 1;
-                if (compCount[item.severity] !== undefined) compCount[item.severity]++;
-                
-                let dt = item.date || '2026-01';
-                let monthKey = dt.substring(0, 7);
-                trendCount[monthKey] = (trendCount[monthKey] || 0) + 1;
-
-                catCount[item.category] = (catCount[item.category] || 0) + 1;
-                projCount[item.project] = (projCount[item.project] || 0) + 1;
-                let aud = item.auditor || 'Unassigned';
-                auditorCount[aud] = (auditorCount[aud] || 0) + 1;
-                let dep = item.dept || 'General';
-                deptCount[dep] = (deptCount[dep] || 0) + 1;
-
-                let ip = item.issuedPerson || 'N/A';
-                if (!issuedPersonMap[ip]) issuedPersonMap[ip] = { Open: 0, Closed: 0, Accepted: 0, Cancelled: 0 };
-                if (issuedPersonMap[ip][item.status] !== undefined) issuedPersonMap[ip][item.status]++;
-            });
-
-            // Update Overall Status Pie Chart
-            overallStatusPieChartInstance.data.labels = Object.keys(statusCount);
-            overallStatusPieChartInstance.data.datasets[0].data = Object.values(statusCount);
-            overallStatusPieChartInstance.update();
-
-            // Update Compliance Status Chart
-            complianceStatusChartInstance.data.labels = Object.keys(compCount);
-            complianceStatusChartInstance.data.datasets[0].data = Object.values(compCount);
-            complianceStatusChartInstance.data.datasets[0].backgroundColor = Object.keys(compCount).map(k => complianceColors[k] || '#003399');
-            complianceStatusChartInstance.update();
-
-            // Update Trend Chart
-            let sortedMonths = Object.keys(trendCount).sort();
-            auditTrendChartInstance.data.labels = sortedMonths;
-            auditTrendChartInstance.data.datasets[0].data = sortedMonths.map(m => trendCount[m]);
-            auditTrendChartInstance.update();
-
-            // Update Category Chart
-            auditCatChartInstance.data.labels = Object.keys(catCount);
-            auditCatChartInstance.data.datasets[0].data = Object.values(catCount);
-            auditCatChartInstance.update();
-
-            // Update Project Findings Chart
-            let sortedProjects = Object.keys(projCount).sort((a,b) => projCount[b] - projCount[a]).slice(0, 8);
-            projectFindingsChartInstance.data.labels = sortedProjects;
-            projectFindingsChartInstance.data.datasets[0].data = sortedProjects.map(p => projCount[p]);
-            projectFindingsChartInstance.update();
-
-            // Update Auditor Findings Chart
-            auditorFindingsChartInstance.data.labels = Object.keys(auditorCount);
-            auditorFindingsChartInstance.data.datasets[0].data = Object.values(auditorCount);
-            auditorFindingsChartInstance.update();
-
-            // Update Dept Findings Chart
-            deptFindingsChartInstance.data.labels = Object.keys(deptCount);
-            deptFindingsChartInstance.data.datasets[0].data = Object.values(deptCount);
-            deptFindingsChartInstance.update();
-
-            // Update Stacked Status by Issued Person Chart
-            let ipLabels = Object.keys(issuedPersonMap).slice(0, 10);
-            statusIssuedPersonChartInstance.data.labels = ipLabels;
-            statusIssuedPersonChartInstance.data.datasets = [
-                { label: 'Open', data: ipLabels.map(l => issuedPersonMap[l].Open), backgroundColor: '#EAB308', borderRadius: 4 },
-                { label: 'Closed', data: ipLabels.map(l => issuedPersonMap[l].Closed), backgroundColor: '#107C10', borderRadius: 4 },
-                { label: 'Accepted', data: ipLabels.map(l => issuedPersonMap[l].Accepted), backgroundColor: '#4F46E5', borderRadius: 4 }
-            ];
-            statusIssuedPersonChartInstance.update();
-        }
-
-        function openModal() {
-            document.getElementById('modalTitle').innerText = "Add New Audit Finding";
-            document.getElementById('auditForm').reset();
-            document.getElementById('editIndex').value = "-1";
-            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
-            modalUpdateProjectDropdown();
-            let modal = document.getElementById('auditModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeModal() {
-            let modal = document.getElementById('auditModal');
-            modal.classList.remove('flex');
-            modal.classList.add('hidden');
-        }
-
-        function editRecord(index) {
-            let item = auditData[index];
-            document.getElementById('modalTitle').innerText = "Edit Audit Finding";
-            document.getElementById('editIndex').value = index;
-            document.getElementById('inputSeries').value = item.series;
-            document.getElementById('inputStatus').value = item.status;
-            
-            let meta = getEntityMeta(item.project);
-            document.getElementById('inputModalEntityType').value = meta.type;
-            modalUpdateProjectDropdown();
-            document.getElementById('inputProject').value = item.project;
-            
-            document.getElementById('inputCategory').value = item.category;
-            document.getElementById('inputFinding').value = item.finding;
-            document.getElementById('inputProgram').value = item.program;
-            document.getElementById('inputAuditor').value = item.auditor || 'Troy Sombillo De Guzman';
-            document.getElementById('inputDept').value = item.dept;
-            document.getElementById('inputIssuedPerson').value = item.issuedPerson;
-            document.getElementById('inputSeverity').value = item.severity;
-            document.getElementById('inputDate').value = item.date;
-
-            let modal = document.getElementById('auditModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function deleteRecord(index) {
-            if (confirm("Sigurado ka bang gusto mong burahin ang finding na ito?")) {
-                auditData.splice(index, 1);
-                saveToLocalStorage();
-                renderTable();
-            }
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            let index = parseInt(document.getElementById('editIndex').value);
-            let proj = document.getElementById('inputProject').value;
-            
-            let newItem = {
-                series: document.getElementById('inputSeries').value,
-                status: document.getElementById('inputStatus').value,
-                project: proj,
-                code: 'N/A',
-                category: document.getElementById('inputCategory').value,
-                finding: document.getElementById('inputFinding').value,
-                program: document.getElementById('inputProgram').value,
-                auditor: document.getElementById('inputAuditor').value,
-                dept: document.getElementById('inputDept').value,
-                issuedPerson: document.getElementById('inputIssuedPerson').value,
-                severity: document.getElementById('inputSeverity').value,
-                date: document.getElementById('inputDate').value
-            };
-
-            if (index === -1) {
-                auditData.unshift(newItem);
-            } else {
-                auditData[index] = newItem;
-            }
-
-            saveToLocalStorage();
-            closeModal();
-            renderTable();
         }
 
         function changePage(direction) {
@@ -1721,47 +1598,117 @@
             renderTable();
         }
 
-        function goToPage(page) {
-            currentPage = page;
-            renderTable();
-        }
-
         function exportToExcelFull() {
-            let worksheet = XLSX.utils.json_to_sheet(auditData);
+            let filtered = getFilteredData();
+            if (filtered.length === 0) {
+                alert("Walang ma-export na data.");
+                return;
+            }
+            let exportData = filtered.map(item => ({
+                "Series #": item.series,
+                "Status": item.status,
+                "Project / Property Name": item.project,
+                "Audit Category": item.category,
+                "Actual Findings": item.finding,
+                "Recommended Action": item.program,
+                "Auditor-in-Charge": item.auditor,
+                "Responsible Dept": item.dept,
+                "Issued Person": item.issuedPerson,
+                "Rating Scale": item.severity,
+                "Audit Date": item.date
+            }));
+
+            let worksheet = XLSX.utils.json_to_sheet(exportData);
             let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "QAS_Audit_Matrix");
-            XLSX.writeFile(workbook, "QAS_Detailed_Audit_Matrix_2026.xlsx");
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit Findings");
+            XLSX.writeFile(workbook, `QAS_Audit_Findings_${new Date().toISOString().split('T')[0]}.xlsx`);
         }
 
-        function exportAuditPlanToExcel() {
-            let worksheet = XLSX.utils.json_to_sheet(auditPlanData);
-            let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit_Plan_2026");
-            XLSX.writeFile(workbook, "Site_Warehousing_Audit_Plan_2026.xlsx");
-        }
+        function renderAuditPlanTable() {
+            let tbody = document.getElementById('auditPlanTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
 
-        function handleExcelUpload(event) {
-            let file = event.target.files[0];
-            if (!file) return;
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    let data = new Uint8Array(e.target.result);
-                    let workbook = XLSX.read(data, { type: 'array' });
-                    let firstSheet = workbook.SheetNames[0];
-                    let worksheet = workbook.Sheets[firstSheet];
-                    let json = XLSX.utils.sheet_to_json(worksheet);
-                    if (json.length > 0) {
-                        auditData = json.concat(auditData);
-                        saveToLocalStorage();
-                        renderTable();
-                        alert("Matagumpay na nai-upload ang mga Excel records!");
-                    }
-                } catch(err) {
-                    alert("May error sa pagbasa ng Excel file.");
+            let searchVal = document.getElementById('auditPlanSearchInput') ? document.getElementById('auditPlanSearchInput').value.toLowerCase() : '';
+            let statusFilter = document.getElementById('auditPlanStatusFilter') ? document.getElementById('auditPlanStatusFilter').value : 'ALL';
+            let selectedEntityFilter = document.getElementById('globalProjectFilter').value;
+
+            let filtered = auditPlanData.filter(item => {
+                let matchesGlobal = (selectedEntityFilter === 'ALL' || item.name === selectedEntityFilter);
+                let matchesSearch = item.name.toLowerCase().includes(searchVal) ||
+                                    (item.cm || '').toLowerCase().includes(searchVal) ||
+                                    (item.am || '').toLowerCase().includes(searchVal) ||
+                                    (item.entityType || '').toLowerCase().includes(searchVal);
+                
+                let matchesStatus = (statusFilter === 'ALL' || 
+                                     item.c1_status === statusFilter || 
+                                     item.c2_status === statusFilter || 
+                                     item.c3_status === statusFilter || 
+                                     item.c4_status === statusFilter);
+
+                return matchesGlobal && matchesSearch && matchesStatus;
+            });
+
+            let countBadge = document.getElementById('auditPlanCountBadge');
+            if (countBadge) countBadge.innerText = `${filtered.length} Projects`;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="26" class="p-6 text-center text-slate-400 italic">Walang nahanap na record sa Audit Plan.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach((item) => {
+                let actualIndex = auditPlanData.indexOf(item);
+                let meta = getEntityMeta(item.name);
+
+                function renderCycleTD(auditor, svDate, chkDate, clDate, qasDate, status, rating) {
+                    let stColor = status === 'Done' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                  status === 'In Progress' ? 'bg-blue-100 text-[#003399] border-blue-300' :
+                                  status === 'Delayed' ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-slate-100 text-slate-600 border-slate-300';
+                    return `
+                        <td class="p-2 border-r border-slate-200 text-center">${item[auditor] || 'N/A'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${item[svDate] || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${item[chkDate] || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${item[clDate] || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">${item[qasDate] || '-'}</td>
+                        <td class="p-2 border-r border-slate-200 text-center">
+                            <div class="flex flex-col items-center gap-1">
+                                <span class="px-2 py-0.5 rounded font-bold border text-[9px] ${stColor}">${item[status] || 'Pending'}</span>
+                                ${getRatingBadgeWithColor(item[rating])}
+                            </div>
+                        </td>
+                    `;
                 }
-            };
-            reader.readAsArrayBuffer(file);
+
+                let row = `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-200">
+                        <td class="py-3 px-4 border-r border-slate-200 font-bold bg-white sticky left-0 z-5 shadow-xs">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0 shadow-xs">
+                                        <i class="fa-solid ${meta.icon}"></i>
+                                    </span>
+                                    <div>
+                                        <div class="text-slate-900 font-bold">${item.name}</div>
+                                        <span class="text-[9px] uppercase font-semibold ${meta.text}">${meta.type}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <button onclick="openPlanModal(${actualIndex})" class="text-[#003399] hover:text-blue-800 p-1" title="Edit Plan"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button onclick="deleteAuditPlanRecord(${actualIndex})" class="text-[#A80000] hover:text-red-800 p-1" title="Delete Plan"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-3 border-r border-slate-200 text-slate-700 font-medium">${item.cm || 'Unassigned'}</td>
+                        <td class="p-3 border-r border-slate-200 text-slate-700 font-medium">${item.am || 'Unassigned'}</td>
+                        ${renderCycleTD('c1_auditor', 'c1_svDate', 'c1_chkDate', 'c1_clDate', 'c1_qasDate', 'c1_status', 'c1_rating')}
+                        ${renderCycleTD('c2_auditor', 'c2_svDate', 'c2_chkDate', 'c2_clDate', 'c2_qasDate', 'c2_status', 'c2_rating')}
+                        ${renderCycleTD('c3_auditor', 'c3_svDate', 'c3_chkDate', 'c3_clDate', 'c3_qasDate', 'c3_status', 'c3_rating')}
+                        ${renderCycleTD('c4_auditor', 'c4_svDate', 'c4_chkDate', 'c4_clDate', 'c4_qasDate', 'c4_status', 'c4_rating')}
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
         }
 
         function handleAuditPlanUpload(event) {
@@ -1771,21 +1718,278 @@
             reader.onload = function(e) {
                 try {
                     let data = new Uint8Array(e.target.result);
-                    let workbook = XLSX.read(data, { type: 'array' });
-                    let firstSheet = workbook.SheetNames[0];
-                    let worksheet = workbook.Sheets[firstSheet];
-                    let json = XLSX.utils.sheet_to_json(worksheet);
-                    if (json.length > 0) {
-                        auditPlanData = cleanAuditPlanData(json.concat(auditPlanData));
-                        saveToLocalStorage();
-                        renderAuditPlanTable();
-                        alert("Matagumpay na nai-upload ang Audit Plan template!");
-                    }
-                } catch(err) {
+                    let workbook = XLSX.read(data, {type: 'array'});
+                    let sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    let json = XLSX.utils.sheet_to_json(sheet);
+                    if (json.length === 0) { alert("Walang laman ang Excel file."); return; }
+
+                    let imported = json.map((row, idx) => ({
+                        id: 'plan_' + Date.now() + '_' + idx,
+                        name: row['Project Name'] || row['Project'] || row['name'] || 'Project ' + (idx + 1),
+                        entityType: row['Entity Type'] || row['EntityType'] || 'Project Site',
+                        code: 'N/A',
+                        cm: row['Construction Manager'] || row['CM'] || 'Unassigned',
+                        am: row['Area Manager'] || row['AM'] || 'Unassigned',
+                        c1_auditor: row['C1 Auditor'] || '', c1_status: row['C1 Status'] || 'Pending', c1_rating: Number(row['C1 Rating'] || 85), c1_svDate: row['C1 Site Visit Date'] || '', c1_chkDate: row['C1 Checklist Date'] || '', c1_clDate: row['C1 Closing Date'] || '', c1_qasDate: row['C1 QAS Date'] || '',
+                        c2_auditor: row['C2 Auditor'] || '', c2_status: row['C2 Status'] || 'Pending', c2_rating: Number(row['C2 Rating'] || 85), c2_svDate: row['C2 Site Visit Date'] || '', c2_chkDate: row['C2 Checklist Date'] || '', c2_clDate: row['C2 Closing Date'] || '', c2_qasDate: row['C2 QAS Date'] || '',
+                        c3_auditor: row['C3 Auditor'] || '', c3_status: row['C3 Status'] || 'Pending', c3_rating: Number(row['C3 Rating'] || 85), c3_svDate: row['C3 Site Visit Date'] || '', c3_chkDate: row['C3 Checklist Date'] || '', c3_clDate: row['C3 Closing Date'] || '', c3_qasDate: row['C3 QAS Date'] || '',
+                        c4_auditor: row['C4 Auditor'] || '', c4_status: row['C4 Status'] || 'Pending', c4_rating: Number(row['C4 Rating'] || 85), c4_svDate: row['C4 Site Visit Date'] || '', c4_chkDate: row['C4 Checklist Date'] || '', c4_clDate: row['C4 Closing Date'] || '', c4_qasDate: row['C4 QAS Date'] || ''
+                    }));
+
+                    auditPlanData = cleanAuditPlanData(imported);
+                    saveToLocalStorage();
+                    renderAuditPlanTable();
+                    renderTopSheet();
+                    initAuditPlanCharts();
+                    alert(`Matagumpay na na-upload ang ${imported.length} audit plan records!`);
+                } catch (err) {
+                    console.error(err);
                     alert("May error sa pagbasa ng Audit Plan Excel file.");
                 }
+                event.target.value = '';
             };
             reader.readAsArrayBuffer(file);
+        }
+
+        function exportAuditPlanToExcel() {
+            if (auditPlanData.length === 0) { alert("Walang ma-export na audit plan."); return; }
+            let exportList = auditPlanData.map(i => ({
+                "Project Name": i.name,
+                "Entity Type": i.entityType,
+                "Construction Manager": i.cm,
+                "Area Manager": i.am,
+                "C1 Auditor": i.c1_auditor, "C1 Status": i.c1_status, "C1 Rating": i.c1_rating, "C1 Site Visit Date": i.c1_svDate,
+                "C2 Auditor": i.c2_auditor, "C2 Status": i.c2_status, "C2 Rating": i.c2_rating, "C2 Site Visit Date": i.c2_svDate,
+                "C3 Auditor": i.c3_auditor, "C3 Status": i.c3_status, "C3 Rating": i.c3_rating, "C3 Site Visit Date": i.c3_svDate,
+                "C4 Auditor": i.c4_auditor, "C4 Status": i.c4_status, "C4 Rating": i.c4_rating, "C4 Site Visit Date": i.c4_svDate
+            }));
+            let ws = XLSX.utils.json_to_sheet(exportList);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Audit Plan 2026");
+            XLSX.writeFile(wb, `Audit_Plan_Schedule_${new Date().toISOString().split('T')[0]}.xlsx`);
+        }
+
+        function initCharts() {
+            let data = getFilteredData();
+
+            // KPIs
+            let total = data.length;
+            let openCount = data.filter(i => i.status === 'Open').length;
+            let closedCount = data.filter(i => i.status === 'Closed').length;
+            let nonCompCount = data.filter(i => i.severity === 'Non Compliant').length;
+
+            let closedRate = total > 0 ? ((closedCount / total) * 100).toFixed(1) : 0;
+            let nonCompRate = total > 0 ? ((nonCompCount / total) * 100).toFixed(1) : 0;
+
+            document.getElementById('kpiTotal').innerText = total;
+            document.getElementById('kpiOpen').innerText = openCount;
+            document.getElementById('kpiClosedRate').innerText = closedRate + '%';
+            document.getElementById('kpiHighRisk').innerText = nonCompRate + '%';
+            document.getElementById('kpiNonCompliant').innerText = nonCompCount;
+
+            // 1. Overall Status Pie Chart
+            let statusCounts = { 'Open': 0, 'Closed': 0, 'Accepted': 0, 'Cancelled': 0 };
+            data.forEach(i => { if (statusCounts[i.status] !== undefined) statusCounts[i.status]++; });
+
+            if (overallStatusPieChartInstance) overallStatusPieChartInstance.destroy();
+            overallStatusPieChartInstance = new Chart(document.getElementById('overallStatusPieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(statusCounts),
+                    datasets: [{
+                        data: Object.values(statusCounts),
+                        backgroundColor: ['#D97706', '#107C10', '#0284C7', '#E11D48']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } } }
+            });
+
+            // 2. Compliance Status Distribution (Severity)
+            let sevCounts = { 'Generally Compliant': 0, 'Partially Compliant': 0, 'Non Compliant': 0 };
+            data.forEach(i => {
+                if (sevCounts[i.severity] !== undefined) sevCounts[i.severity]++;
+                else sevCounts[i.severity] = (sevCounts[i.severity] || 0) + 1;
+            });
+
+            if (complianceStatusChartInstance) complianceStatusChartInstance.destroy();
+            complianceStatusChartInstance = new Chart(document.getElementById('complianceStatusChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(sevCounts),
+                    datasets: [{
+                        label: 'Count',
+                        data: Object.values(sevCounts),
+                        backgroundColor: Object.keys(sevCounts).map(k => complianceColors[k] || '#003399')
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+
+            // 3. Audit Findings Trend Over Time
+            let dateCounts = {};
+            data.forEach(i => {
+                let d = i.date || 'Unspecified';
+                dateCounts[d] = (dateCounts[d] || 0) + 1;
+            });
+            let sortedDates = Object.keys(dateCounts).sort();
+
+            if (auditTrendChartInstance) auditTrendChartInstance.destroy();
+            auditTrendChartInstance = new Chart(document.getElementById('auditTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: 'Findings Count',
+                        data: sortedDates.map(d => dateCounts[d]),
+                        borderColor: '#003399',
+                        backgroundColor: 'rgba(0,51,153,0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+
+            // 4. Audit Findings Category Pie Chart
+            let catCounts = {};
+            data.forEach(i => { catCounts[i.category] = (catCounts[i.category] || 0) + 1; });
+
+            if (auditCatChartInstance) auditCatChartInstance.destroy();
+            auditCatChartInstance = new Chart(document.getElementById('auditCatChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(catCounts),
+                    datasets: [{
+                        data: Object.values(catCounts),
+                        backgroundColor: defaultChartColors
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } }
+            });
+
+            // 5. Entity Findings Volume
+            let projCounts = {};
+            data.forEach(i => { projCounts[i.project] = (projCounts[i.project] || 0) + 1; });
+
+            if (projectFindingsChartInstance) projectFindingsChartInstance.destroy();
+            projectFindingsChartInstance = new Chart(document.getElementById('projectFindingsChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(projCounts),
+                    datasets: [{
+                        label: 'Findings',
+                        data: Object.values(projCounts),
+                        backgroundColor: '#0284C7'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { ticks: { font: { size: 9 }, maxRotation: 45, minRotation: 45 } } } }
+            });
+
+            // 6. Auditor Load
+            let audCounts = {};
+            data.forEach(i => { let aud = i.auditor || 'Unassigned'; audCounts[aud] = (audCounts[aud] || 0) + 1; });
+
+            if (auditorFindingsChartInstance) auditorFindingsChartInstance.destroy();
+            auditorFindingsChartInstance = new Chart(document.getElementById('auditorFindingsChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(audCounts),
+                    datasets: [{
+                        label: 'Audits',
+                        data: Object.values(audCounts),
+                        backgroundColor: '#0D9488'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+
+            // 7. Department Load
+            let deptCounts = {};
+            data.forEach(i => { let d = i.dept || 'N/A'; deptCounts[d] = (deptCounts[d] || 0) + 1; });
+
+            if (deptFindingsChartInstance) deptFindingsChartInstance.destroy();
+            deptFindingsChartInstance = new Chart(document.getElementById('deptFindingsChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(deptCounts),
+                    datasets: [{
+                        label: 'Findings',
+                        data: Object.values(deptCounts),
+                        backgroundColor: '#7C3AED'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+
+            // 8. Status by Issued Person (Stacked View)
+            let personMap = {};
+            data.forEach(i => {
+                let p = i.issuedPerson || 'N/A';
+                if (!personMap[p]) personMap[p] = { Open: 0, Closed: 0, Accepted: 0 };
+                if (personMap[p][i.status] !== undefined) personMap[p][i.status]++;
+                else personMap[p][i.status] = (personMap[p][i.status] || 0) + 1;
+            });
+            let persons = Object.keys(personMap);
+
+            if (statusIssuedPersonChartInstance) statusIssuedPersonChartInstance.destroy();
+            statusIssuedPersonChartInstance = new Chart(document.getElementById('statusIssuedPersonChart'), {
+                type: 'bar',
+                data: {
+                    labels: persons,
+                    datasets: [
+                        { label: 'Open', data: persons.map(p => personMap[p].Open || 0), backgroundColor: '#D97706' },
+                        { label: 'Closed', data: persons.map(p => personMap[p].Closed || 0), backgroundColor: '#107C10' },
+                        { label: 'Accepted', data: persons.map(p => personMap[p].Accepted || 0), backgroundColor: '#0284C7' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+        }
+
+        function initAuditPlanCharts() {
+            let statuses = { 'Done': 0, 'In Progress': 0, 'Pending': 0, 'Delayed': 0 };
+            auditPlanData.forEach(i => {
+                [i.c1_status, i.c2_status, i.c3_status, i.c4_status].forEach(st => {
+                    if (statuses[st] !== undefined) statuses[st]++;
+                });
+            });
+
+            if (auditPlanStatusPieChartInstance) auditPlanStatusPieChartInstance.destroy();
+            auditPlanStatusPieChartInstance = new Chart(document.getElementById('auditPlanStatusPieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(statuses),
+                    datasets: [{
+                        data: Object.values(statuses),
+                        backgroundColor: ['#107C10', '#003399', '#94A3B8', '#DC2626']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } } }
+            });
+
+            let stages = { 'Site Visit Done': 0, 'Checklist Done': 0, 'Closing Done': 0, 'QAS Done': 0 };
+            auditPlanData.forEach(i => {
+                ['c1_', 'c2_', 'c3_', 'c4_'].forEach(prefix => {
+                    if (i[prefix + 'svDate']) stages['Site Visit Done']++;
+                    if (i[prefix + 'chkDate']) stages['Checklist Done']++;
+                    if (i[prefix + 'clDate']) stages['Closing Done']++;
+                    if (i[prefix + 'qasDate']) stages['QAS Done']++;
+                });
+            });
+
+            if (auditPlanStagesBarChartInstance) auditPlanStagesBarChartInstance.destroy();
+            auditPlanStagesBarChartInstance = new Chart(document.getElementById('auditPlanStagesBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(stages),
+                    datasets: [{
+                        label: 'Completed Milestones',
+                        data: Object.values(stages),
+                        backgroundColor: ['#003399', '#0284C7', '#0D9488', '#107C10']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
         }
     </script>
 </body>
