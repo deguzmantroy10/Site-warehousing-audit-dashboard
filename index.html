@@ -15,17 +15,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Pinagandang Custom Scrollbars para mas maluwag tingnan */
         .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+            width: 8px;
+            height: 8px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
+            background: #f8fafc;
+            border-radius: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
-            border-radius: 4px;
+            border-radius: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
@@ -36,9 +38,9 @@
 
     <!-- Power BI / Construction Operations Group Top Header Bar (Max-Width 75%) -->
     <header class="bg-[#002878] text-white shadow-md border-b border-[#003399]">
-        <div class="max-w-[75%] mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center">
+        <div class="max-w-[75%] mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-white px-3 py-1.5 rounded shadow-sm flex items-center justify-center">
+                <div class="bg-white px-3.5 py-2 rounded shadow-sm flex items-center justify-center">
                     <span class="text-[#003399] font-extrabold text-sm tracking-tight">DMCI HOMES</span>
                 </div>
                 <div>
@@ -46,29 +48,29 @@
                         Site Security and Material Control Inspection - Dashboard 
                         <span class="bg-[#003399] text-white text-[10px] font-semibold px-2 py-0.5 rounded border border-blue-400">Executive BI View</span>
                     </h1>
-                    <p class="text-[11px] text-blue-200">Internal Audit Department • Construction Operations Group</p>
+                    <p class="text-[11px] text-blue-200 mt-0.5">Internal Audit Department • Construction Operations Group</p>
                 </div>
             </div>
             <div class="mt-3 sm:mt-0 flex items-center space-x-2">
-                <span class="bg-[#001f5c] text-blue-100 text-xs px-3 py-1.5 rounded border border-blue-800 flex items-center shadow-inner">
-                    <i class="fa-solid fa-calendar text-blue-300 mr-1.5"></i> Audit Period: 2026
+                <span class="bg-[#001f5c] text-blue-100 text-xs px-3.5 py-2 rounded-md border border-blue-800 flex items-center shadow-inner">
+                    <i class="fa-solid fa-calendar text-blue-300 mr-2"></i> Audit Period: 2026
                 </span>
             </div>
         </div>
     </header>
 
-    <main class="max-w-[75%] mx-auto px-4 py-5 space-y-4 flex-grow w-full">
+    <main class="max-w-[75%] mx-auto px-6 py-6 space-y-6 flex-grow w-full">
 
         <!-- Navigation View Switcher (Pindutan para maglipat ng View) -->
-        <section class="bg-white p-2.5 rounded-lg shadow-sm border border-[#E1DFDD] flex items-center justify-between flex-wrap gap-2">
-            <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                <button id="btnViewDashboard" onclick="switchView('dashboard')" class="px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2">
+        <section class="bg-white p-3.5 rounded-xl shadow-sm border border-[#E1DFDD] flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
+                <button id="btnViewDashboard" onclick="switchView('dashboard')" class="px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg transition flex items-center gap-2 shadow-sm">
                     <i class="fa-solid fa-chart-pie"></i> IAD Analytics Dashboard
                 </button>
-                <button id="btnViewMatrix" onclick="switchView('matrix')" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2">
+                <button id="btnViewMatrix" onclick="switchView('matrix')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
                     <i class="fa-solid fa-table-list"></i> Detailed Audit & Corrective Action Matrix
                 </button>
-                <button id="btnViewAuditPlan" onclick="switchView('auditPlan')" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2">
+                <button id="btnViewAuditPlan" onclick="switchView('auditPlan')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check"></i> Site Warehousing Audit Plan 2026
                 </button>
             </div>
@@ -77,203 +79,193 @@
             </div>
         </section>
 
-        <!-- Filter Slicer Row (Common para sa parehong views - May kasamang Entity Type Dropdown) -->
-        <section class="bg-white p-3.5 rounded-lg shadow-sm border border-[#E1DFDD] flex flex-col sm:flex-row items-center justify-between gap-3">
+        <!-- Filter Slicer Row -->
+        <section class="bg-white p-4 rounded-xl shadow-sm border border-[#E1DFDD] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3 w-full sm:w-auto flex-wrap gap-y-2">
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2.5 w-full sm:w-auto">
                     <i class="fa-solid fa-filter text-[#003399] ml-1"></i>
-                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Type Slicer:</span>
-                    <select id="globalEntityTypeFilter" onchange="filterProjectDropdown(); currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium shadow-sm">
-                        <option value="ALL">All Entity Types</option>
-                        <option value="Project Site">Project Site</option>
-                        <option value="Landbank">Landbank</option>
-                        <option value="Support Group">Support Group</option>
-                    </select>
-                </div>
-                <div class="flex items-center space-x-2">
                     <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Entity:</span>
-                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3.5 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-64 shadow-sm">
+                    <select id="globalProjectFilter" onchange="currentPage = 1; renderTable(); renderAuditPlanTable();" class="text-xs px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium w-full sm:w-80 shadow-sm">
                         <option value="ALL">All Entities (Consolidated Executive View)</option>
-                        <optgroup label="Project Sites">
-                            <option value="The Oriana">The Oriana</option>
-                            <option value="One Delta Residences">One Delta Residences</option>
-                            <option value="Solmera Coast">Solmera Coast</option>
-                            <option value="Sage Residences">Sage Residences</option>
-                            <option value="Anissa Heights">Anissa Heights</option>
-                            <option value="Calinea Tower">Calinea Tower</option>
-                            <option value="The Valeron Tower">The Valeron Tower</option>
-                            <option value="One South Drive">One South Drive</option>
-                            <option value="Moncello Crest">Moncello Crest</option>
-                            <option value="Erin Heights">Erin Heights</option>
-                            <option value="Verdon Parc">Verdon Parc</option>
-                            <option value="Mulberry Place Phase 2">Mulberry Place Phase 2</option>
+                        <optgroup label="🏗️ Project Sites (Blue Coding)" class="text-[#003399] font-bold bg-blue-50/50">
+                            <option value="The Oriana" class="text-[#003399] font-medium">The Oriana (ORN)</option>
+                            <option value="One Delta Residences" class="text-[#003399] font-medium">One Delta Residences (ODR)</option>
+                            <option value="Solmera Coast" class="text-[#003399] font-medium">Solmera Coast (SLC)</option>
+                            <option value="Sage Residences" class="text-[#003399] font-medium">Sage Residences (SGE)</option>
+                            <option value="Anissa Heights" class="text-[#003399] font-medium">Anissa Heights (ANH)</option>
+                            <option value="Calinea Tower" class="text-[#003399] font-medium">Calinea Tower (CLN)</option>
+                            <option value="The Valeron Tower" class="text-[#003399] font-medium">The Valeron Tower (VLR)</option>
+                            <option value="One South Drive" class="text-[#003399] font-medium">One South Drive (OSD)</option>
+                            <option value="Moncello Crest" class="text-[#003399] font-medium">Moncello Crest (MNC)</option>
+                            <option value="Erin Heights" class="text-[#003399] font-medium">Erin Heights (ERH)</option>
+                            <option value="Verdon Parc" class="text-[#003399] font-medium">Verdon Parc (VDP)</option>
+                            <option value="Mulberry Place Phase 2" class="text-[#003399] font-medium">Mulberry Place Phase 2 (MBP)</option>
                         </optgroup>
-                        <optgroup label="Landbank">
-                            <option value="Star Property">Star Property</option>
-                            <option value="Lia Property">Lia Property</option>
-                            <option value="Carbon V / Valeron Showroom">Carbon V / Valeron Showroom</option>
-                            <option value="Sovanna Towers">Sovanna Towers</option>
-                            <option value="Moriyama Nature Park">Moriyama Nature Park</option>
-                            <option value="Lyre Garden">Lyre Garden</option>
-                            <option value="Lisseo Residences">Lisseo Residences</option>
-                            <option value="Sinclair Residences / Carbon R">Sinclair Residences / Carbon R</option>
-                            <option value="DHCS - Meycauayan Batching">DHCS - Meycauayan Batching</option>
+                        <optgroup label="🏦 Landbank (Green Coding)" class="text-[#107C10] font-bold bg-emerald-50/50">
+                            <option value="Star Property" class="text-[#107C10] font-medium">Star Property (STR)</option>
+                            <option value="Lia Property" class="text-[#107C10] font-medium">Lia Property (LIA)</option>
+                            <option value="Carbon V / Valeron Showroom" class="text-[#107C10] font-medium">Carbon V / Valeron Showroom (CBV)</option>
+                            <option value="Sovanna Towers" class="text-[#107C10] font-medium">Sovanna Towers (SOV)</option>
+                            <option value="Moriyama Nature Park" class="text-[#107C10] font-medium">Moriyama Nature Park (MRY)</option>
+                            <option value="Lyre Garden" class="text-[#107C10] font-medium">Lyre Garden (LYR)</option>
+                            <option value="Lisseo Residences" class="text-[#107C10] font-medium">Lisseo Residences (LSS)</option>
+                            <option value="Sinclair Residences / Carbon R" class="text-[#107C10] font-medium">Sinclair Residences / Carbon R (SNR)</option>
                         </optgroup>
-                        <optgroup label="Support Groups">
-                            <option value="Centralized Rebar Fabrication">Centralized Rebar Fabrication</option>
-                            <option value="DHCS - Acacia Batching">DHCS - Acacia Batching</option>
-                            <option value="DHCS - Acacia CHB">DHCS - Acacia CHB</option>
-                            <option value="Central Warehouse">Central Warehouse</option>
-                            <option value="Formworks">Formworks</option>
-                            <option value="Equipment Services Group">Equipment Services Group</option>
-                            <option value="Zenith Mobility">Zenith Mobility</option>
-                            <option value="Fit-Out">Fit-Out</option>
-                            <option value="Unit Restoration Group">Unit Restoration Group</option>
+                        <optgroup label="⚙️ Support Groups (Purple Coding)" class="text-[#86198F] font-bold bg-purple-50/50">
+                            <option value="Centralized Rebar Fabrication" class="text-[#86198F] font-medium">Centralized Rebar Fabrication (CRF)</option>
+                            <option value="DHCS - Acacia Batching" class="text-[#86198F] font-medium">DHCS - Acacia Batching (DAB)</option>
+                            <option value="DHCS - Acacia CHB" class="text-[#86198F] font-medium">DHCS - Acacia CHB (DAC)</option>
+                            <option value="Central Warehouse" class="text-[#86198F] font-medium">Central Warehouse (CWH)</option>
+                            <option value="Formworks" class="text-[#86198F] font-medium">Formworks (FRW)</option>
+                            <option value="Equipment Services Group" class="text-[#86198F] font-medium">Equipment Services Group (ESG)</option>
+                            <option value="Zenith Mobility" class="text-[#86198F] font-medium">Zenith Mobility (ZNT)</option>
+                            <option value="Fit-Out" class="text-[#86198F] font-medium">Fit-Out (FIT)</option>
+                            <option value="Unit Restoration Group" class="text-[#86198F] font-medium">Unit Restoration Group (URG)</option>
+                            <option value="DHCS - Meycauayan Batching" class="text-[#107C10] font-medium">DHCS - Meycauayan Batching (MEY)</option>
                         </optgroup>
                     </select>
                 </div>
             </div>
             <div class="text-xs text-slate-500 font-medium">
-                <span id="activeViewIndicator" class="bg-blue-50 text-[#003399] px-2.5 py-1 rounded font-semibold border border-blue-200">Active View: Dashboard</span>
+                <span id="activeViewIndicator" class="bg-blue-50 text-[#003399] px-3 py-1.5 rounded-md font-semibold border border-blue-200">Active View: Dashboard</span>
             </div>
         </section>
 
-        <!-- CONTAINER 1: DASHBOARD VIEW (KPIs + Charts) -->
-        <div id="dashboardViewContainer" class="space-y-4">
-            <!-- (Sinasadyang hindi iniba ang laman ng Dashboard para manatili ang dating disenyo) -->
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#003399] border border-[#E1DFDD] flex items-center justify-between">
+        <!-- CONTAINER 1: DASHBOARD VIEW -->
+        <div id="dashboardViewContainer" class="space-y-6">
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-l-[#003399] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Audit Checks</p>
-                        <h3 id="kpiTotal" class="text-xl font-bold text-[#111318] mt-0.5">0</h3>
+                        <h3 id="kpiTotal" class="text-xl font-bold text-[#111318] mt-1">0</h3>
                         <span class="text-slate-500 text-[10px] font-medium">Active Records</span>
                     </div>
-                    <div class="w-8 h-8 rounded bg-[#EFF6FC] text-[#003399] flex items-center justify-center text-sm shadow-inner">
+                    <div class="w-9 h-9 rounded-lg bg-[#EFF6FC] text-[#003399] flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-clipboard-list"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#EAB308] border border-[#E1DFDD] flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-l-[#EAB308] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Open Findings</p>
-                        <h3 id="kpiOpen" class="text-xl font-bold text-amber-600 mt-0.5">0</h3>
+                        <h3 id="kpiOpen" class="text-xl font-bold text-amber-600 mt-1">0</h3>
                         <span class="text-amber-600 text-[10px] font-semibold">Pending Action</span>
                     </div>
-                    <div class="w-8 h-8 rounded bg-amber-50 text-amber-600 flex items-center justify-center text-sm shadow-inner">
+                    <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-clock"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#107C10] border border-[#E1DFDD] flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-l-[#107C10] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Closed Rate</p>
-                        <h3 id="kpiClosedRate" class="text-xl font-bold text-[#107C10] mt-0.5">0%</h3>
+                        <h3 id="kpiClosedRate" class="text-xl font-bold text-[#107C10] mt-1">0%</h3>
                         <span class="text-[#107C10] text-[10px] font-semibold">Resolved Items</span>
                     </div>
-                    <div class="w-8 h-8 rounded bg-emerald-50 text-[#107C10] flex items-center justify-center text-sm shadow-inner">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-[#107C10] flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#D83B01] border border-[#E1DFDD] flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-l-[#D83B01] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Non-Compliance</p>
-                        <h3 id="kpiHighRisk" class="text-xl font-bold text-[#D83B01] mt-0.5">0%</h3>
+                        <h3 id="kpiHighRisk" class="text-xl font-bold text-[#D83B01] mt-1">0%</h3>
                         <span class="text-[#D83B01] text-[10px] font-semibold">Action Required</span>
                     </div>
-                    <div class="w-8 h-8 rounded bg-[#FDF3F2] text-[#D83B01] flex items-center justify-center text-sm shadow-inner">
+                    <div class="w-9 h-9 rounded-lg bg-[#FDF3F2] text-[#D83B01] flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-3.5 rounded-lg shadow-sm border-l-4 border-l-[#A80000] border border-[#E1DFDD] flex items-center justify-between">
+                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-l-[#A80000] border border-[#E1DFDD] flex items-center justify-between">
                     <div>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">High Risk Areas</p>
-                        <h3 id="kpiNonCompliant" class="text-xl font-bold text-[#A80000] mt-0.5">0</h3>
+                        <h3 id="kpiNonCompliant" class="text-xl font-bold text-[#A80000] mt-1">0</h3>
                         <span class="text-[#A80000] text-[10px] font-semibold">Critical Attention</span>
                     </div>
-                    <div class="w-8 h-8 rounded bg-[#FDF2F2] text-[#A80000] flex items-center justify-center text-sm shadow-inner">
+                    <div class="w-9 h-9 rounded-lg bg-[#FDF2F2] text-[#A80000] flex items-center justify-center text-sm shadow-inner">
                         <i class="fa-solid fa-fire"></i>
                     </div>
                 </div>
             </section>
 
             <!-- Analytics Visuals Section -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Overall Status Distribution</h2>
-                        <span class="text-[10px] bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-semibold border border-amber-200">Breakdown</span>
+                        <span class="text-[10px] bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-semibold border border-amber-200">Breakdown</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="overallStatusPieChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Compliance Status Distribution</h2>
-                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-medium">Ratings</span>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded font-medium">Ratings</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="complianceStatusChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings Trend Over Time</h2>
-                        <span class="text-[10px] bg-[#EFF6FC] text-[#003399] px-2 py-0.5 rounded font-semibold">Timeline</span>
+                        <span class="text-[10px] bg-[#EFF6FC] text-[#003399] px-2.5 py-1 rounded font-semibold">Timeline</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="auditTrendChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings (Category)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Breakdown</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Breakdown</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="auditCatChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Entity Findings Volume (Top Sites)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Count Matrix</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Count Matrix</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="projectFindingsChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Findings by Auditor-in-Charge</h2>
-                        <span class="text-[10px] bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-medium">Auditor Load</span>
+                        <span class="text-[10px] bg-sky-50 text-sky-700 px-2.5 py-1 rounded font-medium">Auditor Load</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="auditorFindingsChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Findings by Responsible Department</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Department Load</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Department Load</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="deptFindingsChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E1DFDD]">
-                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Status by Issued Person (Stacked View)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-semibold">Issued Person Load</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-700 px-2.5 py-1 rounded font-semibold">Issued Person Load</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="statusIssuedPersonChart"></canvas>
@@ -283,32 +275,32 @@
         </div>
 
         <!-- CONTAINER 2: DETAILED AUDIT & CORRECTIVE ACTION MATRIX -->
-        <div id="matrixViewContainer" class="hidden space-y-4">
-            <section class="bg-white rounded-lg shadow-sm border border-[#E1DFDD] overflow-hidden">
-                <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div id="matrixViewContainer" class="hidden space-y-6">
+            <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 class="font-bold text-slate-800 text-sm">Detailed Audit & Corrective Action Matrix</h2>
-                        <p class="text-[11px] text-slate-500">Comprehensive log of project sites, landbanking, and support group audit evaluations.</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Comprehensive log of project sites, landbanking, and support group audit evaluations.</p>
                     </div>
-                    <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                        <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center cursor-pointer">
-                            <i class="fa-solid fa-file-excel mr-1.5"></i> Mass Upload Excel
+                    <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
+                        <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center cursor-pointer">
+                            <i class="fa-solid fa-file-excel mr-2"></i> Mass Upload Excel
                             <input type="file" id="excelUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)">
                         </label>
 
-                        <button onclick="openModal()" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
-                            <i class="fa-solid fa-plus mr-1.5"></i> Add Finding
+                        <button onclick="openModal()" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
+                            <i class="fa-solid fa-plus mr-2"></i> Add Finding
                         </button>
-                        <button onclick="exportToExcelFull()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
-                            <i class="fa-solid fa-file-arrow-down mr-1.5"></i> Export Excel
+                        <button onclick="exportToExcelFull()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
+                            <i class="fa-solid fa-file-arrow-down mr-2"></i> Export Excel
                         </button>
                     </div>
                 </div>
 
-                <div class="p-3 bg-slate-50 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-2">
-                    <div class="w-full sm:w-auto flex items-center gap-2">
-                        <input type="text" id="searchInput" onkeyup="currentPage = 1; renderTable()" placeholder="Search records across all attributes..." class="text-xs px-3.5 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#003399] w-full sm:w-80 shadow-sm bg-white">
-                        <select id="rowsPerPageSelect" onchange="currentPage = 1; renderTable()" class="text-xs px-2.5 py-1.5 border border-slate-300 rounded bg-white font-medium">
+                <div class="p-4 bg-slate-50 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="w-full sm:w-auto flex items-center gap-3">
+                        <input type="text" id="searchInput" onkeyup="currentPage = 1; renderTable()" placeholder="Search records across all attributes..." class="text-xs px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003399] w-full sm:w-80 shadow-sm bg-white">
+                        <select id="rowsPerPageSelect" onchange="currentPage = 1; renderTable()" class="text-xs px-3 py-2.5 border border-slate-300 rounded-lg bg-white font-medium shadow-sm">
                             <option value="5">5 rows</option>
                             <option value="10" selected>10 rows</option>
                             <option value="25">25 rows</option>
@@ -316,7 +308,7 @@
                         </select>
                     </div>
                     <div>
-                        <span id="rowCountBadge" class="bg-white text-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Items</span>
+                        <span id="rowCountBadge" class="bg-white text-slate-700 text-xs px-3.5 py-2 rounded-lg border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Items</span>
                     </div>
                 </div>
 
@@ -324,20 +316,18 @@
                     <table id="auditTable" class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-[#F8F9FA] text-slate-700 uppercase tracking-wider font-semibold border-b border-slate-200">
-                                <th class="p-3 pl-4">Series #</th>
-                                <th class="p-3">Project / Property Name</th>
-                                <th class="p-3">Project Code</th> <!-- ADDED -->
-                                <th class="p-3">Entity Type</th> <!-- ADDED -->
-                                <th class="p-3">Status</th>
-                                <th class="p-3">Audit Category</th>
-                                <th class="p-3">Actual Findings</th>
-                                <th class="p-3 hidden">Recommended Action</th>
-                                <th class="p-3">Auditor-in-Charge</th>
-                                <th class="p-3">Responsible Dept</th>
-                                <th class="p-3">Issued Person</th>
-                                <th class="p-3">Rating Scale</th>
-                                <th class="p-3">Audit Date</th>
-                                <th class="p-3 pr-4 text-center">Actions</th>
+                                <th class="p-3.5 pl-5">Series #</th>
+                                <th class="p-3.5">Project / Property Name</th>
+                                <th class="p-3.5">Status</th>
+                                <th class="p-3.5">Audit Category</th>
+                                <th class="p-3.5">Actual Findings</th>
+                                <th class="p-3.5 hidden">Recommended Action</th>
+                                <th class="p-3.5">Auditor-in-Charge</th>
+                                <th class="p-3.5">Responsible Dept</th>
+                                <th class="p-3.5">Issued Person</th>
+                                <th class="p-3.5">Rating Scale</th>
+                                <th class="p-3.5">Audit Date</th>
+                                <th class="p-3.5 pr-5 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
@@ -346,102 +336,96 @@
                     </table>
                 </div>
 
-                <div class="p-3 bg-white border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <div class="p-4 bg-white border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
                     <div id="paginationInfo" class="mb-2 sm:mb-0">
                         Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> entries
                     </div>
-                    <div class="flex items-center space-x-1">
-                        <button id="prevBtn" onclick="changePage(-1)" class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed">
-                            <i class="fa-solid fa-chevron-left mr-1"></i> Previous
+                    <div class="flex items-center space-x-1.5">
+                        <button id="prevBtn" onclick="changePage(-1)" class="px-3.5 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed shadow-xs">
+                            <i class="fa-solid fa-chevron-left mr-1.5"></i> Previous
                         </button>
                         <div id="pageNumbersContainer" class="flex items-center space-x-1 px-2">
                         </div>
-                        <button id="nextBtn" onclick="changePage(1)" class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed">
-                            Next <i class="fa-solid fa-chevron-right ml-1"></i>
+                        <button id="nextBtn" onclick="changePage(1)" class="px-3.5 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 hover:bg-slate-50 font-medium disabled:opacity-40 disabled:cursor-not-allowed shadow-xs">
+                            Next <i class="fa-solid fa-chevron-right ml-1.5"></i>
                         </button>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 -->
-        <div id="auditPlanViewContainer" class="hidden space-y-4">
-            <section class="bg-white rounded-lg shadow-sm border border-[#E1DFDD] overflow-hidden">
-                <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 (NA INAYOS ANG SPACING AT PADDING) -->
+        <div id="auditPlanViewContainer" class="hidden space-y-6">
+            <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                        <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2.5">
                             <span>Site Warehousing Audit Plan 2026 (Master Schedule & Cycles)</span>
-                            <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded">Interactive & Editable</span>
+                            <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2.5 py-0.5 rounded-md">Interactive & Editable</span>
                         </h2>
-                        <p class="text-[11px] text-slate-500">Internal Audit Department - Construction Operations Group.</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Internal Audit Department - Construction Operations Group.</p>
                     </div>
-                    <div class="flex items-center space-x-2 flex-wrap gap-y-2">
-                        <button onclick="openPlanModal(-1)" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
-                            <i class="fa-solid fa-plus mr-1.5"></i> Add Plan Entry
+                    <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
+                        <button onclick="openPlanModal(-1)" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
+                            <i class="fa-solid fa-plus mr-2"></i> Add Plan Entry
                         </button>
-                        <button onclick="cleanAndValidateAuditPlan()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
-                            <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Linisin & Format Data
+                        <button onclick="cleanAndValidateAuditPlan()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Linisin & Format Data
                         </button>
-                        <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center cursor-pointer">
-                            <i class="fa-solid fa-file-excel mr-1.5"></i> Upload Template (.xlsx)
+                        <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center cursor-pointer">
+                            <i class="fa-solid fa-file-excel mr-2"></i> Upload Template (.xlsx)
                             <input type="file" id="auditPlanUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleAuditPlanUpload(event)">
                         </label>
-                        <button onclick="exportAuditPlanToExcel()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-3.5 py-1.5 rounded shadow transition flex items-center">
-                            <i class="fa-solid fa-file-arrow-down mr-1.5"></i> Export Plan
+                        <button onclick="exportAuditPlanToExcel()" class="bg-[#252423] hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
+                            <i class="fa-solid fa-file-arrow-down mr-2"></i> Export Plan
                         </button>
                     </div>
                 </div>
 
-                <div class="p-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-2">
+                <div class="p-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-3">
                     <div class="flex items-center gap-2 w-full sm:w-80">
-                        <input type="text" id="auditPlanSearchInput" onkeyup="renderAuditPlanTable()" placeholder="Search audit plan entries..." class="text-xs px-3.5 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#003399] w-full shadow-sm bg-white">
+                        <input type="text" id="auditPlanSearchInput" onkeyup="renderAuditPlanTable()" placeholder="Search audit plan entries..." class="text-xs px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003399] w-full shadow-sm bg-white">
                     </div>
                     <div>
-                        <span id="auditPlanCountBadge" class="bg-white text-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Projects</span>
+                        <span id="auditPlanCountBadge" class="bg-white text-slate-700 text-xs px-3.5 py-2 rounded-lg border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Projects</span>
                     </div>
                 </div>
 
-                <div class="overflow-x-auto w-full custom-scrollbar max-h-[600px]">
+                <!-- PINAGANDANG TABLE SPACING AT PADDING PARA HINDI MASIKIP -->
+                <div class="overflow-x-auto w-full custom-scrollbar max-h-[650px]">
                     <table id="auditPlanTable" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
-                        <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900">
+                        <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900 shadow-sm">
                             <tr>
-                                <th class="p-2 border-r border-blue-800 min-w-[200px]" rowspan="2">Project Name & Actions</th>
-                                <th class="p-2 border-r border-blue-800" rowspan="2">Code</th>
-                                <th class="p-2 border-r border-blue-800" rowspan="2">Entity Type</th>
-                                <th class="p-2 border-r border-blue-800" colspan="2">Construction Division</th>
-                                <th class="p-2 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 1</th>
-                                <th class="p-2 border-r border-blue-800 bg-[#002878]" colspan="5">Cycle 2</th>
-                                <th class="p-2 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 3</th>
-                                <th class="p-2 bg-[#002878]" colspan="5">Cycle 4</th>
+                                <th class="p-3.5 border-r border-blue-800 min-w-[240px]" rowspan="2">Project Name & Actions</th>
+                                <th class="p-3 border-r border-blue-800" colspan="2">Construction Division</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 1</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#002878]" colspan="5">Cycle 2</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 3</th>
+                                <th class="p-3 bg-[#002878]" colspan="5">Cycle 4</th>
                             </tr>
                             <tr class="bg-[#001f5c] text-[10px]">
-                                <!-- Construction Division -->
-                                <th class="p-1.5 border-r border-blue-800">CM</th>
-                                <th class="p-1.5 border-r border-blue-800">AM</th>
-                                <!-- Cycle 1 -->
-                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
-                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
-                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-1.5 border-r border-blue-800">Closing</th>
-                                <th class="p-1.5 border-r border-blue-800">QAS</th>
-                                <!-- Cycle 2 -->
-                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
-                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
-                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-1.5 border-r border-blue-800">Closing</th>
-                                <th class="p-1.5 border-r border-blue-800">QAS</th>
-                                <!-- Cycle 3 -->
-                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
-                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
-                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-1.5 border-r border-blue-800">Closing</th>
-                                <th class="p-1.5 border-r border-blue-800">QAS</th>
-                                <!-- Cycle 4 -->
-                                <th class="p-1.5 border-r border-blue-800">Auditor</th>
-                                <th class="p-1.5 border-r border-blue-800">SV Date</th>
-                                <th class="p-1.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-1.5 border-r border-blue-800">Closing</th>
-                                <th class="p-1.5">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Construction Manager</th>
+                                <th class="p-2.5 border-r border-blue-800">Area Manager</th>
+                                <th class="p-2.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Auditor</th>
+                                <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing</th>
+                                <th class="p-2.5">QAS</th>
                             </tr>
                         </thead>
                         <tbody id="auditPlanTableBody" class="divide-y divide-slate-100 text-slate-700 bg-white">
@@ -456,21 +440,21 @@
 
     <!-- Modal Form (Finding Modal) -->
     <div id="auditModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl max-w-lg w-full p-5 space-y-3 border border-slate-200">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 id="modalTitle" class="font-bold text-slate-900 text-sm">Add New Audit Finding</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
-            <form id="auditForm" onsubmit="handleFormSubmit(event)" class="space-y-2.5 text-xs">
+            <form id="auditForm" onsubmit="handleFormSubmit(event)" class="space-y-3.5 text-xs">
                 <input type="hidden" id="editIndex" value="-1">
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3.5">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Series Number (Ref #)</label>
-                        <input type="text" id="inputSeries" required placeholder="e.g., IAD-2026-0001" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium">
+                        <input type="text" id="inputSeries" required placeholder="e.g., IAD-2026-0001" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Finding Status</label>
-                        <select id="inputStatus" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium">
+                        <select id="inputStatus" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium">
                             <option value="Open">Open</option>
                             <option value="Closed">Closed</option>
                             <option value="Accepted">Accepted</option>
@@ -479,11 +463,10 @@
                     </div>
                 </div>
                 
-                <!-- CHANGED TO 3 COLUMNS TO ACCOMMODATE PROJECT CODE -->
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 gap-3.5">
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Entity Type</label>
-                        <select id="inputModalEntityType" onchange="modalUpdateProjectDropdown()" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                        <label class="block font-semibold text-slate-700 mb-1">Entity Type (Classification)</label>
+                        <select id="inputModalEntityType" onchange="modalUpdateProjectDropdown()" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                             <option value="Project Site">Project Site</option>
                             <option value="Landbank">Landbank</option>
                             <option value="Support Group">Support Group</option>
@@ -491,19 +474,15 @@
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Project Name</label>
-                        <select id="inputProject" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
-                            <!-- Populated dynamically via JS -->
+                        <select id="inputProject" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                         </select>
                     </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Project Code</label>
-                        <input type="text" id="inputProjectCode" required placeholder="e.g. ORN" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
-                    </div>
                 </div>
+                <input type="hidden" id="inputProjectCode" value="N/A">
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Audit Category / Focus</label>
-                    <select id="inputCategory" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                    <select id="inputCategory" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                         <option value="I. Site Perimeter">I. Site Perimeter</option>
                         <option value="II. Site Storage">II. Site Storage</option>
                         <option value="III. Staging Area">III. Staging Area</option>
@@ -514,16 +493,16 @@
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Actual Findings</label>
-                    <input type="text" id="inputFinding" required placeholder="e.g., Staging area management requires timber sleepers for rebars" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                    <input type="text" id="inputFinding" required placeholder="e.g., Staging area management requires timber sleepers for rebars" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399]">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Recommended Action</label>
-                    <input type="text" id="inputProgram" required placeholder="e.g., Organize and sort by size/length within safety limits" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                    <input type="text" id="inputProgram" required placeholder="e.g., Organize and sort by size/length within safety limits" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399]">
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3.5">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Auditor-in-Charge</label>
-                        <select id="inputAuditor" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white font-medium">
+                        <select id="inputAuditor" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white font-medium">
                             <option value="Troy Sombillo De Guzman">Troy Sombillo De Guzman</option>
                             <option value="Elmar Baria">Elmar Baria</option>
                             <option value="Dianne Armas">Dianne Armas</option>
@@ -533,7 +512,7 @@
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Responsible Dept</label>
-                        <select id="inputDept" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                        <select id="inputDept" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                             <option value="Asset Management Group (AMG)">Asset Management Group (AMG)</option>
                             <option value="General Services Dept (GSD)">General Services Dept (GSD)</option>
                             <option value="Construction Division">Construction Division</option>
@@ -542,14 +521,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3.5">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Issued Person</label>
-                        <input type="text" id="inputIssuedPerson" required placeholder="e.g., Richard Guerrero" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                        <input type="text" id="inputIssuedPerson" required placeholder="e.g., Richard Guerrero" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Risk Level / Rating</label>
-                        <select id="inputSeverity" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                        <select id="inputSeverity" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399]">
                             <option value="Non Compliant">Non Compliant</option>
                             <option value="Partially Compliant">Partially Compliant</option>
                             <option value="Generally Compliant">Generally Compliant</option>
@@ -558,114 +537,103 @@
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Audit / Entry Date</label>
-                    <input type="date" id="inputDate" required class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399] bg-white">
+                    <input type="date" id="inputDate" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
                 </div>
-                <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
-                    <button type="button" onclick="closeModal()" class="px-3.5 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
-                    <button type="submit" class="px-3.5 py-1.5 bg-[#003399] text-white rounded hover:bg-blue-800 font-semibold shadow">Save Record</button>
+                <div class="flex justify-end space-x-2.5 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-[#003399] text-white rounded-lg hover:bg-blue-800 font-semibold shadow">Save Record</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: EDIT AUDIT PLAN MODAL -->
-    <!-- (Hindi binago ang Audit Plan Modal layout base sa requirement) -->
     <div id="auditPlanModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
-        <div class="bg-white rounded-lg shadow-2xl max-w-3xl w-full p-5 space-y-4 border border-slate-200 my-8">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 space-y-4 border border-slate-200 my-8">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 id="planModalTitle" class="font-bold text-slate-900 text-sm">Edit Audit Plan Entry</h3>
                 <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
             <form id="auditPlanForm" onsubmit="handlePlanFormSubmit(event)" class="space-y-4 text-xs">
-                <!-- Basic Project Info -->
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-slate-50 p-3 rounded border border-slate-200">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 bg-slate-50 p-3.5 rounded-lg border border-slate-200">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Project Name</label>
-                        <input type="text" id="planInputName" required placeholder="Project Name" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Project Code</label>
-                        <input type="text" id="planInputCode" required placeholder="e.g. ANH" class="w-full px-3 py-1.5 border border-slate-300 rounded focus:ring-2 focus:ring-[#003399]">
+                        <input type="text" id="planInputName" required placeholder="Project Name" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
+                        <input type="hidden" id="planInputCode" value="N/A">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">CM (Construction Mgr)</label>
-                        <input type="text" id="planInputCM" placeholder="CM Name" class="w-full px-3 py-1.5 border border-slate-300 rounded">
+                        <input type="text" id="planInputCM" placeholder="CM Name" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg bg-white">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">AM (Area Mgr)</label>
-                        <input type="text" id="planInputAM" placeholder="AM Name" class="w-full px-3 py-1.5 border border-slate-300 rounded">
+                        <input type="text" id="planInputAM" placeholder="AM Name" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg bg-white">
                     </div>
                 </div>
 
-                <!-- Cycles Inputs Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto custom-scrollbar p-1">
-                    <!-- Cycle 1 -->
-                    <div class="border border-blue-200 bg-blue-50/30 p-2.5 rounded space-y-2">
-                        <span class="font-bold text-xs text-[#003399] flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details</span>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="planC1Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
-                            <input type="date" id="planC1Date" class="px-2 py-1 border rounded bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-[380px] overflow-y-auto custom-scrollbar p-1">
+                    <div class="border border-blue-200 bg-blue-50/30 p-3.5 rounded-xl space-y-2.5">
+                        <span class="font-bold text-xs text-[#003399] flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details</span>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <input type="text" id="planC1Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="date" id="planC1Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                         </div>
-                        <div class="grid grid-cols-3 gap-1">
-                            <select id="planC1Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">Checklist: Pending</option><option value="Done">Checklist: Done</option><option value="Delayed">Checklist: Delayed</option></select>
-                            <select id="planC1Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">Closing: Pending</option><option value="Done">Closing: Done</option><option value="Delayed">Closing: Delayed</option></select>
-                            <select id="planC1Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="Pending">QAS: Pending</option><option value="Done">QAS: Done</option><option value="Delayed">QAS: Delayed</option></select>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="planC1Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">Checklist: Pending</option><option value="Done">Checklist: Done</option><option value="Delayed">Checklist: Delayed</option></select>
+                            <select id="planC1Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">Closing: Pending</option><option value="Done">Closing: Done</option><option value="Delayed">Closing: Delayed</option></select>
+                            <select id="planC1Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">QAS: Pending</option><option value="Done">QAS: Done</option><option value="Delayed">QAS: Delayed</option></select>
                         </div>
                     </div>
 
-                    <!-- Cycle 2 -->
-                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details</span>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="planC2Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
-                            <input type="date" id="planC2Date" class="px-2 py-1 border rounded bg-white">
+                    <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details</span>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <input type="text" id="planC2Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="date" id="planC2Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                         </div>
-                        <div class="grid grid-cols-3 gap-1">
-                            <select id="planC2Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC2Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC2Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                        </div>
-                    </div>
-
-                    <!-- Cycle 3 -->
-                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details</span>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="planC3Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
-                            <input type="date" id="planC3Date" class="px-2 py-1 border rounded bg-white">
-                        </div>
-                        <div class="grid grid-cols-3 gap-1">
-                            <select id="planC3Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC3Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC3Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="planC2Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC2Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC2Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
                         </div>
                     </div>
 
-                    <!-- Cycle 4 -->
-                    <div class="border border-slate-200 bg-slate-50 p-2.5 rounded space-y-2">
-                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details</span>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="planC4Auditor" placeholder="Auditor Initials / Name" class="px-2 py-1 border rounded bg-white">
-                            <input type="date" id="planC4Date" class="px-2 py-1 border rounded bg-white">
+                    <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details</span>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <input type="text" id="planC3Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="date" id="planC3Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
                         </div>
-                        <div class="grid grid-cols-3 gap-1">
-                            <select id="planC4Chk" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC4Cl" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC4Qas" class="px-1.5 py-1 border rounded bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="planC3Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC3Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC3Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
+                        <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details</span>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <input type="text" id="planC4Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="date" id="planC4Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="planC4Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC4Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                            <select id="planC4Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
-                    <button type="button" onclick="closePlanModal()" class="px-3.5 py-1.5 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
-                    <button type="submit" class="px-3.5 py-1.5 bg-[#003399] text-white rounded hover:bg-blue-800 font-semibold shadow">I-save ang Audit Plan</button>
+                <div class="flex justify-end space-x-2.5 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closePlanModal()" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 font-medium">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-[#003399] text-white rounded-lg hover:bg-blue-800 font-semibold shadow">Save Audit Plan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // JavaScript para sa pag-switch ng View
         function switchView(viewType) {
             const dashContainer = document.getElementById('dashboardViewContainer');
             const matrixContainer = document.getElementById('matrixViewContainer');
@@ -676,28 +644,27 @@
             const btnAuditPlan = document.getElementById('btnViewAuditPlan');
             const indicator = document.getElementById('activeViewIndicator');
 
-            // I-hide lahat muna
             dashContainer.classList.add('hidden');
             matrixContainer.classList.add('hidden');
             auditPlanContainer.classList.add('hidden');
 
-            btnDash.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
-            btnMatrix.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
-            btnAuditPlan.className = "px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded transition flex items-center gap-2";
+            btnDash.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
+            btnMatrix.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
+            btnAuditPlan.className = "px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2";
 
             if (viewType === 'dashboard') {
                 dashContainer.classList.remove('hidden');
-                btnDash.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
+                btnDash.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Dashboard";
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
             } else if (viewType === 'matrix') {
                 matrixContainer.classList.remove('hidden');
-                btnMatrix.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
+                btnMatrix.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Matrix Table";
                 renderTable();
             } else if (viewType === 'auditPlan') {
                 auditPlanContainer.classList.remove('hidden');
-                btnAuditPlan.className = "px-4 py-2 bg-[#003399] text-white font-semibold text-xs rounded shadow transition flex items-center gap-2";
+                btnAuditPlan.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Audit Plan 2026";
                 renderAuditPlanTable();
             }
@@ -721,38 +688,6 @@
             "Fit-Out", "Unit Restoration Group"
         ];
 
-        // Function para i-filter ang Project Dropdown base sa napiling Entity Type sa Slicer
-        function filterProjectDropdown() {
-            let entityType = document.getElementById('globalEntityTypeFilter').value;
-            let projectSelect = document.getElementById('globalProjectFilter');
-            
-            projectSelect.innerHTML = '<option value="ALL">All Entities (Consolidated Executive View)</option>';
-            
-            let groupsToAppend = [];
-            if (entityType === 'ALL' || entityType === 'Project Site') {
-                groupsToAppend.push({ label: 'Project Sites', items: projectSites });
-            }
-            if (entityType === 'ALL' || entityType === 'Landbank') {
-                groupsToAppend.push({ label: 'Landbank', items: landbanks });
-            }
-            if (entityType === 'ALL' || entityType === 'Support Group') {
-                groupsToAppend.push({ label: 'Support Groups', items: supportGroups });
-            }
-
-            groupsToAppend.forEach(group => {
-                let optgroup = document.createElement('optgroup');
-                optgroup.label = group.label;
-                group.items.forEach(item => {
-                    let opt = document.createElement('option');
-                    opt.value = item;
-                    opt.textContent = item;
-                    optgroup.appendChild(opt);
-                });
-                projectSelect.appendChild(optgroup);
-            });
-        }
-
-        // Function para sa Modal Entity Type at Project Dropdown synchronization
         function modalUpdateProjectDropdown() {
             let modalEntityType = document.getElementById('inputModalEntityType').value;
             let modalProjectSelect = document.getElementById('inputProject');
@@ -773,11 +708,11 @@
 
         function getEntityMeta(name) {
             if (projectSites.includes(name)) {
-                return { type: "Project Site", bg: "bg-[#EFF6FC]", text: "text-[#003399]", border: "border-blue-200", icon: "fa-building" };
+                return { type: "Project Site", bg: "bg-blue-50", text: "text-[#003399]", border: "border-blue-200", icon: "fa-building" };
             } else if (landbanks.includes(name)) {
-                return { type: "Landbank", bg: "bg-[#F0FDF4]", text: "text-[#107C10]", border: "border-emerald-200", icon: "fa-map-location-dot" };
+                return { type: "Landbank", bg: "bg-emerald-50", text: "text-[#107C10]", border: "border-emerald-200", icon: "fa-map-location-dot" };
             } else if (supportGroups.includes(name)) {
-                return { type: "Support Group", bg: "bg-[#FDF4FF]", text: "text-[#86198F]", border: "border-purple-200", icon: "fa-gears" };
+                return { type: "Support Group", bg: "bg-purple-50", text: "text-[#86198F]", border: "border-purple-200", icon: "fa-gears" };
             }
             return { type: "Entity", bg: "bg-slate-100", text: "text-slate-700", border: "border-slate-200", icon: "fa-city" };
         }
@@ -834,6 +769,13 @@
                 c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
                 c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
                 c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+            },
+            {
+                name: "Central Warehouse", code: "CWH", cm: "Logistics Team", am: "Operations",
+                c1_auditor: "EJBaria", c1_svDate: "2026-02-10", c1_chk: "Done", c1_cl: "Done", c1_qas: "Done",
+                c2_auditor: "", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
+                c3_auditor: "", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
+                c4_auditor: "", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
             }
         ];
 
@@ -841,7 +783,7 @@
             return data.map((item, idx) => ({
                 id: item.id || 'plan_' + Date.now() + '_' + idx,
                 name: (item.name || 'Unassigned Project').trim(),
-                code: (item.code || 'N/A').trim().toUpperCase(),
+                code: 'N/A',
                 cm: (item.cm || 'Unassigned').trim(),
                 am: (item.am || 'Unassigned').trim(),
                 c1_auditor: (item.c1_auditor || '').trim(),
@@ -868,7 +810,6 @@
         }
 
         auditPlanData = cleanAuditPlanData(auditPlanData);
-
         let currentPlanEditIndex = -1;
 
         function openPlanModal(index = -1) {
@@ -880,13 +821,13 @@
             modal.classList.add('flex');
 
             if (index === -1) {
-                document.getElementById('planModalTitle').innerText = "Magdagdag ng Bagong Audit Plan Entry";
+                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry";
                 document.getElementById('auditPlanForm').reset();
             } else {
                 document.getElementById('planModalTitle').innerText = "I-edit ang Audit Plan Entry";
                 let item = auditPlanData[index];
                 document.getElementById('planInputName').value = item.name || '';
-                document.getElementById('planInputCode').value = item.code || '';
+                document.getElementById('planInputCode').value = 'N/A';
                 document.getElementById('planInputCM').value = item.cm || '';
                 document.getElementById('planInputAM').value = item.am || '';
                 
@@ -929,7 +870,7 @@
             let newItem = {
                 id: currentPlanEditIndex === -1 ? 'plan_' + Date.now() : auditPlanData[currentPlanEditIndex].id,
                 name: document.getElementById('planInputName').value,
-                code: document.getElementById('planInputCode').value,
+                code: 'N/A',
                 cm: document.getElementById('planInputCM').value,
                 am: document.getElementById('planInputAM').value,
                 c1_auditor: document.getElementById('planC1Auditor').value,
@@ -983,7 +924,6 @@
         }
 
         let currentPage = 1;
-
         let auditCatChartInstance = null;
         let complianceStatusChartInstance = null;
         let projectFindingsChartInstance = null;
@@ -996,7 +936,6 @@
         const pbiColors = ['#003399', '#00B7C3', '#5C2D91', '#B4009E', '#D83B01', '#107C10', '#E3008C', '#881798'];
 
         window.onload = function() {
-            filterProjectDropdown();
             renderTable();
             renderAuditPlanTable();
             initCharts();
@@ -1008,17 +947,14 @@
         }
 
         function getFilteredData() {
-            let entityTypeFilter = document.getElementById('globalEntityTypeFilter').value;
             let selectedProject = document.getElementById('globalProjectFilter').value;
             let searchFilter = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
 
             return auditData.filter(item => {
                 let meta = getEntityMeta(item.project);
-                let matchesEntityType = (entityTypeFilter === 'ALL' || meta.type === entityTypeFilter);
                 let matchesProject = (selectedProject === 'ALL' || item.project === selectedProject);
                 
                 let matchesSearch = (item.series || '').toLowerCase().includes(searchFilter) ||
-                                    (item.code || '').toLowerCase().includes(searchFilter) ||
                                     (item.status || '').toLowerCase().includes(searchFilter) ||
                                     item.project.toLowerCase().includes(searchFilter) ||
                                     item.category.toLowerCase().includes(searchFilter) ||
@@ -1030,7 +966,7 @@
                                     item.severity.toLowerCase().includes(searchFilter) ||
                                     (item.date || '').toLowerCase().includes(searchFilter) ||
                                     meta.type.toLowerCase().includes(searchFilter);
-                return matchesEntityType && matchesProject && matchesSearch;
+                return matchesProject && matchesSearch;
             });
         }
 
@@ -1059,10 +995,10 @@
                 let meta = getEntityMeta(item.project);
 
                 let severityBadge = item.severity === 'Non Compliant' 
-                    ? '<span class="bg-[#FDF2F2] text-[#A80000] px-2.5 py-1 rounded font-semibold border border-red-200 whitespace-nowrap">Non Compliant</span>'
+                    ? '<span class="bg-[#FDF2F2] text-[#A80000] px-3 py-1.5 rounded-md font-semibold border border-red-200 whitespace-nowrap">Non Compliant</span>'
                     : item.severity === 'Partially Compliant'
-                    ? '<span class="bg-[#FFF8DC] text-[#8A6D0B] px-2.5 py-1 rounded font-semibold border border-amber-200 whitespace-nowrap">Partially Compliant</span>'
-                    : '<span class="bg-[#F3F9F3] text-[#107C10] px-2.5 py-1 rounded font-semibold border border-emerald-200 whitespace-nowrap">Generally Compliant</span>';
+                    ? '<span class="bg-[#FFF8DC] text-[#8A6D0B] px-3 py-1.5 rounded-md font-semibold border border-amber-200 whitespace-nowrap">Partially Compliant</span>'
+                    : '<span class="bg-[#F3F9F3] text-[#107C10] px-3 py-1.5 rounded-md font-semibold border border-emerald-200 whitespace-nowrap">Generally Compliant</span>';
 
                 let statusBadge = item.status === 'Closed'
                     ? '<span class="text-[#38a169] font-semibold">Closed</span>'
@@ -1074,33 +1010,34 @@
 
                 let row = `
                     <tr class="hover:bg-slate-50 transition align-top">
-                        <td class="p-3 pl-4 font-mono font-bold text-[#003399] whitespace-nowrap">${item.series || 'N/A'}</td>
-                        <td class="p-3 whitespace-nowrap">
-                            <div class="flex flex-col space-y-1">
-                                <div class="font-semibold text-slate-900 flex items-center space-x-2">
-                                    <i class="fa-solid ${meta.icon} ${meta.text}"></i>
-                                    <span>${item.project}</span>
+                        <td class="p-4 pl-5 font-mono font-bold text-[#003399] whitespace-nowrap">${item.series || 'N/A'}</td>
+                        <td class="p-4 whitespace-nowrap">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-8 h-8 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0 shadow-xs">
+                                    <i class="fa-solid ${meta.icon}"></i>
+                                </span>
+                                <div>
+                                    <div class="font-bold text-slate-900 leading-tight">${item.project}</div>
+                                    <span class="inline-block mt-1 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded ${meta.bg} ${meta.text} border ${meta.border}">${meta.type}</span>
                                 </div>
                             </div>
                         </td>
-                        <td class="p-3 whitespace-nowrap font-bold text-slate-700 font-mono">${item.code || 'N/A'}</td>
-                        <td class="p-3 whitespace-nowrap"><span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">${meta.type}</span></td>
-                        <td class="p-3 whitespace-nowrap">${statusBadge}</td>
-                        <td class="p-3 text-slate-700 font-medium whitespace-nowrap">${item.category}</td>
-                        <td class="p-3 text-slate-600 max-w-sm">
-                            <div class="max-h-28 overflow-y-auto pr-1 text-xs leading-relaxed bg-slate-50/50 p-1.5 rounded border border-slate-100 custom-scrollbar">
+                        <td class="p-4 whitespace-nowrap">${statusBadge}</td>
+                        <td class="p-4 text-slate-700 font-medium whitespace-nowrap">${item.category}</td>
+                        <td class="p-4 text-slate-600 max-w-sm">
+                            <div class="max-h-28 overflow-y-auto pr-1 text-xs leading-relaxed bg-slate-50/50 p-2 rounded-lg border border-slate-100 custom-scrollbar">
                                 ${item.finding}
                             </div>
                         </td>
-                        <td class="p-3 hidden">${item.program}</td>
-                        <td class="p-3 font-medium text-slate-800 whitespace-nowrap"><i class="fa-solid fa-user-shield text-[#003399] mr-1"></i> ${item.auditor || 'N/A'}</td>
-                        <td class="p-3 font-medium text-slate-700 whitespace-nowrap"><span class="inline-block bg-slate-100 px-2 py-1 rounded border border-slate-200">${item.dept}</span></td>
-                        <td class="p-3 font-medium text-slate-800 whitespace-nowrap"><i class="fa-solid fa-user-check text-[#003399] mr-1"></i> ${item.issuedPerson || 'N/A'}</td>
-                        <td class="p-3 whitespace-nowrap">${severityBadge}</td>
-                        <td class="p-3 font-semibold text-slate-700 whitespace-nowrap"><i class="fa-regular fa-calendar-days text-slate-400 mr-1"></i> ${item.date || 'N/A'}</td>
-                        <td class="p-3 pr-4 text-center space-x-2 whitespace-nowrap">
-                            <button onclick="editRecord(${actualIndex})" class="text-[#003399] hover:text-blue-800 p-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteRecord(${actualIndex})" class="text-[#A80000] hover:text-red-800 p-1" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                        <td class="p-4 hidden">${item.program}</td>
+                        <td class="p-4 font-medium text-slate-800 whitespace-nowrap"><i class="fa-solid fa-user-shield text-[#003399] mr-1.5"></i> ${item.auditor || 'N/A'}</td>
+                        <td class="p-4 font-medium text-slate-700 whitespace-nowrap"><span class="inline-block bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">${item.dept}</span></td>
+                        <td class="p-4 font-medium text-slate-800 whitespace-nowrap"><i class="fa-solid fa-user-check text-[#003399] mr-1.5"></i> ${item.issuedPerson || 'N/A'}</td>
+                        <td class="p-4 whitespace-nowrap">${severityBadge}</td>
+                        <td class="p-4 font-semibold text-slate-700 whitespace-nowrap"><i class="fa-regular fa-calendar-days text-slate-400 mr-1.5"></i> ${item.date || 'N/A'}</td>
+                        <td class="p-4 pr-5 text-center space-x-2.5 whitespace-nowrap">
+                            <button onclick="editRecord(${actualIndex})" class="text-[#003399] hover:text-blue-800 p-1.5" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteRecord(${actualIndex})" class="text-[#A80000] hover:text-red-800 p-1.5" title="Delete"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1122,8 +1059,8 @@
                 pageNumbersContainer.innerHTML = '';
                 for (let i = 1; i <= totalPages; i++) {
                     let btnClass = i === currentPage 
-                        ? 'px-3 py-1 rounded bg-[#003399] text-white font-semibold text-xs' 
-                        : 'px-3 py-1 rounded border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs';
+                        ? 'px-3.5 py-1.5 rounded-lg bg-[#003399] text-white font-semibold text-xs shadow-xs' 
+                        : 'px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs';
                     pageNumbersContainer.innerHTML += `<button onclick="goToPage(${i})" class="${btnClass}">${i}</button>`;
                 }
             }
@@ -1132,25 +1069,22 @@
             updateCharts(filteredData);
         }
 
+        // NA-OPTIMIZE NA SPACING AT PADDING NG AUDIT PLAN TABLE
         function renderAuditPlanTable() {
-            let entityTypeFilter = document.getElementById('globalEntityTypeFilter').value;
             let selectedProject = document.getElementById('globalProjectFilter').value;
             let searchFilter = document.getElementById('auditPlanSearchInput') ? document.getElementById('auditPlanSearchInput').value.toLowerCase() : '';
 
             let filtered = auditPlanData.filter(item => {
-                let meta = getEntityMeta(item.name);
-                let matchesEntityType = (entityTypeFilter === 'ALL' || meta.type === entityTypeFilter);
                 let matchesProject = (selectedProject === 'ALL' || item.name === selectedProject);
                 
                 let matchesSearch = (item.name || '').toLowerCase().includes(searchFilter) ||
-                                    (item.code || '').toLowerCase().includes(searchFilter) ||
                                     (item.cm || '').toLowerCase().includes(searchFilter) ||
                                     (item.am || '').toLowerCase().includes(searchFilter) ||
                                     (item.c1_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c2_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c3_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c4_auditor || '').toLowerCase().includes(searchFilter);
-                return matchesEntityType && matchesProject && matchesSearch;
+                return matchesProject && matchesSearch;
             });
 
             let tbody = document.getElementById('auditPlanTableBody');
@@ -1163,65 +1097,68 @@
             const formatBadge = (val) => {
                 if (!val) return '<span class="text-slate-300">-</span>';
                 if (val === 'Done' || val === 'Completed' || val === 'Passed') {
-                    return `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                    return `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
                 } else if (val === 'Pending' || val === 'Ongoing') {
-                    return `<span class="bg-amber-100 text-amber-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                    return `<span class="bg-amber-100 text-amber-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
                 } else if (val === 'Delayed' || val === 'Failed') {
-                    return `<span class="bg-rose-100 text-rose-800 text-[10px] font-semibold px-2 py-0.5 rounded">${val}</span>`;
+                    return `<span class="bg-rose-100 text-rose-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
                 }
-                return `<span class="bg-slate-100 text-slate-700 text-[10px] font-medium px-1.5 py-0.5 rounded">${val}</span>`;
+                return `<span class="bg-slate-100 text-slate-700 text-[10px] font-medium px-2 py-1 rounded-md">${val}</span>`;
             };
 
             filtered.forEach(item => {
                 let actualIndex = auditPlanData.indexOf(item);
                 let meta = getEntityMeta(item.name);
+
                 let row = `
                     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="p-2 border-r border-slate-200 font-semibold text-slate-900 sticky left-0 bg-white shadow-xs">
-                            <div class="flex items-center justify-between space-x-2">
-                                <span>${item.name}</span>
-                                <div class="flex items-center space-x-1">
-                                    <button onclick="openPlanModal(${actualIndex})" class="text-blue-600 hover:text-blue-800 px-1.5 py-0.5 rounded hover:bg-blue-50" title="I-edit ang Audit Plan">
+                        <td class="p-3.5 border-r border-slate-200 sticky left-0 bg-white shadow-xs">
+                            <div class="flex items-center justify-between space-x-3">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="w-7 h-7 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0">
+                                        <i class="fa-solid ${meta.icon}"></i>
+                                    </span>
+                                    <div>
+                                        <div class="font-semibold text-slate-900 leading-tight">${item.name}</div>
+                                        <span class="inline-block mt-1 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-md ${meta.bg} ${meta.text} border ${meta.border}">${meta.type}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-1.5 shrink-0">
+                                    <button onclick="openPlanModal(${actualIndex})" class="text-blue-600 hover:text-blue-800 p-1.5 rounded-md hover:bg-blue-50" title="I-edit ang Audit Plan">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <button onclick="deleteAuditPlanRecord(${actualIndex})" class="text-red-600 hover:text-red-800 px-1.5 py-0.5 rounded hover:bg-red-50" title="Burahin">
+                                    <button onclick="deleteAuditPlanRecord(${actualIndex})" class="text-red-600 hover:text-red-800 p-1.5 rounded-md hover:bg-red-50" title="Burahin">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
                         </td>
-                        <td class="p-2 border-r border-slate-200 font-mono text-center font-bold text-[#003399]">${item.code || ''}</td>
-                        <td class="p-2 border-r border-slate-200 text-center"><span class="inline-block text-[10px] px-2 py-0.5 rounded font-semibold border ${meta.bg} ${meta.text} ${meta.border}">${meta.type}</span></td>
-                        <td class="p-2 border-r border-slate-200 text-slate-600">${item.cm || ''}</td>
-                        <td class="p-2 border-r border-slate-200 text-slate-600">${item.am || ''}</td>
+                        <td class="p-3 border-r border-slate-200 text-slate-600 font-medium">${item.cm || ''}</td>
+                        <td class="p-3 border-r border-slate-200 text-slate-600 font-medium">${item.am || ''}</td>
                         
-                        <!-- Cycle 1 -->
-                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c1_auditor || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c1_svDate || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_chk)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_cl)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c1_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c1_auditor || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_svDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_chk)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_cl)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_qas)}</td>
 
-                        <!-- Cycle 2 -->
-                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c2_auditor || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c2_svDate || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_chk)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_cl)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c2_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c2_auditor || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_svDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_chk)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_cl)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_qas)}</td>
 
-                        <!-- Cycle 3 -->
-                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c3_auditor || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c3_svDate || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_chk)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_cl)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c3_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c3_auditor || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_svDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_chk)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_cl)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_qas)}</td>
 
-                        <!-- Cycle 4 -->
-                        <td class="p-2 border-r border-slate-200 text-center font-medium">${item.c4_auditor || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center text-slate-600">${item.c4_svDate || '-'}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c4_chk)}</td>
-                        <td class="p-2 border-r border-slate-200 text-center">${formatBadge(item.c4_cl)}</td>
-                        <td class="p-2 text-center">${formatBadge(item.c4_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c4_auditor || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_svDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c4_chk)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c4_cl)}</td>
+                        <td class="p-3 text-center">${formatBadge(item.c4_qas)}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
@@ -1253,29 +1190,29 @@
 
                         newPlanData.push({
                             name: String(row[0] || ''),
-                            code: String(row[1] || ''),
-                            cm: String(row[2] || ''),
-                            am: String(row[3] || ''),
-                            c1_auditor: String(row[5] || ''),
-                            c1_svDate: String(row[7] || ''),
-                            c1_chk: String(row[9] || ''),
-                            c1_cl: String(row[12] || ''),
-                            c1_qas: String(row[15] || ''),
-                            c2_auditor: String(row[21] || ''),
-                            c2_svDate: String(row[23] || ''),
-                            c2_chk: String(row[25] || ''),
-                            c2_cl: String(row[28] || ''),
-                            c2_qas: String(row[31] || ''),
-                            c3_auditor: String(row[38] || ''),
-                            c3_svDate: String(row[40] || ''),
-                            c3_chk: String(row[42] || ''),
-                            c3_cl: String(row[45] || ''),
-                            c3_qas: String(row[48] || ''),
-                            c4_auditor: String(row[54] || ''),
-                            c4_svDate: String(row[56] || ''),
-                            c4_chk: String(row[58] || ''),
-                            c4_cl: String(row[61] || ''),
-                            c4_qas: String(row[64] || '')
+                            code: 'N/A',
+                            cm: String(row[1] || ''),
+                            am: String(row[2] || ''),
+                            c1_auditor: String(row[4] || ''),
+                            c1_svDate: String(row[6] || ''),
+                            c1_chk: String(row[8] || ''),
+                            c1_cl: String(row[11] || ''),
+                            c1_qas: String(row[14] || ''),
+                            c2_auditor: String(row[20] || ''),
+                            c2_svDate: String(row[22] || ''),
+                            c2_chk: String(row[24] || ''),
+                            c2_cl: String(row[27] || ''),
+                            c2_qas: String(row[30] || ''),
+                            c3_auditor: String(row[37] || ''),
+                            c3_svDate: String(row[39] || ''),
+                            c3_chk: String(row[41] || ''),
+                            c3_cl: String(row[44] || ''),
+                            c3_qas: String(row[47] || ''),
+                            c4_auditor: String(row[53] || ''),
+                            c4_svDate: String(row[55] || ''),
+                            c4_chk: String(row[57] || ''),
+                            c4_cl: String(row[60] || ''),
+                            c4_qas: String(row[63] || '')
                         });
                     }
 
@@ -1299,8 +1236,6 @@
         function exportAuditPlanToExcel() {
             let exportRows = auditPlanData.map(item => ({
                 "Project Name": item.name,
-                "Code": item.code,
-                "Entity Type": getEntityMeta(item.name).type,
                 "CM": item.cm,
                 "AM": item.am,
                 "C1 Auditor": item.c1_auditor,
@@ -1381,7 +1316,6 @@
                 document.getElementById('inputModalEntityType').value = meta.type;
                 modalUpdateProjectDropdown();
                 document.getElementById('inputProject').value = item.project;
-                document.getElementById('inputProjectCode').value = item.code || '';
                 
                 document.getElementById('inputCategory').value = item.category;
                 document.getElementById('inputFinding').value = item.finding;
@@ -1406,7 +1340,7 @@
                 series: document.getElementById('inputSeries').value,
                 status: document.getElementById('inputStatus').value,
                 project: document.getElementById('inputProject').value,
-                code: document.getElementById('inputProjectCode').value,
+                code: "N/A",
                 category: document.getElementById('inputCategory').value,
                 finding: document.getElementById('inputFinding').value,
                 program: document.getElementById('inputProgram').value,
@@ -1463,7 +1397,6 @@
                         let series = row['Series No.'] || row['Series'] || row['Ref #'] || `IAD-2026-${String(auditData.length + 1 + addedCount).padStart(4, '0')}`;
                         let status = row['Status'] || 'Open';
                         let project = row['Project'] || 'The Oriana';
-                        let code = row['Project Code'] || row['Code'] || 'N/A';
                         let category = row['Finding Category'] || row['Category'] || 'I. Site Perimeter';
                         let finding = row['Details of Findings'] || row['Finding'] || 'No details provided';
                         let program = row['Corrective Action'] || row['Program'] || 'Standard Review';
@@ -1477,7 +1410,7 @@
                             series: String(series),
                             status: String(status),
                             project: String(project),
-                            code: String(code),
+                            code: "N/A",
                             category: String(category),
                             finding: String(finding),
                             program: String(program),
@@ -1508,9 +1441,7 @@
             let exportData = filteredData.map(item => ({
                 "Series No.": item.series,
                 "Status": item.status || "Open",
-                "Entity Type": getEntityMeta(item.project).type,
                 "Project": item.project,
-                "Project Code": item.code || "N/A",
                 "Finding Category": item.category,
                 "Details of Findings": item.finding,
                 "Corrective Action": item.program, 
@@ -1589,7 +1520,7 @@
             const ctxProject = document.getElementById('projectFindingsChart').getContext('2d');
             projectFindingsChartInstance = new Chart(ctxProject, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Number of Findings', data: [], backgroundColor: '#00B7C3', borderRadius: 2 }] },
+                data: { labels: [], datasets: [{ label: 'Number of Findings', data: [], backgroundColor: '#00B7C3', borderRadius: 4 }] },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -1602,7 +1533,7 @@
             const ctxAuditor = document.getElementById('auditorFindingsChart').getContext('2d');
             auditorFindingsChartInstance = new Chart(ctxAuditor, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#003399', borderRadius: 2 }] },
+                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#003399', borderRadius: 4 }] },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -1615,7 +1546,7 @@
             const ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
             deptFindingsChartInstance = new Chart(ctxDept, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#5C2D91', borderRadius: 2 }] },
+                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#5C2D91', borderRadius: 4 }] },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -1630,10 +1561,10 @@
                 data: {
                     labels: [],
                     datasets: [
-                        { label: 'Open', data: [], backgroundColor: '#64748B', borderRadius: 2 },        
-                        { label: 'Closed', data: [], backgroundColor: '#0EA5E9', borderRadius: 2 },      
-                        { label: 'Accepted', data: [], backgroundColor: '#003399', borderRadius: 2 },    
-                        { label: 'Cancelled', data: [], backgroundColor: '#94A3B8', borderRadius: 2 }    
+                        { label: 'Open', data: [], backgroundColor: '#64748B', borderRadius: 4 },        
+                        { label: 'Closed', data: [], backgroundColor: '#0EA5E9', borderRadius: 4 },      
+                        { label: 'Accepted', data: [], backgroundColor: '#003399', borderRadius: 4 },    
+                        { label: 'Cancelled', data: [], backgroundColor: '#94A3B8', borderRadius: 4 }    
                     ]
                 },
                 options: {
@@ -1709,38 +1640,31 @@
             auditorFindingsChartInstance.data.datasets[0].data = sortedAuditors.map(a => auditorCounts[a]);
             auditorFindingsChartInstance.update();
 
-            // FIXED TRUNCATED CODE HERE
-            let deptCountsObj = {};
+            let deptCounts = {};
             data.forEach(item => {
-                let deptName = item.dept || 'Unassigned Dept';
-                deptCountsObj[deptName] = (deptCountsObj[deptName] || 0) + 1;
+                let dep = item.dept || 'Unassigned Dept';
+                deptCounts[dep] = (deptCounts[dep] || 0) + 1;
             });
-            let sortedDepts = Object.keys(deptCountsObj).sort((a, b) => deptCountsObj[b] - deptCountsObj[a]);
+            let sortedDepts = Object.keys(deptCounts).sort((a, b) => deptCounts[b] - deptCounts[a]);
             deptFindingsChartInstance.data.labels = sortedDepts;
-            deptFindingsChartInstance.data.datasets[0].data = sortedDepts.map(d => deptCountsObj[d]);
+            deptFindingsChartInstance.data.datasets[0].data = sortedDepts.map(d => deptCounts[d]);
             deptFindingsChartInstance.update();
 
-            let issuedStatusObj = {};
-            data.forEach(item => {
-                let person = item.issuedPerson || 'Unassigned';
-                if (!issuedStatusObj[person]) issuedStatusObj[person] = { 'Open': 0, 'Closed': 0, 'Accepted': 0, 'Cancelled': 0 };
-                let stat = item.status || 'Open';
-                if (issuedStatusObj[person][stat] !== undefined) {
-                    issuedStatusObj[person][stat]++;
-                }
+            let issuedPersons = [...new Set(data.map(i => i.issuedPerson || 'N/A'))];
+            let openArr = [], closedArr = [], acceptedArr = [], cancelledArr = [];
+            issuedPersons.forEach(person => {
+                let sub = data.filter(i => (i.issuedPerson || 'N/A') === person);
+                openArr.push(sub.filter(i => (i.status || 'Open') === 'Open').length);
+                closedArr.push(sub.filter(i => i.status === 'Closed').length);
+                acceptedArr.push(sub.filter(i => i.status === 'Accepted').length);
+                cancelledArr.push(sub.filter(i => i.status === 'Cancelled').length);
             });
-            
-            let sortedPersons = Object.keys(issuedStatusObj).sort((a, b) => {
-                let totalA = Object.values(issuedStatusObj[a]).reduce((sum, val) => sum + val, 0);
-                let totalB = Object.values(issuedStatusObj[b]).reduce((sum, val) => sum + val, 0);
-                return totalB - totalA;
-            }).slice(0, 10); // top 10
 
-            statusIssuedPersonChartInstance.data.labels = sortedPersons;
-            statusIssuedPersonChartInstance.data.datasets[0].data = sortedPersons.map(p => issuedStatusObj[p]['Open']);
-            statusIssuedPersonChartInstance.data.datasets[1].data = sortedPersons.map(p => issuedStatusObj[p]['Closed']);
-            statusIssuedPersonChartInstance.data.datasets[2].data = sortedPersons.map(p => issuedStatusObj[p]['Accepted']);
-            statusIssuedPersonChartInstance.data.datasets[3].data = sortedPersons.map(p => issuedStatusObj[p]['Cancelled']);
+            statusIssuedPersonChartInstance.data.labels = issuedPersons;
+            statusIssuedPersonChartInstance.data.datasets[0].data = openArr;
+            statusIssuedPersonChartInstance.data.datasets[1].data = closedArr;
+            statusIssuedPersonChartInstance.data.datasets[2].data = acceptedArr;
+            statusIssuedPersonChartInstance.data.datasets[3].data = cancelledArr;
             statusIssuedPersonChartInstance.update();
         }
     </script>
