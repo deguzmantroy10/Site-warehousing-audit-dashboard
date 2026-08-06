@@ -356,6 +356,31 @@
 
         <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 -->
         <div id="auditPlanViewContainer" class="hidden space-y-6">
+            
+            <!-- NEW DEDICATED AUDIT PLAN ANALYTICS CHARTS SECTION -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
+                        <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Plan: Overall Progress Status</h2>
+                        <span class="text-[10px] bg-blue-50 text-[#003399] px-2.5 py-1 rounded font-semibold border border-blue-200">Milestone Overview</span>
+                    </div>
+                    <div class="relative h-64 w-full flex items-center justify-center">
+                        <canvas id="auditPlanStatusPieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
+                    <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
+                        <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Plan Stages Breakdown (Site Visit vs Checklist vs Closing vs QAS)</h2>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded font-medium">Stage Progress</span>
+                    </div>
+                    <div class="relative h-64 w-full flex items-center justify-center">
+                        <canvas id="auditPlanStagesBarChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Audit Plan Table Section -->
             <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -772,6 +797,7 @@
                 btnAuditPlan.className = "px-4 py-2.5 bg-[#003399] text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2";
                 indicator.innerText = "Active View: Audit Plan 2026";
                 renderAuditPlanTable();
+                setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
             }
         }
 
@@ -1063,8 +1089,11 @@
         let auditTrendChartInstance = null;
         let statusIssuedPersonChartInstance = null;
         let overallStatusPieChartInstance = null;
+        
+        // New Audit Plan Charts
+        let auditPlanStatusPieChartInstance = null;
+        let auditPlanStagesBarChartInstance = null;
 
-        // ELEGANT & PROFESSIONAL CORPORATE THEMED COLOR PALETTES 
         const complianceColors = {
             'Generally Compliant': '#107C10',
             'Partially Compliant': '#CA8A04',
@@ -1076,6 +1105,7 @@
             renderTable();
             renderAuditPlanTable();
             initCharts();
+            initAuditPlanCharts();
         };
 
         function saveToLocalStorage() {
@@ -1348,6 +1378,8 @@
                 `;
                 tbody.innerHTML += row;
             });
+
+            updateAuditPlanCharts(filtered);
         }
 
         function updateKPIs(data) {
@@ -1442,6 +1474,92 @@
             });
 
             updateCharts(auditData);
+        }
+
+        function initAuditPlanCharts() {
+            let ctxPlanPie = document.getElementById('auditPlanStatusPieChart').getContext('2d');
+            auditPlanStatusPieChartInstance = new Chart(ctxPlanPie, {
+                type: 'doughnut',
+                data: { 
+                    labels: ['Done', 'In Progress', 'Pending', 'Delayed'], 
+                    datasets: [{ 
+                        data: [0, 0, 0, 0], 
+                        backgroundColor: ['#107C10', '#0284C7', '#EAB308', '#DC2626'], 
+                        borderWidth: 2, 
+                        borderColor: '#ffffff' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } } }
+            });
+
+            let ctxPlanBar = document.getElementById('auditPlanStagesBarChart').getContext('2d');
+            auditPlanStagesBarChartInstance = new Chart(ctxPlanBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Site Visit', 'Checklist', 'Closing Meeting', 'QAS'],
+                    datasets: [
+                        { label: 'Done', data: [0, 0, 0, 0], backgroundColor: '#107C10', borderRadius: 4 },
+                        { label: 'In Progress / Pending', data: [0, 0, 0, 0], backgroundColor: '#0284C7', borderRadius: 4 }
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        x: { stacked: false, grid: { display: false } }, 
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } } 
+                    },
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } }
+                }
+            });
+        }
+
+        function updateAuditPlanCharts(filteredData) {
+            if (!auditPlanStatusPieChartInstance || !auditPlanStagesBarChartInstance) return;
+
+            let statusCounts = { 'Done': 0, 'In Progress': 0, 'Pending': 0, 'Delayed': 0 };
+            let stageStats = {
+                'Site Visit': { done: 0, active: 0 },
+                'Checklist': { done: 0, active: 0 },
+                'Closing Meeting': { done: 0, active: 0 },
+                'QAS': { done: 0, active: 0 }
+            };
+
+            filteredData.forEach(item => {
+                ['c1_', 'c2_', 'c3_', 'c4_'].forEach(prefix => {
+                    let st = item[prefix + 'status'] || 'Pending';
+                    if (statusCounts[st] !== undefined) statusCounts[st]++;
+                    else statusCounts['Pending']++;
+
+                    // Count Stages based on filled dates
+                    if (item[prefix + 'svDate']) stageStats['Site Visit'].done++; else stageStats['Site Visit'].active++;
+                    if (item[prefix + 'chkDate']) stageStats['Checklist'].done++; else stageStats['Checklist'].active++;
+                    if (item[prefix + 'clDate']) stageStats['Closing Meeting'].done++; else stageStats['Closing Meeting'].active++;
+                    if (item[prefix + 'qasDate']) stageStats['QAS'].done++; else stageStats['QAS'].active++;
+                });
+            });
+
+            auditPlanStatusPieChartInstance.data.datasets[0].data = [
+                statusCounts['Done'], 
+                statusCounts['In Progress'], 
+                statusCounts['Pending'], 
+                statusCounts['Delayed']
+            ];
+            auditPlanStatusPieChartInstance.update();
+
+            auditPlanStagesBarChartInstance.data.datasets[0].data = [
+                stageStats['Site Visit'].done,
+                stageStats['Checklist'].done,
+                stageStats['Closing Meeting'].done,
+                stageStats['QAS'].done
+            ];
+            auditPlanStagesBarChartInstance.data.datasets[1].data = [
+                stageStats['Site Visit'].active,
+                stageStats['Checklist'].active,
+                stageStats['Closing Meeting'].active,
+                stageStats['QAS'].active
+            ];
+            auditPlanStagesBarChartInstance.update();
         }
 
         function updateCharts(data) {
