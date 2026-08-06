@@ -68,14 +68,14 @@
                     <i class="fa-solid fa-chart-pie"></i> IAD Analytics Dashboard
                 </button>
                 <button id="btnViewMatrix" onclick="switchView('matrix')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
-                    <i class="fa-solid fa-table-list"></i> Detailed Audit & Corrective Action Matrix
+                    <i class="fa-solid fa-table-list"></i> QAS Detailed Audit & Corrective Action
                 </button>
                 <button id="btnViewAuditPlan" onclick="switchView('auditPlan')" class="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs rounded-lg transition flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check"></i> Site Warehousing Audit Plan 2026
                 </button>
             </div>
             <div class="text-xs text-slate-500 font-medium italic pr-2">
-                <span>IAD Construction Ops v2026.1</span>
+                <span>IAD Construction Ops v2026.2</span>
             </div>
         </section>
 
@@ -225,7 +225,7 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
                     <div class="flex justify-between items-center mb-4 pb-2.5 border-b border-slate-100">
                         <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Audit Findings (Category)</h2>
-                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Breakdown</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Pie Executive View</span>
                     </div>
                     <div class="relative h-64 w-full flex items-center justify-center">
                         <canvas id="auditCatChart"></canvas>
@@ -274,12 +274,12 @@
             </section>
         </div>
 
-        <!-- CONTAINER 2: DETAILED AUDIT & CORRECTIVE ACTION MATRIX -->
+        <!-- CONTAINER 2: QAS DETAILED AUDIT & CORRECTIVE ACTION -->
         <div id="matrixViewContainer" class="hidden space-y-6">
             <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h2 class="font-bold text-slate-800 text-sm">Detailed Audit & Corrective Action Matrix</h2>
+                        <h2 class="font-bold text-slate-800 text-sm"> QAS Detailed Audit & Corrective Action</h2>
                         <p class="text-[11px] text-slate-500 mt-0.5">Comprehensive log of project sites, landbanking, and support group audit evaluations.</p>
                     </div>
                     <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
@@ -354,23 +354,19 @@
             </section>
         </div>
 
-        <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 (NA INAYOS ANG SPACING AT PADDING) -->
+        <!-- CONTAINER 3: SITE WAREHOUSING AUDIT PLAN 2026 -->
         <div id="auditPlanViewContainer" class="hidden space-y-6">
             <section class="bg-white rounded-xl shadow-sm border border-[#E1DFDD] overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2.5">
                             <span>Site Warehousing Audit Plan 2026 (Master Schedule & Cycles)</span>
-                            <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2.5 py-0.5 rounded-md">Interactive & Editable</span>
                         </h2>
                         <p class="text-[11px] text-slate-500 mt-0.5">Internal Audit Department - Construction Operations Group.</p>
                     </div>
                     <div class="flex items-center space-x-2.5 flex-wrap gap-y-2">
                         <button onclick="openPlanModal(-1)" class="bg-[#003399] hover:bg-blue-800 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
                             <i class="fa-solid fa-plus mr-2"></i> Add Plan Entry
-                        </button>
-                        <button onclick="cleanAndValidateAuditPlan()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center">
-                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Linisin & Format Data
                         </button>
                         <label class="bg-[#107C10] hover:bg-[#0b5d0b] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition flex items-center cursor-pointer">
                             <i class="fa-solid fa-file-excel mr-2"></i> Upload Template (.xlsx)
@@ -382,50 +378,67 @@
                     </div>
                 </div>
 
-                <div class="p-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-3">
+                <div class="p-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between gap-3 flex-wrap">
                     <div class="flex items-center gap-2 w-full sm:w-80">
                         <input type="text" id="auditPlanSearchInput" onkeyup="renderAuditPlanTable()" placeholder="Search audit plan entries..." class="text-xs px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003399] w-full shadow-sm bg-white">
                     </div>
-                    <div>
-                        <span id="auditPlanCountBadge" class="bg-white text-slate-700 text-xs px-3.5 py-2 rounded-lg border border-slate-200 font-semibold whitespace-nowrap shadow-xs">0 Projects</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-500 font-medium">Quick Filter Progress:</span>
+                        <select id="auditPlanStatusFilter" onchange="renderAuditPlanTable()" class="text-xs px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium shadow-xs">
+                            <option value="ALL">All Statuses</option>
+                            <option value="Done">Done / Completed</option>
+                            <option value="In Progress">In Progress / Ongoing</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Delayed">Delayed</option>
+                        </select>
+                        <span id="auditPlanCountBadge" class="bg-white text-slate-700 text-xs px-3.5 py-2 rounded-lg border border-slate-200 font-semibold whitespace-nowrap shadow-xs ml-2">0 Projects</span>
                     </div>
                 </div>
 
-                <!-- PINAGANDANG TABLE SPACING AT PADDING PARA HINDI MASIKIP -->
+                <!-- TABLE SPACING -->
                 <div class="overflow-x-auto w-full custom-scrollbar max-h-[650px]">
                     <table id="auditPlanTable" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
                         <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900 shadow-sm">
                             <tr>
-                                <th class="p-3.5 border-r border-blue-800 min-w-[240px]" rowspan="2">Project Name & Actions</th>
-                                <th class="p-3 border-r border-blue-800" colspan="2">Construction Division</th>
-                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 1</th>
-                                <th class="p-3 border-r border-blue-800 bg-[#002878]" colspan="5">Cycle 2</th>
-                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="5">Cycle 3</th>
-                                <th class="p-3 bg-[#002878]" colspan="5">Cycle 4</th>
+                                <th class="py-4 px-5 border-r border-blue-800 min-w-[280px]" rowspan="2">Project Name & Actions</th>
+                                <th class="p-3 border-r border-blue-800" colspan="3">Classification & Division</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="6">Cycle 1 (Status, Dates & Aging)</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#002878]" colspan="6">Cycle 2 (Status, Dates & Aging)</th>
+                                <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="6">Cycle 3 (Status, Dates & Aging)</th>
+                                <th class="p-3 bg-[#002878]" colspan="6">Cycle 4 (Status, Dates & Aging)</th>
                             </tr>
                             <tr class="bg-[#001f5c] text-[10px]">
+                                <th class="p-2.5 border-r border-blue-800">Entity Type</th>
                                 <th class="p-2.5 border-r border-blue-800">Construction Manager</th>
                                 <th class="p-2.5 border-r border-blue-800">Area Manager</th>
+                                <!-- Cycle 1 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
-                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-2.5 border-r border-blue-800">Closing</th>
-                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing Date</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
+                                <!-- Cycle 2 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
-                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-2.5 border-r border-blue-800">Closing</th>
-                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing Date</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
+                                <!-- Cycle 3 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
-                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-2.5 border-r border-blue-800">Closing</th>
-                                <th class="p-2.5 border-r border-blue-800">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing Date</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Progress & Aging</th>
+                                <!-- Cycle 4 Subheaders -->
                                 <th class="p-2.5 border-r border-blue-800">Auditor</th>
                                 <th class="p-2.5 border-r border-blue-800">Site Visit Date</th>
-                                <th class="p-2.5 border-r border-blue-800">Checklist</th>
-                                <th class="p-2.5 border-r border-blue-800">Closing</th>
-                                <th class="p-2.5">QAS</th>
+                                <th class="p-2.5 border-r border-blue-800">Checklist Date</th>
+                                <th class="p-2.5 border-r border-blue-800">Closing Date</th>
+                                <th class="p-2.5 border-r border-blue-800">QAS Date</th>
+                                <th class="p-2.5">Progress & Aging</th>
                             </tr>
                         </thead>
                         <tbody id="auditPlanTableBody" class="divide-y divide-slate-100 text-slate-700 bg-white">
@@ -549,13 +562,21 @@
 
     <!-- MODAL: EDIT AUDIT PLAN MODAL -->
     <div id="auditPlanModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50 overflow-y-auto">
-        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 space-y-4 border border-slate-200 my-8">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-6 space-y-4 border border-slate-200 my-8">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 id="planModalTitle" class="font-bold text-slate-900 text-sm">Edit Audit Plan Entry</h3>
                 <button onclick="closePlanModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
             <form id="auditPlanForm" onsubmit="handlePlanFormSubmit(event)" class="space-y-4 text-xs">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3.5 bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Entity Type</label>
+                        <select id="planInputEntityType" required class="w-full px-3.5 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+                            <option value="Project Site">Project Site</option>
+                            <option value="Landbank">Landbank</option>
+                            <option value="Support Group">Support Group</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Project Name</label>
                         <input type="text" id="planInputName" required placeholder="Project Name" class="w-full px-3.5 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#003399] bg-white">
@@ -571,56 +592,140 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-[380px] overflow-y-auto custom-scrollbar p-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-[420px] overflow-y-auto custom-scrollbar p-1">
+                    <!-- Cycle 1 Inputs -->
                     <div class="border border-blue-200 bg-blue-50/30 p-3.5 rounded-xl space-y-2.5">
                         <span class="font-bold text-xs text-[#003399] flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 1 Details</span>
                         <div class="grid grid-cols-2 gap-2.5">
-                            <input type="text" id="planC1Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
-                            <input type="date" id="planC1Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="text" id="planC1Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <select id="planC1Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+                                <option value="Pending">Progress: Pending</option>
+                                <option value="In Progress">Progress: In Progress</option>
+                                <option value="Done">Progress: Done</option>
+                                <option value="Delayed">Progress: Delayed</option>
+                            </select>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <select id="planC1Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">Checklist: Pending</option><option value="Done">Checklist: Done</option><option value="Delayed">Checklist: Delayed</option></select>
-                            <select id="planC1Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">Closing: Pending</option><option value="Done">Closing: Done</option><option value="Delayed">Closing: Delayed</option></select>
-                            <select id="planC1Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="Pending">QAS: Pending</option><option value="Done">QAS: Done</option><option value="Delayed">QAS: Delayed</option></select>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
+                                <input type="date" id="planC1Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC1ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC1ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC1QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Cycle 2 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
                         <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 2 Details</span>
                         <div class="grid grid-cols-2 gap-2.5">
-                            <input type="text" id="planC2Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
-                            <input type="date" id="planC2Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="text" id="planC2Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <select id="planC2Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+                                <option value="Pending">Progress: Pending</option>
+                                <option value="In Progress">Progress: In Progress</option>
+                                <option value="Done">Progress: Done</option>
+                                <option value="Delayed">Progress: Delayed</option>
+                            </select>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <select id="planC2Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC2Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC2Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
+                                <input type="date" id="planC2Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC2ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC2ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC2QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Cycle 3 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
                         <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 3 Details</span>
                         <div class="grid grid-cols-2 gap-2.5">
-                            <input type="text" id="planC3Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
-                            <input type="date" id="planC3Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="text" id="planC3Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <select id="planC3Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+                                <option value="Pending">Progress: Pending</option>
+                                <option value="In Progress">Progress: In Progress</option>
+                                <option value="Done">Progress: Done</option>
+                                <option value="Delayed">Progress: Delayed</option>
+                            </select>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <select id="planC3Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC3Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC3Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
+                                <input type="date" id="planC3Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC3ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC3ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC3QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Cycle 4 Inputs -->
                     <div class="border border-slate-200 bg-slate-50 p-3.5 rounded-xl space-y-2.5">
                         <span class="font-bold text-xs text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-rotate-right"></i> Cycle 4 Details</span>
                         <div class="grid grid-cols-2 gap-2.5">
-                            <input type="text" id="planC4Auditor" placeholder="Auditor Initials / Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
-                            <input type="date" id="planC4Date" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <input type="text" id="planC4Auditor" placeholder="Auditor Name" class="px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <select id="planC4Status" class="px-3 py-2 border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+                                <option value="Pending">Progress: Pending</option>
+                                <option value="In Progress">Progress: In Progress</option>
+                                <option value="Done">Progress: Done</option>
+                                <option value="Delayed">Progress: Delayed</option>
+                            </select>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <select id="planC4Chk" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Checklist: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC4Cl" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">Closing: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
-                            <select id="planC4Qas" class="px-2 py-2 border border-slate-300 rounded-lg bg-white text-[11px]"><option value="">QAS: None</option><option value="Pending">Pending</option><option value="Done">Done</option></select>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Site Visit Date</label>
+                                <input type="date" id="planC4Date" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Checklist Date</label>
+                                <input type="date" id="planC4ChkDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">Closing Date</label>
+                                <input type="date" id="planC4ClDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">QAS Date</label>
+                                <input type="date" id="planC4QasDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -750,63 +855,77 @@
 
         let auditPlanData = JSON.parse(localStorage.getItem('auditPlanData_2026')) || [
             {
-                name: "Anissa Heights", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_svDate: "2026-03-12", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
-                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
-                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
-                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+                name: "Anissa Heights", entityType: "Project Site", code: "ANH", cm: "Shiela Marie G. Plarisan", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_status: "In Progress", c1_svDate: "2026-03-12", c1_chkDate: "2026-03-15", c1_clDate: "", c1_qasDate: "",
+                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
+                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
+                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
             },
             {
-                name: "Solmera Coast", code: "SLC", cm: "Jeremiah Franz B. Aquino", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_svDate: "2026-03-27", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
-                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
-                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
-                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+                name: "Solmera Coast", entityType: "Project Site", code: "SLC", cm: "Jeremiah Franz B. Aquino", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_status: "In Progress", c1_svDate: "2026-03-27", c1_chkDate: "2026-03-30", c1_clDate: "", c1_qasDate: "",
+                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
+                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
+                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
             },
             {
-                name: "Moriyama Nature Park", code: "MRY", cm: "Lorenzo Emmanuel C. Del Castillo", am: "Alvin Monzones",
-                c1_auditor: "EJBaria", c1_svDate: "2026-04-17", c1_chk: "Pending", c1_cl: "Pending", c1_qas: "Pending",
-                c2_auditor: "SBTapalla", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
-                c3_auditor: "TSDeGuzman", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
-                c4_auditor: "SQFrancisco", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+                name: "Moriyama Nature Park", entityType: "Landbank", code: "MRY", cm: "Lorenzo Emmanuel C. Del Castillo", am: "Alvin Monzones",
+                c1_auditor: "EJBaria", c1_status: "Pending", c1_svDate: "2026-04-17", c1_chkDate: "", c1_clDate: "", c1_qasDate: "",
+                c2_auditor: "SBTapalla", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
+                c3_auditor: "TSDeGuzman", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
+                c4_auditor: "SQFrancisco", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
             },
             {
-                name: "Central Warehouse", code: "CWH", cm: "Logistics Team", am: "Operations",
-                c1_auditor: "EJBaria", c1_svDate: "2026-02-10", c1_chk: "Done", c1_cl: "Done", c1_qas: "Done",
-                c2_auditor: "", c2_svDate: "", c2_chk: "", c2_cl: "", c2_qas: "",
-                c3_auditor: "", c3_svDate: "", c3_chk: "", c3_cl: "", c3_qas: "",
-                c4_auditor: "", c4_svDate: "", c4_chk: "", c4_cl: "", c4_qas: ""
+                name: "Central Warehouse", entityType: "Support Group", code: "CWH", cm: "Logistics Team", am: "Operations",
+                c1_auditor: "EJBaria", c1_status: "Done", c1_svDate: "2026-02-10", c1_chkDate: "2026-02-12", c1_clDate: "2026-02-15", c1_qasDate: "2026-02-18",
+                c2_auditor: "", c2_status: "Pending", c2_svDate: "", c2_chkDate: "", c2_clDate: "", c2_qasDate: "",
+                c3_auditor: "", c3_status: "Pending", c3_svDate: "", c3_chkDate: "", c3_clDate: "", c3_qasDate: "",
+                c4_auditor: "", c4_status: "Pending", c4_svDate: "", c4_chkDate: "", c4_clDate: "", c4_qasDate: ""
             }
         ];
 
         function cleanAuditPlanData(data) {
-            return data.map((item, idx) => ({
-                id: item.id || 'plan_' + Date.now() + '_' + idx,
-                name: (item.name || 'Unassigned Project').trim(),
-                code: 'N/A',
-                cm: (item.cm || 'Unassigned').trim(),
-                am: (item.am || 'Unassigned').trim(),
-                c1_auditor: (item.c1_auditor || '').trim(),
-                c1_svDate: (item.c1_svDate || '').trim(),
-                c1_chk: (item.c1_chk || 'Pending').trim(),
-                c1_cl: (item.c1_cl || 'Pending').trim(),
-                c1_qas: (item.c1_qas || 'Pending').trim(),
-                c2_auditor: (item.c2_auditor || '').trim(),
-                c2_svDate: (item.c2_svDate || '').trim(),
-                c2_chk: (item.c2_chk || '').trim(),
-                c2_cl: (item.c2_cl || '').trim(),
-                c2_qas: (item.c2_qas || '').trim(),
-                c3_auditor: (item.c3_auditor || '').trim(),
-                c3_svDate: (item.c3_svDate || '').trim(),
-                c3_chk: (item.c3_chk || '').trim(),
-                c3_cl: (item.c3_cl || '').trim(),
-                c3_qas: (item.c3_qas || '').trim(),
-                c4_auditor: (item.c4_auditor || '').trim(),
-                c4_svDate: (item.c4_svDate || '').trim(),
-                c4_chk: (item.c4_chk || '').trim(),
-                c4_cl: (item.c4_cl || '').trim(),
-                c4_qas: (item.c4_qas || '').trim()
-            }));
+            return data.map((item, idx) => {
+                let pName = (item.name || 'Unassigned Project').trim();
+                let inferredMeta = getEntityMeta(pName);
+                let eType = (item.entityType || inferredMeta.type || 'Project Site').trim();
+
+                return {
+                    id: item.id || 'plan_' + Date.now() + '_' + idx,
+                    name: pName,
+                    entityType: eType,
+                    code: 'N/A',
+                    cm: (item.cm || 'Unassigned').trim(),
+                    am: (item.am || 'Unassigned').trim(),
+                    c1_auditor: (item.c1_auditor || '').trim(),
+                    c1_status: (item.c1_status || 'Pending').trim(),
+                    c1_svDate: (item.c1_svDate || '').trim(),
+                    c1_chkDate: (item.c1_chkDate || '').trim(),
+                    c1_clDate: (item.c1_clDate || '').trim(),
+                    c1_qasDate: (item.c1_qasDate || '').trim(),
+                    
+                    c2_auditor: (item.c2_auditor || '').trim(),
+                    c2_status: (item.c2_status || 'Pending').trim(),
+                    c2_svDate: (item.c2_svDate || '').trim(),
+                    c2_chkDate: (item.c2_chkDate || '').trim(),
+                    c2_clDate: (item.c2_clDate || '').trim(),
+                    c2_qasDate: (item.c2_qasDate || '').trim(),
+
+                    c3_auditor: (item.c3_auditor || '').trim(),
+                    c3_status: (item.c3_status || 'Pending').trim(),
+                    c3_svDate: (item.c3_svDate || '').trim(),
+                    c3_chkDate: (item.c3_chkDate || '').trim(),
+                    c3_clDate: (item.c3_clDate || '').trim(),
+                    c3_qasDate: (item.c3_qasDate || '').trim(),
+
+                    c4_auditor: (item.c4_auditor || '').trim(),
+                    c4_status: (item.c4_status || 'Pending').trim(),
+                    c4_svDate: (item.c4_svDate || '').trim(),
+                    c4_chkDate: (item.c4_chkDate || '').trim(),
+                    c4_clDate: (item.c4_clDate || '').trim(),
+                    c4_qasDate: (item.c4_qasDate || '').trim()
+                };
+            });
         }
 
         auditPlanData = cleanAuditPlanData(auditPlanData);
@@ -823,37 +942,47 @@
             if (index === -1) {
                 document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry";
                 document.getElementById('auditPlanForm').reset();
+                document.getElementById('planInputEntityType').value = 'Project Site';
             } else {
-                document.getElementById('planModalTitle').innerText = "I-edit ang Audit Plan Entry";
+                document.getElementById('planModalTitle').innerText = "Input Audit Plan Entry";
                 let item = auditPlanData[index];
                 document.getElementById('planInputName').value = item.name || '';
+                document.getElementById('planInputEntityType').value = item.entityType || 'Project Site';
                 document.getElementById('planInputCode').value = 'N/A';
                 document.getElementById('planInputCM').value = item.cm || '';
                 document.getElementById('planInputAM').value = item.am || '';
                 
+                // Cycle 1
                 document.getElementById('planC1Auditor').value = item.c1_auditor || '';
+                document.getElementById('planC1Status').value = item.c1_status || 'Pending';
                 document.getElementById('planC1Date').value = item.c1_svDate || '';
-                document.getElementById('planC1Chk').value = item.c1_chk || 'Pending';
-                document.getElementById('planC1Cl').value = item.c1_cl || 'Pending';
-                document.getElementById('planC1Qas').value = item.c1_qas || 'Pending';
+                document.getElementById('planC1ChkDate').value = item.c1_chkDate || '';
+                document.getElementById('planC1ClDate').value = item.c1_clDate || '';
+                document.getElementById('planC1QasDate').value = item.c1_qasDate || '';
 
+                // Cycle 2
                 document.getElementById('planC2Auditor').value = item.c2_auditor || '';
+                document.getElementById('planC2Status').value = item.c2_status || 'Pending';
                 document.getElementById('planC2Date').value = item.c2_svDate || '';
-                document.getElementById('planC2Chk').value = item.c2_chk || '';
-                document.getElementById('planC2Cl').value = item.c2_cl || '';
-                document.getElementById('planC2Qas').value = item.c2_qas || '';
+                document.getElementById('planC2ChkDate').value = item.c2_chkDate || '';
+                document.getElementById('planC2ClDate').value = item.c2_clDate || '';
+                document.getElementById('planC2QasDate').value = item.c2_qasDate || '';
 
+                // Cycle 3
                 document.getElementById('planC3Auditor').value = item.c3_auditor || '';
+                document.getElementById('planC3Status').value = item.c3_status || 'Pending';
                 document.getElementById('planC3Date').value = item.c3_svDate || '';
-                document.getElementById('planC3Chk').value = item.c3_chk || '';
-                document.getElementById('planC3Cl').value = item.c3_cl || '';
-                document.getElementById('planC3Qas').value = item.c3_qas || '';
+                document.getElementById('planC3ChkDate').value = item.c3_chkDate || '';
+                document.getElementById('planC3ClDate').value = item.c3_clDate || '';
+                document.getElementById('planC3QasDate').value = item.c3_qasDate || '';
 
+                // Cycle 4
                 document.getElementById('planC4Auditor').value = item.c4_auditor || '';
+                document.getElementById('planC4Status').value = item.c4_status || 'Pending';
                 document.getElementById('planC4Date').value = item.c4_svDate || '';
-                document.getElementById('planC4Chk').value = item.c4_chk || '';
-                document.getElementById('planC4Cl').value = item.c4_cl || '';
-                document.getElementById('planC4Qas').value = item.c4_qas || '';
+                document.getElementById('planC4ChkDate').value = item.c4_chkDate || '';
+                document.getElementById('planC4ClDate').value = item.c4_clDate || '';
+                document.getElementById('planC4QasDate').value = item.c4_qasDate || '';
             }
         }
 
@@ -870,29 +999,38 @@
             let newItem = {
                 id: currentPlanEditIndex === -1 ? 'plan_' + Date.now() : auditPlanData[currentPlanEditIndex].id,
                 name: document.getElementById('planInputName').value,
+                entityType: document.getElementById('planInputEntityType').value,
                 code: 'N/A',
                 cm: document.getElementById('planInputCM').value,
                 am: document.getElementById('planInputAM').value,
+                
                 c1_auditor: document.getElementById('planC1Auditor').value,
+                c1_status: document.getElementById('planC1Status').value,
                 c1_svDate: document.getElementById('planC1Date').value,
-                c1_chk: document.getElementById('planC1Chk').value,
-                c1_cl: document.getElementById('planC1Cl').value,
-                c1_qas: document.getElementById('planC1Qas').value,
+                c1_chkDate: document.getElementById('planC1ChkDate').value,
+                c1_clDate: document.getElementById('planC1ClDate').value,
+                c1_qasDate: document.getElementById('planC1QasDate').value,
+
                 c2_auditor: document.getElementById('planC2Auditor').value,
+                c2_status: document.getElementById('planC2Status').value,
                 c2_svDate: document.getElementById('planC2Date').value,
-                c2_chk: document.getElementById('planC2Chk').value,
-                c2_cl: document.getElementById('planC2Cl').value,
-                c2_qas: document.getElementById('planC2Qas').value,
+                c2_chkDate: document.getElementById('planC2ChkDate').value,
+                c2_clDate: document.getElementById('planC2ClDate').value,
+                c2_qasDate: document.getElementById('planC2QasDate').value,
+
                 c3_auditor: document.getElementById('planC3Auditor').value,
+                c3_status: document.getElementById('planC3Status').value,
                 c3_svDate: document.getElementById('planC3Date').value,
-                c3_chk: document.getElementById('planC3Chk').value,
-                c3_cl: document.getElementById('planC3Cl').value,
-                c3_qas: document.getElementById('planC3Qas').value,
+                c3_chkDate: document.getElementById('planC3ChkDate').value,
+                c3_clDate: document.getElementById('planC3ClDate').value,
+                c3_qasDate: document.getElementById('planC3QasDate').value,
+
                 c4_auditor: document.getElementById('planC4Auditor').value,
+                c4_status: document.getElementById('planC4Status').value,
                 c4_svDate: document.getElementById('planC4Date').value,
-                c4_chk: document.getElementById('planC4Chk').value,
-                c4_cl: document.getElementById('planC4Cl').value,
-                c4_qas: document.getElementById('planC4Qas').value
+                c4_chkDate: document.getElementById('planC4ChkDate').value,
+                c4_clDate: document.getElementById('planC4ClDate').value,
+                c4_qasDate: document.getElementById('planC4QasDate').value
             };
 
             let cleaned = cleanAuditPlanData([newItem])[0];
@@ -916,13 +1054,6 @@
             }
         }
 
-        function cleanAndValidateAuditPlan() {
-            auditPlanData = cleanAuditPlanData(auditPlanData);
-            saveToLocalStorage();
-            renderAuditPlanTable();
-            alert("Matagumpay na nilinis at na-format ang lahat ng data sa Audit Plan!");
-        }
-
         let currentPage = 1;
         let auditCatChartInstance = null;
         let complianceStatusChartInstance = null;
@@ -933,7 +1064,13 @@
         let statusIssuedPersonChartInstance = null;
         let overallStatusPieChartInstance = null;
 
-        const pbiColors = ['#003399', '#00B7C3', '#5C2D91', '#B4009E', '#D83B01', '#107C10', '#E3008C', '#881798'];
+        // ELEGANT & PROFESSIONAL CORPORATE THEMED COLOR PALETTES 
+        const complianceColors = {
+            'Generally Compliant': '#107C10',
+            'Partially Compliant': '#CA8A04',
+            'Non Compliant': '#DC2626'
+        };
+        const defaultChartColors = ['#1E3A8A', '#0284C7', '#0D9488', '#4F46E5', '#7C3AED', '#DB2777', '#475569'];
 
         window.onload = function() {
             renderTable();
@@ -1069,10 +1206,50 @@
             updateCharts(filteredData);
         }
 
-        // NA-OPTIMIZE NA SPACING AT PADDING NG AUDIT PLAN TABLE
+        function calculateAgingAndBadge(status, svDate, chkDate, clDate, qasDate) {
+            if (!svDate) return '<span class="text-slate-300">-</span>';
+            
+            let visitDate = new Date(svDate);
+            let today = new Date();
+            let diffDays = Math.floor((today - visitDate) / (1000 * 60 * 60 * 24));
+            
+            let isDelayed = false;
+            if (chkDate) {
+                let checklistDateObj = new Date(chkDate);
+                let visitToChecklistDays = Math.floor((checklistDateObj - visitDate) / (1000 * 60 * 60 * 24));
+                if (visitToChecklistDays > 7) {
+                    isDelayed = true;
+                }
+            }
+
+            let statusBadge = '';
+            if (status === 'Done') {
+                statusBadge = '<span class="bg-emerald-100 text-emerald-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Done</span>';
+            } else if (status === 'In Progress') {
+                statusBadge = '<span class="bg-blue-100 text-blue-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">In Progress</span>';
+            } else if (status === 'Delayed' || isDelayed) {
+                statusBadge = '<span class="bg-rose-100 text-rose-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Late / Delayed</span>';
+            } else {
+                statusBadge = '<span class="bg-amber-100 text-amber-800 text-[9px] font-semibold px-2 py-0.5 rounded-md">Pending</span>';
+            }
+
+            let agingText = '';
+            if (status === 'Done') {
+                agingText = `<span class="text-[9px] text-slate-500 block mt-0.5">Completed</span>`;
+            } else {
+                if (diffDays >= 0) {
+                    agingText = `<span class="text-[9px] text-amber-700 font-bold block mt-0.5">Aging: ${diffDays}d</span>`;
+                } else {
+                    agingText = `<span class="text-[9px] text-slate-400 block mt-0.5">Upcoming</span>`;
+                }
+            }
+            return `<div class="flex flex-col items-center">${statusBadge}${agingText}</div>`;
+        }
+
         function renderAuditPlanTable() {
             let selectedProject = document.getElementById('globalProjectFilter').value;
             let searchFilter = document.getElementById('auditPlanSearchInput') ? document.getElementById('auditPlanSearchInput').value.toLowerCase() : '';
+            let statusFilter = document.getElementById('auditPlanStatusFilter') ? document.getElementById('auditPlanStatusFilter').value : 'ALL';
 
             let filtered = auditPlanData.filter(item => {
                 let matchesProject = (selectedProject === 'ALL' || item.name === selectedProject);
@@ -1080,11 +1257,19 @@
                 let matchesSearch = (item.name || '').toLowerCase().includes(searchFilter) ||
                                     (item.cm || '').toLowerCase().includes(searchFilter) ||
                                     (item.am || '').toLowerCase().includes(searchFilter) ||
+                                    (item.entityType || '').toLowerCase().includes(searchFilter) ||
                                     (item.c1_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c2_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c3_auditor || '').toLowerCase().includes(searchFilter) ||
                                     (item.c4_auditor || '').toLowerCase().includes(searchFilter);
-                return matchesProject && matchesSearch;
+
+                let matchesStatus = (statusFilter === 'ALL' || 
+                                     item.c1_status === statusFilter || 
+                                     item.c2_status === statusFilter || 
+                                     item.c3_status === statusFilter || 
+                                     item.c4_status === statusFilter);
+
+                return matchesProject && matchesSearch && matchesStatus;
             });
 
             let tbody = document.getElementById('auditPlanTableBody');
@@ -1094,33 +1279,22 @@
             let countBadge = document.getElementById('auditPlanCountBadge');
             if (countBadge) countBadge.innerText = `${filtered.length} Projects`;
 
-            const formatBadge = (val) => {
-                if (!val) return '<span class="text-slate-300">-</span>';
-                if (val === 'Done' || val === 'Completed' || val === 'Passed') {
-                    return `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
-                } else if (val === 'Pending' || val === 'Ongoing') {
-                    return `<span class="bg-amber-100 text-amber-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
-                } else if (val === 'Delayed' || val === 'Failed') {
-                    return `<span class="bg-rose-100 text-rose-800 text-[10px] font-semibold px-2.5 py-1 rounded-md">${val}</span>`;
-                }
-                return `<span class="bg-slate-100 text-slate-700 text-[10px] font-medium px-2 py-1 rounded-md">${val}</span>`;
-            };
-
             filtered.forEach(item => {
                 let actualIndex = auditPlanData.indexOf(item);
                 let meta = getEntityMeta(item.name);
+                let currentEntityType = item.entityType || meta.type;
+                let entityBadgeClass = currentEntityType === 'Project Site' ? 'bg-blue-50 text-[#003399] border-blue-200' : currentEntityType === 'Landbank' ? 'bg-emerald-50 text-[#107C10] border-emerald-200' : 'bg-purple-50 text-[#86198F] border-purple-200';
 
                 let row = `
                     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="p-3.5 border-r border-slate-200 sticky left-0 bg-white shadow-xs">
+                        <td class="py-4 px-5 border-r border-slate-200 sticky left-0 bg-white shadow-xs">
                             <div class="flex items-center justify-between space-x-3">
-                                <div class="flex items-center space-x-2.5">
-                                    <span class="w-7 h-7 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0">
+                                <div class="flex items-center space-x-3">
+                                    <span class="w-8 h-8 rounded-lg flex items-center justify-center ${meta.bg} ${meta.text} border ${meta.border} text-xs shrink-0 shadow-xs">
                                         <i class="fa-solid ${meta.icon}"></i>
                                     </span>
                                     <div>
-                                        <div class="font-semibold text-slate-900 leading-tight">${item.name}</div>
-                                        <span class="inline-block mt-1 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-md ${meta.bg} ${meta.text} border ${meta.border}">${meta.type}</span>
+                                        <div class="font-bold text-slate-900 leading-tight">${item.name}</div>
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-1.5 shrink-0">
@@ -1133,471 +1307,163 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="p-3 border-r border-slate-200 text-slate-600 font-medium">${item.cm || ''}</td>
-                        <td class="p-3 border-r border-slate-200 text-slate-600 font-medium">${item.am || ''}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">
+                            <span class="inline-block text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-md border ${entityBadgeClass}">${currentEntityType}</span>
+                        </td>
+                        <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.cm || 'Unassigned'}</td>
+                        <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.am || 'Unassigned'}</td>
                         
-                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c1_auditor || '-'}</td>
+                        <!-- Cycle 1 -->
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_auditor || '-'}</td>
                         <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_chk)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_cl)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c1_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_chkDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_clDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c1_qasDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c1_status, item.c1_svDate, item.c1_chkDate, item.c1_clDate, item.c1_qasDate)}</td>
 
-                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c2_auditor || '-'}</td>
+                        <!-- Cycle 2 -->
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_auditor || '-'}</td>
                         <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_chk)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_cl)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c2_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_chkDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_clDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c2_qasDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c2_status, item.c2_svDate, item.c2_chkDate, item.c2_clDate, item.c2_qasDate)}</td>
 
-                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c3_auditor || '-'}</td>
+                        <!-- Cycle 3 -->
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_auditor || '-'}</td>
                         <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_chk)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_cl)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c3_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_chkDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_clDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c3_qasDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center">${calculateAgingAndBadge(item.c3_status, item.c3_svDate, item.c3_chkDate, item.c3_clDate, item.c3_qasDate)}</td>
 
-                        <td class="p-3 border-r border-slate-200 text-center font-medium">${item.c4_auditor || '-'}</td>
+                        <!-- Cycle 4 -->
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_auditor || '-'}</td>
                         <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_svDate || '-'}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c4_chk)}</td>
-                        <td class="p-3 border-r border-slate-200 text-center">${formatBadge(item.c4_cl)}</td>
-                        <td class="p-3 text-center">${formatBadge(item.c4_qas)}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_chkDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_clDate || '-'}</td>
+                        <td class="p-3 border-r border-slate-200 text-center text-slate-600">${item.c4_qasDate || '-'}</td>
+                        <td class="p-3 text-center">${calculateAgingAndBadge(item.c4_status, item.c4_svDate, item.c4_chkDate, item.c4_clDate, item.c4_qasDate)}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
         }
 
-        function handleAuditPlanUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                    if (jsonData.length < 6) {
-                        alert("Masyadong maikli ang Excel file o hindi tugma sa Audit Plan template.");
-                        return;
-                    }
-
-                    let newPlanData = [];
-                    for (let i = 6; i < jsonData.length; i++) {
-                        let row = jsonData[i];
-                        if (!row || !row[0]) continue;
-
-                        newPlanData.push({
-                            name: String(row[0] || ''),
-                            code: 'N/A',
-                            cm: String(row[1] || ''),
-                            am: String(row[2] || ''),
-                            c1_auditor: String(row[4] || ''),
-                            c1_svDate: String(row[6] || ''),
-                            c1_chk: String(row[8] || ''),
-                            c1_cl: String(row[11] || ''),
-                            c1_qas: String(row[14] || ''),
-                            c2_auditor: String(row[20] || ''),
-                            c2_svDate: String(row[22] || ''),
-                            c2_chk: String(row[24] || ''),
-                            c2_cl: String(row[27] || ''),
-                            c2_qas: String(row[30] || ''),
-                            c3_auditor: String(row[37] || ''),
-                            c3_svDate: String(row[39] || ''),
-                            c3_chk: String(row[41] || ''),
-                            c3_cl: String(row[44] || ''),
-                            c3_qas: String(row[47] || ''),
-                            c4_auditor: String(row[53] || ''),
-                            c4_svDate: String(row[55] || ''),
-                            c4_chk: String(row[57] || ''),
-                            c4_cl: String(row[60] || ''),
-                            c4_qas: String(row[63] || '')
-                        });
-                    }
-
-                    if (newPlanData.length > 0) {
-                        auditPlanData = cleanAuditPlanData(newPlanData);
-                        saveToLocalStorage();
-                        renderAuditPlanTable();
-                        alert(`Tagumpay! Nai-upload at nalinis ang ${newPlanData.length} na entries sa Site Warehousing Audit Plan 2026.`);
-                    } else {
-                        alert("Walang nakitang valid na data rows sa Excel template.");
-                    }
-                    event.target.value = '';
-                } catch (err) {
-                    console.error("Error sa pagbasa ng Audit Plan Excel:", err);
-                    alert("Nagkaroon ng problema sa pagbasa ng Audit Plan Excel file.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function exportAuditPlanToExcel() {
-            let exportRows = auditPlanData.map(item => ({
-                "Project Name": item.name,
-                "CM": item.cm,
-                "AM": item.am,
-                "C1 Auditor": item.c1_auditor,
-                "C1 SV Date": item.c1_svDate,
-                "C1 Checklist": item.c1_chk,
-                "C1 Closing": item.c1_cl,
-                "C1 QAS": item.c1_qas,
-                "C2 Auditor": item.c2_auditor,
-                "C2 SV Date": item.c2_svDate,
-                "C2 Checklist": item.c2_chk,
-                "C2 Closing": item.c2_cl,
-                "C2 QAS": item.c2_qas,
-                "C3 Auditor": item.c3_auditor,
-                "C3 SV Date": item.c3_svDate,
-                "C3 Checklist": item.c3_chk,
-                "C3 Closing": item.c3_cl,
-                "C3 QAS": item.c3_qas,
-                "C4 Auditor": item.c4_auditor,
-                "C4 SV Date": item.c4_svDate,
-                "C4 Checklist": item.c4_chk,
-                "C4 Closing": item.c4_cl,
-                "C4 QAS": item.c4_qas
-            }));
-            let worksheet = XLSX.utils.json_to_sheet(exportRows);
-            let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit Plan 2026");
-            XLSX.writeFile(workbook, "Site_Warehousing_Audit_Plan_2026.xlsx");
-        }
-
-        function changePage(direction) {
-            currentPage += direction;
-            renderTable();
-        }
-
-        function goToPage(page) {
-            currentPage = page;
-            renderTable();
-        }
-
         function updateKPIs(data) {
-            document.getElementById('kpiTotal').innerText = data.length;
-            let openCount = data.filter(i => (i.status || 'Open') === 'Open').length;
-            document.getElementById('kpiOpen').innerText = openCount;
+            let total = data.length;
+            let open = data.filter(i => i.status === 'Open').length;
+            let closed = data.filter(i => i.status === 'Closed').length;
+            let closedRate = total > 0 ? Math.round((closed / total) * 100) : 0;
+            let nonCompliant = data.filter(i => i.severity === 'Non Compliant').length;
+            let nonCompliantRate = total > 0 ? Math.round((nonCompliant / total) * 100) : 0;
 
-            let closedCount = data.filter(i => i.status === 'Closed').length;
-            let closedRatePct = data.length > 0 ? ((closedCount / data.length) * 100).toFixed(1) : 0;
-            document.getElementById('kpiClosedRate').innerText = `${closedRatePct}%`;
-
-            let nonCompliantCount = data.filter(i => i.severity === 'Non Compliant').length;
-            let nonCompliancePct = data.length > 0 ? ((nonCompliantCount / data.length) * 100).toFixed(1) : 0;
-            document.getElementById('kpiHighRisk').innerText = `${nonCompliancePct}%`;
-
-            document.getElementById('kpiNonCompliant').innerText = nonCompliantCount;
-        }
-
-        function openModal(index = -1) {
-            document.getElementById('auditModal').classList.remove('hidden');
-            document.getElementById('auditModal').classList.add('flex');
-            
-            if (index === -1) {
-                document.getElementById('modalTitle').innerText = "Add New Audit Finding";
-                document.getElementById('editIndex').value = -1;
-                document.getElementById('auditForm').reset();
-                document.getElementById('inputModalEntityType').value = 'Project Site';
-                modalUpdateProjectDropdown();
-                document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
-                document.getElementById('inputStatus').value = 'Open';
-                let nextNum = auditData.length + 1;
-                document.getElementById('inputSeries').value = `IAD-2026-${String(nextNum).padStart(4, '0')}`;
-            } else {
-                document.getElementById('modalTitle').innerText = "Edit Audit Finding";
-                document.getElementById('editIndex').value = index;
-                let item = auditData[index];
-                document.getElementById('inputSeries').value = item.series || '';
-                document.getElementById('inputStatus').value = item.status || 'Open';
-                
-                let meta = getEntityMeta(item.project);
-                document.getElementById('inputModalEntityType').value = meta.type;
-                modalUpdateProjectDropdown();
-                document.getElementById('inputProject').value = item.project;
-                
-                document.getElementById('inputCategory').value = item.category;
-                document.getElementById('inputFinding').value = item.finding;
-                document.getElementById('inputProgram').value = item.program;
-                document.getElementById('inputAuditor').value = item.auditor || 'Troy Sombillo De Guzman';
-                document.getElementById('inputDept').value = item.dept;
-                document.getElementById('inputIssuedPerson').value = item.issuedPerson || '';
-                document.getElementById('inputSeverity').value = item.severity;
-                document.getElementById('inputDate').value = item.date || '';
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('auditModal').classList.remove('flex');
-            document.getElementById('auditModal').classList.add('hidden');
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            let index = parseInt(document.getElementById('editIndex').value);
-            let newItem = {
-                series: document.getElementById('inputSeries').value,
-                status: document.getElementById('inputStatus').value,
-                project: document.getElementById('inputProject').value,
-                code: "N/A",
-                category: document.getElementById('inputCategory').value,
-                finding: document.getElementById('inputFinding').value,
-                program: document.getElementById('inputProgram').value,
-                auditor: document.getElementById('inputAuditor').value,
-                dept: document.getElementById('inputDept').value,
-                issuedPerson: document.getElementById('inputIssuedPerson').value,
-                severity: document.getElementById('inputSeverity').value,
-                date: document.getElementById('inputDate').value
-            };
-
-            if (index === -1) {
-                auditData.push(newItem);
-            } else {
-                auditData[index] = newItem;
-            }
-
-            saveToLocalStorage();
-            closeModal();
-            renderTable();
-        }
-
-        function editRecord(index) {
-            openModal(index);
-        }
-
-        function deleteRecord(index) {
-            if (confirm("Are you sure you want to delete this audit record?")) {
-                auditData.splice(index, 1);
-                saveToLocalStorage();
-                renderTable();
-            }
-        }
-
-        function handleExcelUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                    
-                    if (jsonData.length === 0) {
-                        alert("Walang nakitang data o laman ang Excel file.");
-                        return;
-                    }
-
-                    let addedCount = 0;
-                    jsonData.forEach((row) => {
-                        let series = row['Series No.'] || row['Series'] || row['Ref #'] || `IAD-2026-${String(auditData.length + 1 + addedCount).padStart(4, '0')}`;
-                        let status = row['Status'] || 'Open';
-                        let project = row['Project'] || 'The Oriana';
-                        let category = row['Finding Category'] || row['Category'] || 'I. Site Perimeter';
-                        let finding = row['Details of Findings'] || row['Finding'] || 'No details provided';
-                        let program = row['Corrective Action'] || row['Program'] || 'Standard Review';
-                        let auditor = row['Auditor-in-Charge'] || row['Auditor'] || 'Troy Sombillo De Guzman';
-                        let dept = row['Responsible Department'] || row['Dept'] || 'General Services Dept (GSD)';
-                        let issuedPerson = row['Issued Person'] || row['Issued To'] || 'N/A';
-                        let severity = row['Rating'] || row['Severity'] || 'Non Compliant';
-                        let date = row['Date Approved'] || row['Date'] || new Date().toISOString().split('T')[0];
-
-                        auditData.push({
-                            series: String(series),
-                            status: String(status),
-                            project: String(project),
-                            code: "N/A",
-                            category: String(category),
-                            finding: String(finding),
-                            program: String(program),
-                            auditor: String(auditor),
-                            dept: String(dept),
-                            issuedPerson: String(issuedPerson),
-                            severity: String(severity),
-                            date: String(date).split('T')[0]
-                        });
-                        addedCount++;
-                    });
-
-                    saveToLocalStorage();
-                    currentPage = 1;
-                    renderTable();
-                    alert(`Tagumpay! Nai-upload ang ${addedCount} na mga findings mula sa Excel file.`);
-                    event.target.value = '';
-                } catch (error) {
-                    console.error("Error sa pagbasa ng Excel:", error);
-                    alert("Nagkaroon ng problema sa pagbasa ng Excel file.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function exportToExcelFull() {
-            let filteredData = getFilteredData();
-            let exportData = filteredData.map(item => ({
-                "Series No.": item.series,
-                "Status": item.status || "Open",
-                "Project": item.project,
-                "Finding Category": item.category,
-                "Details of Findings": item.finding,
-                "Corrective Action": item.program, 
-                "Auditor-in-Charge": item.auditor || "Troy Sombillo De Guzman",
-                "Responsible Department": item.dept,
-                "Issued Person": item.issuedPerson || "",
-                "Rating": item.severity,
-                "Date Approved": item.date
-            }));
-
-            let worksheet = XLSX.utils.json_to_sheet(exportData);
-            let workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Full Audit Report");
-            XLSX.writeFile(workbook, "Site_Audit_Full_Report_2026.xlsx");
+            document.getElementById('kpiTotal').innerText = total;
+            document.getElementById('kpiOpen').innerText = open;
+            document.getElementById('kpiClosedRate').innerText = closedRate + '%';
+            document.getElementById('kpiHighRisk').innerText = nonCompliantRate + '%';
+            document.getElementById('kpiNonCompliant').innerText = nonCompliant;
         }
 
         function initCharts() {
-            const ctxOverallStatus = document.getElementById('overallStatusPieChart').getContext('2d');
-            overallStatusPieChartInstance = new Chart(ctxOverallStatus, {
+            let ctxPie = document.getElementById('overallStatusPieChart').getContext('2d');
+            overallStatusPieChartInstance = new Chart(ctxPie, {
                 type: 'doughnut',
-                data: {
-                    labels: ['Open', 'Closed', 'Accepted', 'Cancelled', 'Others'],
-                    datasets: [{
-                        data: [0, 0, 0, 0, 0],
-                        backgroundColor: ['#003399', '#0047AB', '#06B6D4', '#10B981', '#EF4444'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff',
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } }
-                }
+                data: { labels: [], datasets: [{ data: [], backgroundColor: defaultChartColors, borderWidth: 2, borderColor: '#ffffff' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } } } }
             });
 
-            const ctxStatus = document.getElementById('complianceStatusChart').getContext('2d');
-            complianceStatusChartInstance = new Chart(ctxStatus, {
+            let ctxComp = document.getElementById('complianceStatusChart').getContext('2d');
+            complianceStatusChartInstance = new Chart(ctxComp, {
                 type: 'bar',
-                data: {
-                    labels: ['Generally Compliant', 'Partially Compliant', 'Non Compliant'],
-                    datasets: [{ label: 'Count', data: [0, 0, 0], backgroundColor: ['#107C10', '#EAB308', '#A80000'], borderRadius: 4 }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: [], datasets: [{ data: [], backgroundColor: [], borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
             });
 
-            const ctxTrend = document.getElementById('auditTrendChart').getContext('2d');
+            let ctxTrend = document.getElementById('auditTrendChart').getContext('2d');
             auditTrendChartInstance = new Chart(ctxTrend, {
                 type: 'line',
-                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], borderColor: '#003399', backgroundColor: 'rgba(0, 51, 153, 0.1)', borderWidth: 2, fill: true, tension: 0.3 }] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
+                data: { labels: [], datasets: [{ label: 'Findings', data: [], borderColor: '#003399', backgroundColor: 'rgba(0, 51, 153, 0.08)', fill: true, tension: 0.3, borderWidth: 2.5, pointBackgroundColor: '#003399' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
+            });
+
+            let ctxCat = document.getElementById('auditCatChart').getContext('2d');
+            auditCatChartInstance = new Chart(ctxCat, {
+                type: 'pie',
+                data: { 
+                    labels: [], 
+                    datasets: [{ 
+                        data: [], 
+                        backgroundColor: [
+                            '#1D4ED8', '#0EA5E9', '#14B8A6', '#6366F1', '#8B5CF6', '#EC4899'
+                        ], 
+                        borderWidth: 2, 
+                        borderColor: '#ffffff' 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { boxWidth: 12, font: { size: 11, family: 'Segoe UI' } } 
+                        } 
+                    } 
                 }
             });
 
-            const ctxAudit = document.getElementById('auditCatChart').getContext('2d');
-            auditCatChartInstance = new Chart(ctxAudit, {
-                type: 'doughnut',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: pbiColors, borderWidth: 1, borderColor: '#ffffff' }] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Segoe UI' } } } }
-                }
-            });
-
-            const ctxProject = document.getElementById('projectFindingsChart').getContext('2d');
-            projectFindingsChartInstance = new Chart(ctxProject, {
+            let ctxProj = document.getElementById('projectFindingsChart').getContext('2d');
+            projectFindingsChartInstance = new Chart(ctxProj, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Number of Findings', data: [], backgroundColor: '#00B7C3', borderRadius: 4 }] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: [], datasets: [{ data: [], backgroundColor: '#0284C7', borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
             });
 
-            const ctxAuditor = document.getElementById('auditorFindingsChart').getContext('2d');
+            let ctxAuditor = document.getElementById('auditorFindingsChart').getContext('2d');
             auditorFindingsChartInstance = new Chart(ctxAuditor, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#003399', borderRadius: 4 }] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: [], datasets: [{ data: [], backgroundColor: '#0D9488', borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
             });
 
-            const ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
+            let ctxDept = document.getElementById('deptFindingsChart').getContext('2d');
             deptFindingsChartInstance = new Chart(ctxDept, {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Findings Count', data: [], backgroundColor: '#5C2D91', borderRadius: 4 }] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: [], datasets: [{ data: [], backgroundColor: '#475569', borderRadius: 6 }] },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, grid: { color: '#f1f5f9' } }, y: { grid: { display: false } } } }
             });
 
-            const ctxStatusIssued = document.getElementById('statusIssuedPersonChart').getContext('2d');
-            statusIssuedPersonChartInstance = new Chart(ctxStatusIssued, {
+            let ctxStatusPerson = document.getElementById('statusIssuedPersonChart').getContext('2d');
+            statusIssuedPersonChartInstance = new Chart(ctxStatusPerson, {
                 type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [
-                        { label: 'Open', data: [], backgroundColor: '#64748B', borderRadius: 4 },        
-                        { label: 'Closed', data: [], backgroundColor: '#0EA5E9', borderRadius: 4 },      
-                        { label: 'Accepted', data: [], backgroundColor: '#003399', borderRadius: 4 },    
-                        { label: 'Cancelled', data: [], backgroundColor: '#94A3B8', borderRadius: 4 }    
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } }
-                    },
-                    plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10, family: 'Segoe UI' } } } }
-                }
+                data: { labels: [], datasets: [] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, grid: { color: '#f1f5f9' } } } }
             });
 
-            updateAllDynamicCharts(auditData);
+            updateCharts(auditData);
         }
 
         function updateCharts(data) {
-            if (!auditCatChartInstance || !complianceStatusChartInstance || !projectFindingsChartInstance || !auditorFindingsChartInstance || !deptFindingsChartInstance || !auditTrendChartInstance || !statusIssuedPersonChartInstance || !overallStatusPieChartInstance) return;
-            updateAllDynamicCharts(data);
-        }
+            if (!overallStatusPieChartInstance) return;
 
-        function updateAllDynamicCharts(data) {
-            let countOpen = data.filter(i => (i.status || 'Open') === 'Open').length;
-            let countClosed = data.filter(i => i.status === 'Closed').length;
-            let countAccepted = data.filter(i => i.status === 'Accepted').length;
-            let countCancelled = data.filter(i => i.status === 'Cancelled').length;
-            
-            overallStatusPieChartInstance.data.datasets[0].data = [countOpen, countClosed, countAccepted, countCancelled, 0];
+            let statusCounts = {};
+            data.forEach(i => { statusCounts[i.status] = (statusCounts[i.status] || 0) + 1; });
+            overallStatusPieChartInstance.data.labels = Object.keys(statusCounts);
+            overallStatusPieChartInstance.data.datasets[0].data = Object.values(statusCounts);
             overallStatusPieChartInstance.update();
 
+            let compCounts = {};
+            data.forEach(i => { compCounts[i.severity] = (compCounts[i.severity] || 0) + 1; });
+            let compLabels = Object.keys(compCounts);
+            complianceStatusChartInstance.data.labels = compLabels;
+            complianceStatusChartInstance.data.datasets[0].data = Object.values(compCounts);
+            complianceStatusChartInstance.data.datasets[0].backgroundColor = compLabels.map(label => complianceColors[label] || '#334155');
+            complianceStatusChartInstance.update();
+
             let dateCounts = {};
-            data.forEach(item => {
-                let d = item.date || 'Unspecified';
+            data.forEach(i => {
+                let d = i.date || 'No Date';
                 dateCounts[d] = (dateCounts[d] || 0) + 1;
             });
             let sortedDates = Object.keys(dateCounts).sort();
@@ -1605,67 +1471,65 @@
             auditTrendChartInstance.data.datasets[0].data = sortedDates.map(d => dateCounts[d]);
             auditTrendChartInstance.update();
 
-            let genCount = data.filter(i => i.severity === 'Generally Compliant').length;
-            let partCount = data.filter(i => i.severity === 'Partially Compliant').length;
-            let nonCount = data.filter(i => i.severity === 'Non Compliant').length;
-            complianceStatusChartInstance.data.datasets[0].data = [genCount, partCount, nonCount];
-            complianceStatusChartInstance.update();
-
-            let categoryCounts = {};
-            data.forEach(item => {
-                let cat = item.category || 'Unspecified Category';
-                categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-            });
-            let sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
-            auditCatChartInstance.data.labels = sortedCategories;
-            auditCatChartInstance.data.datasets[0].data = sortedCategories.map(c => categoryCounts[c]);
+            let catCounts = {};
+            data.forEach(i => { catCounts[i.category] = (catCounts[i.category] || 0) + 1; });
+            auditCatChartInstance.data.labels = Object.keys(catCounts);
+            auditCatChartInstance.data.datasets[0].data = Object.values(catCounts);
             auditCatChartInstance.update();
 
-            let projectCounts = {};
-            data.forEach(item => {
-                projectCounts[item.project] = (projectCounts[item.project] || 0) + 1;
-            });
-            let sortedProjects = Object.keys(projectCounts).sort((a, b) => projectCounts[b] - projectCounts[a]);
-            projectFindingsChartInstance.data.labels = sortedProjects;
-            projectFindingsChartInstance.data.datasets[0].data = sortedProjects.map(p => projectCounts[p]);
+            let projCounts = {};
+            data.forEach(i => { projCounts[i.project] = (projCounts[i.project] || 0) + 1; });
+            projectFindingsChartInstance.data.labels = Object.keys(projCounts);
+            projectFindingsChartInstance.data.datasets[0].data = Object.values(projCounts);
             projectFindingsChartInstance.update();
 
             let auditorCounts = {};
-            data.forEach(item => {
-                let aud = item.auditor || 'Unassigned Auditor';
+            data.forEach(i => {
+                let aud = i.auditor || 'Unassigned';
                 auditorCounts[aud] = (auditorCounts[aud] || 0) + 1;
             });
-            let sortedAuditors = Object.keys(auditorCounts).sort((a, b) => auditorCounts[b] - auditorCounts[a]);
-            auditorFindingsChartInstance.data.labels = sortedAuditors;
-            auditorFindingsChartInstance.data.datasets[0].data = sortedAuditors.map(a => auditorCounts[a]);
+            auditorFindingsChartInstance.data.labels = Object.keys(auditorCounts);
+            auditorFindingsChartInstance.data.datasets[0].data = Object.values(auditorCounts);
             auditorFindingsChartInstance.update();
 
             let deptCounts = {};
-            data.forEach(item => {
-                let dep = item.dept || 'Unassigned Dept';
+            data.forEach(i => {
+                let dep = i.dept || 'General';
                 deptCounts[dep] = (deptCounts[dep] || 0) + 1;
             });
-            let sortedDepts = Object.keys(deptCounts).sort((a, b) => deptCounts[b] - deptCounts[a]);
-            deptFindingsChartInstance.data.labels = sortedDepts;
-            deptFindingsChartInstance.data.datasets[0].data = sortedDepts.map(d => deptCounts[d]);
+            deptFindingsChartInstance.data.labels = Object.keys(deptCounts);
+            deptFindingsChartInstance.data.datasets[0].data = Object.values(deptCounts);
             deptFindingsChartInstance.update();
 
-            let issuedPersons = [...new Set(data.map(i => i.issuedPerson || 'N/A'))];
-            let openArr = [], closedArr = [], acceptedArr = [], cancelledArr = [];
-            issuedPersons.forEach(person => {
-                let sub = data.filter(i => (i.issuedPerson || 'N/A') === person);
-                openArr.push(sub.filter(i => (i.status || 'Open') === 'Open').length);
-                closedArr.push(sub.filter(i => i.status === 'Closed').length);
-                acceptedArr.push(sub.filter(i => i.status === 'Accepted').length);
-                cancelledArr.push(sub.filter(i => i.status === 'Cancelled').length);
+            let persons = [...new Set(data.map(i => i.issuedPerson || 'N/A'))];
+            let statuses = [...new Set(data.map(i => i.status || 'Open'))];
+            let stackedPalette = ['#003399', '#0284C7', '#0D9488', '#4F46E5'];
+            let stackedDatasets = statuses.map((status, idx) => {
+                return {
+                    label: status,
+                    data: persons.map(p => data.filter(i => (i.issuedPerson || 'N/A') === p && (i.status || 'Open') === status).length),
+                    backgroundColor: stackedPalette[idx % stackedPalette.length],
+                    borderRadius: 4
+                };
             });
-
-            statusIssuedPersonChartInstance.data.labels = issuedPersons;
-            statusIssuedPersonChartInstance.data.datasets[0].data = openArr;
-            statusIssuedPersonChartInstance.data.datasets[1].data = closedArr;
-            statusIssuedPersonChartInstance.data.datasets[2].data = acceptedArr;
-            statusIssuedPersonChartInstance.data.datasets[3].data = cancelledArr;
+            statusIssuedPersonChartInstance.data.labels = persons;
+            statusIssuedPersonChartInstance.data.datasets = stackedDatasets;
             statusIssuedPersonChartInstance.update();
+        }
+
+        function openModal() {
+            document.getElementById('auditModal').classList.remove('hidden');
+            document.getElementById('auditModal').classList.add('flex');
+            document.getElementById('modalTitle').innerText = "Add New Audit Finding";
+            document.getElementById('auditForm').reset();
+            document.getElementById('editIndex').value = "-1";
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+            modalUpdateProjectDropdown();
+        }
+
+        function closeModal() {
+            document.getElementById('auditModal').classList.remove('flex');
+            document.getElementById('auditModal').classList.add('hidden');
         }
     </script>
 </body>
