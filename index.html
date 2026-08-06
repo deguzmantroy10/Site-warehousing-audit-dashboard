@@ -425,15 +425,14 @@
                     <table id="auditPlanTable" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
                         <thead class="sticky top-0 z-10 bg-[#002878] text-white uppercase tracking-wider font-semibold text-center border-b border-blue-900 shadow-sm">
                             <tr>
-                                <th class="py-3 px-5 border-r border-blue-800 min-w-[180px]" rowspan="2">Project Name & Actions</th>
-                                <th class="p-3 border-r border-blue-800" colspan="3">Classification & Division</th>
+                                <th class="py-3 px-5 border-r border-blue-800 min-w-[220px]" rowspan="2">Project Name & Actions</th>
+                                <th class="p-3 border-r border-blue-800" colspan="2">Division</th>
                                 <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="6">Cycle 1 (Status, Dates & Aging)</th>
                                 <th class="p-3 border-r border-blue-800 bg-[#002878]" colspan="6">Cycle 2 (Status, Dates & Aging)</th>
                                 <th class="p-3 border-r border-blue-800 bg-[#001f5c]" colspan="6">Cycle 3 (Status, Dates & Aging)</th>
                                 <th class="p-3 bg-[#002878]" colspan="6">Cycle 4 (Status, Dates & Aging)</th>
                             </tr>
                             <tr class="bg-[#001f5c] text-[10px]">
-                                <th class="p-2.5 border-r border-blue-800">Entity Type</th>
                                 <th class="p-2.5 border-r border-blue-800">Construction Manager</th>
                                 <th class="p-2.5 border-r border-blue-800">Area Manager</th>
                                 <!-- Cycle 1 Subheaders -->
@@ -1090,7 +1089,6 @@
         let statusIssuedPersonChartInstance = null;
         let overallStatusPieChartInstance = null;
         
-        // New Audit Plan Charts
         let auditPlanStatusPieChartInstance = null;
         let auditPlanStagesBarChartInstance = null;
 
@@ -1313,6 +1311,8 @@
                 let actualIndex = auditPlanData.indexOf(item);
                 let meta = getEntityMeta(item.name);
                 let currentEntityType = item.entityType || meta.type;
+                
+                // Entity-specific color coding integration directly under project name
                 let entityBadgeClass = currentEntityType === 'Project Site' ? 'bg-blue-50 text-[#003399] border-blue-200' : currentEntityType === 'Landbank' ? 'bg-emerald-50 text-[#107C10] border-emerald-200' : 'bg-purple-50 text-[#86198F] border-purple-200';
 
                 let row = `
@@ -1325,6 +1325,7 @@
                                     </span>
                                     <div>
                                         <div class="font-bold text-slate-900 leading-tight">${item.name}</div>
+                                        <span class="inline-block mt-1 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded border ${entityBadgeClass}">${currentEntityType}</span>
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-1.5 shrink-0">
@@ -1336,9 +1337,6 @@
                                     </button>
                                 </div>
                             </div>
-                        </td>
-                        <td class="p-3 border-r border-slate-200 text-center">
-                            <span class="inline-block text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-md border ${entityBadgeClass}">${currentEntityType}</span>
                         </td>
                         <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.cm || 'Unassigned'}</td>
                         <td class="p-3 border-r border-slate-200 font-medium text-slate-700">${item.am || 'Unassigned'}</td>
@@ -1531,7 +1529,6 @@
                     if (statusCounts[st] !== undefined) statusCounts[st]++;
                     else statusCounts['Pending']++;
 
-                    // Count Stages based on filled dates
                     if (item[prefix + 'svDate']) stageStats['Site Visit'].done++; else stageStats['Site Visit'].active++;
                     if (item[prefix + 'chkDate']) stageStats['Checklist'].done++; else stageStats['Checklist'].active++;
                     if (item[prefix + 'clDate']) stageStats['Closing Meeting'].done++; else stageStats['Closing Meeting'].active++;
@@ -1553,101 +1550,242 @@
                 stageStats['Closing Meeting'].done,
                 stageStats['QAS'].done
             ];
-            auditPlanStagesBarChartInstance.data.datasets[1].data = [
-                stageStats['Site Visit'].active,
-                stageStats['Checklist'].active,
-                stageStats['Closing Meeting'].active,
-                stageStats['QAS'].active
-            ];
             auditPlanStagesBarChartInstance.update();
         }
 
         function updateCharts(data) {
             if (!overallStatusPieChartInstance) return;
 
-            let statusCounts = {};
-            data.forEach(i => { statusCounts[i.status] = (statusCounts[i.status] || 0) + 1; });
-            overallStatusPieChartInstance.data.labels = Object.keys(statusCounts);
-            overallStatusPieChartInstance.data.datasets[0].data = Object.values(statusCounts);
+            let statusCount = {};
+            let compCount = { 'Generally Compliant': 0, 'Partially Compliant': 0, 'Non Compliant': 0 };
+            let trendCount = {};
+            let catCount = {};
+            let projCount = {};
+            let auditorCount = {};
+            let deptCount = {};
+            let issuedPersonMap = {};
+
+            data.forEach(item => {
+                statusCount[item.status] = (statusCount[item.status] || 0) + 1;
+                if (compCount[item.severity] !== undefined) compCount[item.severity]++;
+                
+                let dt = item.date || '2026-01';
+                let monthKey = dt.substring(0, 7);
+                trendCount[monthKey] = (trendCount[monthKey] || 0) + 1;
+
+                catCount[item.category] = (catCount[item.category] || 0) + 1;
+                projCount[item.project] = (projCount[item.project] || 0) + 1;
+                let aud = item.auditor || 'Unassigned';
+                auditorCount[aud] = (auditorCount[aud] || 0) + 1;
+                let dep = item.dept || 'General';
+                deptCount[dep] = (deptCount[dep] || 0) + 1;
+
+                let ip = item.issuedPerson || 'N/A';
+                if (!issuedPersonMap[ip]) issuedPersonMap[ip] = { Open: 0, Closed: 0, Accepted: 0, Cancelled: 0 };
+                if (issuedPersonMap[ip][item.status] !== undefined) issuedPersonMap[ip][item.status]++;
+            });
+
+            // Update Overall Status Pie Chart
+            overallStatusPieChartInstance.data.labels = Object.keys(statusCount);
+            overallStatusPieChartInstance.data.datasets[0].data = Object.values(statusCount);
             overallStatusPieChartInstance.update();
 
-            let compCounts = {};
-            data.forEach(i => { compCounts[i.severity] = (compCounts[i.severity] || 0) + 1; });
-            let compLabels = Object.keys(compCounts);
-            complianceStatusChartInstance.data.labels = compLabels;
-            complianceStatusChartInstance.data.datasets[0].data = Object.values(compCounts);
-            complianceStatusChartInstance.data.datasets[0].backgroundColor = compLabels.map(label => complianceColors[label] || '#334155');
+            // Update Compliance Status Chart
+            complianceStatusChartInstance.data.labels = Object.keys(compCount);
+            complianceStatusChartInstance.data.datasets[0].data = Object.values(compCount);
+            complianceStatusChartInstance.data.datasets[0].backgroundColor = Object.keys(compCount).map(k => complianceColors[k] || '#003399');
             complianceStatusChartInstance.update();
 
-            let dateCounts = {};
-            data.forEach(i => {
-                let d = i.date || 'No Date';
-                dateCounts[d] = (dateCounts[d] || 0) + 1;
-            });
-            let sortedDates = Object.keys(dateCounts).sort();
-            auditTrendChartInstance.data.labels = sortedDates;
-            auditTrendChartInstance.data.datasets[0].data = sortedDates.map(d => dateCounts[d]);
+            // Update Trend Chart
+            let sortedMonths = Object.keys(trendCount).sort();
+            auditTrendChartInstance.data.labels = sortedMonths;
+            auditTrendChartInstance.data.datasets[0].data = sortedMonths.map(m => trendCount[m]);
             auditTrendChartInstance.update();
 
-            let catCounts = {};
-            data.forEach(i => { catCounts[i.category] = (catCounts[i.category] || 0) + 1; });
-            auditCatChartInstance.data.labels = Object.keys(catCounts);
-            auditCatChartInstance.data.datasets[0].data = Object.values(catCounts);
+            // Update Category Chart
+            auditCatChartInstance.data.labels = Object.keys(catCount);
+            auditCatChartInstance.data.datasets[0].data = Object.values(catCount);
             auditCatChartInstance.update();
 
-            let projCounts = {};
-            data.forEach(i => { projCounts[i.project] = (projCounts[i.project] || 0) + 1; });
-            projectFindingsChartInstance.data.labels = Object.keys(projCounts);
-            projectFindingsChartInstance.data.datasets[0].data = Object.values(projCounts);
+            // Update Project Findings Chart
+            let sortedProjects = Object.keys(projCount).sort((a,b) => projCount[b] - projCount[a]).slice(0, 8);
+            projectFindingsChartInstance.data.labels = sortedProjects;
+            projectFindingsChartInstance.data.datasets[0].data = sortedProjects.map(p => projCount[p]);
             projectFindingsChartInstance.update();
 
-            let auditorCounts = {};
-            data.forEach(i => {
-                let aud = i.auditor || 'Unassigned';
-                auditorCounts[aud] = (auditorCounts[aud] || 0) + 1;
-            });
-            auditorFindingsChartInstance.data.labels = Object.keys(auditorCounts);
-            auditorFindingsChartInstance.data.datasets[0].data = Object.values(auditorCounts);
+            // Update Auditor Findings Chart
+            auditorFindingsChartInstance.data.labels = Object.keys(auditorCount);
+            auditorFindingsChartInstance.data.datasets[0].data = Object.values(auditorCount);
             auditorFindingsChartInstance.update();
 
-            let deptCounts = {};
-            data.forEach(i => {
-                let dep = i.dept || 'General';
-                deptCounts[dep] = (deptCounts[dep] || 0) + 1;
-            });
-            deptFindingsChartInstance.data.labels = Object.keys(deptCounts);
-            deptFindingsChartInstance.data.datasets[0].data = Object.values(deptCounts);
+            // Update Dept Findings Chart
+            deptFindingsChartInstance.data.labels = Object.keys(deptCount);
+            deptFindingsChartInstance.data.datasets[0].data = Object.values(deptCount);
             deptFindingsChartInstance.update();
 
-            let persons = [...new Set(data.map(i => i.issuedPerson || 'N/A'))];
-            let statuses = [...new Set(data.map(i => i.status || 'Open'))];
-            let stackedPalette = ['#003399', '#0284C7', '#0D9488', '#4F46E5'];
-            let stackedDatasets = statuses.map((status, idx) => {
-                return {
-                    label: status,
-                    data: persons.map(p => data.filter(i => (i.issuedPerson || 'N/A') === p && (i.status || 'Open') === status).length),
-                    backgroundColor: stackedPalette[idx % stackedPalette.length],
-                    borderRadius: 4
-                };
-            });
-            statusIssuedPersonChartInstance.data.labels = persons;
-            statusIssuedPersonChartInstance.data.datasets = stackedDatasets;
+            // Update Stacked Status by Issued Person Chart
+            let ipLabels = Object.keys(issuedPersonMap).slice(0, 10);
+            statusIssuedPersonChartInstance.data.labels = ipLabels;
+            statusIssuedPersonChartInstance.data.datasets = [
+                { label: 'Open', data: ipLabels.map(l => issuedPersonMap[l].Open), backgroundColor: '#EAB308', borderRadius: 4 },
+                { label: 'Closed', data: ipLabels.map(l => issuedPersonMap[l].Closed), backgroundColor: '#107C10', borderRadius: 4 },
+                { label: 'Accepted', data: ipLabels.map(l => issuedPersonMap[l].Accepted), backgroundColor: '#4F46E5', borderRadius: 4 }
+            ];
             statusIssuedPersonChartInstance.update();
         }
 
         function openModal() {
-            document.getElementById('auditModal').classList.remove('hidden');
-            document.getElementById('auditModal').classList.add('flex');
             document.getElementById('modalTitle').innerText = "Add New Audit Finding";
             document.getElementById('auditForm').reset();
             document.getElementById('editIndex').value = "-1";
             document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
             modalUpdateProjectDropdown();
+            let modal = document.getElementById('auditModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function closeModal() {
-            document.getElementById('auditModal').classList.remove('flex');
-            document.getElementById('auditModal').classList.add('hidden');
+            let modal = document.getElementById('auditModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function editRecord(index) {
+            let item = auditData[index];
+            document.getElementById('modalTitle').innerText = "Edit Audit Finding";
+            document.getElementById('editIndex').value = index;
+            document.getElementById('inputSeries').value = item.series;
+            document.getElementById('inputStatus').value = item.status;
+            
+            let meta = getEntityMeta(item.project);
+            document.getElementById('inputModalEntityType').value = meta.type;
+            modalUpdateProjectDropdown();
+            document.getElementById('inputProject').value = item.project;
+            
+            document.getElementById('inputCategory').value = item.category;
+            document.getElementById('inputFinding').value = item.finding;
+            document.getElementById('inputProgram').value = item.program;
+            document.getElementById('inputAuditor').value = item.auditor || 'Troy Sombillo De Guzman';
+            document.getElementById('inputDept').value = item.dept;
+            document.getElementById('inputIssuedPerson').value = item.issuedPerson;
+            document.getElementById('inputSeverity').value = item.severity;
+            document.getElementById('inputDate').value = item.date;
+
+            let modal = document.getElementById('auditModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function deleteRecord(index) {
+            if (confirm("Sigurado ka bang gusto mong burahin ang finding na ito?")) {
+                auditData.splice(index, 1);
+                saveToLocalStorage();
+                renderTable();
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let index = parseInt(document.getElementById('editIndex').value);
+            let proj = document.getElementById('inputProject').value;
+            
+            let newItem = {
+                series: document.getElementById('inputSeries').value,
+                status: document.getElementById('inputStatus').value,
+                project: proj,
+                code: 'N/A',
+                category: document.getElementById('inputCategory').value,
+                finding: document.getElementById('inputFinding').value,
+                program: document.getElementById('inputProgram').value,
+                auditor: document.getElementById('inputAuditor').value,
+                dept: document.getElementById('inputDept').value,
+                issuedPerson: document.getElementById('inputIssuedPerson').value,
+                severity: document.getElementById('inputSeverity').value,
+                date: document.getElementById('inputDate').value
+            };
+
+            if (index === -1) {
+                auditData.unshift(newItem);
+            } else {
+                auditData[index] = newItem;
+            }
+
+            saveToLocalStorage();
+            closeModal();
+            renderTable();
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+        }
+
+        function exportToExcelFull() {
+            let worksheet = XLSX.utils.json_to_sheet(auditData);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "QAS_Audit_Matrix");
+            XLSX.writeFile(workbook, "QAS_Detailed_Audit_Matrix_2026.xlsx");
+        }
+
+        function exportAuditPlanToExcel() {
+            let worksheet = XLSX.utils.json_to_sheet(auditPlanData);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Audit_Plan_2026");
+            XLSX.writeFile(workbook, "Site_Warehousing_Audit_Plan_2026.xlsx");
+        }
+
+        function handleExcelUpload(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = new Uint8Array(e.target.result);
+                    let workbook = XLSX.read(data, { type: 'array' });
+                    let firstSheet = workbook.SheetNames[0];
+                    let worksheet = workbook.Sheets[firstSheet];
+                    let json = XLSX.utils.sheet_to_json(worksheet);
+                    if (json.length > 0) {
+                        auditData = json.concat(auditData);
+                        saveToLocalStorage();
+                        renderTable();
+                        alert("Matagumpay na nai-upload ang mga Excel records!");
+                    }
+                } catch(err) {
+                    alert("May error sa pagbasa ng Excel file.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function handleAuditPlanUpload(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = new Uint8Array(e.target.result);
+                    let workbook = XLSX.read(data, { type: 'array' });
+                    let firstSheet = workbook.SheetNames[0];
+                    let worksheet = workbook.Sheets[firstSheet];
+                    let json = XLSX.utils.sheet_to_json(worksheet);
+                    if (json.length > 0) {
+                        auditPlanData = cleanAuditPlanData(json.concat(auditPlanData));
+                        saveToLocalStorage();
+                        renderAuditPlanTable();
+                        alert("Matagumpay na nai-upload ang Audit Plan template!");
+                    }
+                } catch(err) {
+                    alert("May error sa pagbasa ng Audit Plan Excel file.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
         }
     </script>
 </body>
