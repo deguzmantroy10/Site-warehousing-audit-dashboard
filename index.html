@@ -236,6 +236,7 @@
                 <button id="btnViewInvAuditPlan" onclick="switchView('invAuditPlan')" class="w-full px-3.5 py-2.5 text-blue-100 hover:bg-[#001f5c] font-semibold text-xs rounded-lg transition flex items-center gap-2.5 text-left">
                     <i class="fa-solid fa-boxes-stacked w-4 text-center"></i> Inventory Audit Plan
                 </button>
+
 <button id="btnViewSpecialAudits"
         onclick="switchView('specialAudits')"
         class="w-full px-3.5 py-2.5
@@ -359,8 +360,95 @@
         <main class="max-w-7xl mx-auto px-6 py-6 space-y-6 flex-grow w-full">
 
             <!-- CONTAINER 1: DASHBOARD VIEW -->
-            <div id="dashboardViewContainer" class="space-y-6">
-                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+<div id="dashboardViewContainer" class="space-y-6">
+
+    <!-- ANALYTICS DATE FILTER -->
+    <div class="bg-white
+                border border-slate-200
+                rounded-xl
+                shadow-sm
+                px-4 py-3
+                flex flex-col sm:flex-row
+                sm:items-center
+                justify-between
+                gap-3">
+
+        <div class="flex items-center gap-2">
+
+            <div class="w-8 h-8
+                        rounded-lg
+                        bg-blue-50
+                        text-[#003399]
+                        flex items-center
+                        justify-center">
+
+                <i class="fa-solid fa-calendar-days text-[11px]"></i>
+
+            </div>
+
+            <div>
+                <div class="text-[10px]
+                            font-extrabold
+                            uppercase
+                            tracking-wider
+                            text-slate-700">
+                    Analytics Period
+                </div>
+
+                <div class="text-[9px] text-slate-400">
+                    Filter dashboard charts by audit date
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+
+            <select id="analyticsYearFilter"
+                    onchange="initCharts()"
+                    class="text-[10px]
+                           px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           bg-white
+                           font-semibold
+                           text-slate-700">
+
+                <option value="ALL">All Years</option>
+
+            </select>
+
+            <select id="analyticsMonthFilter"
+                    onchange="initCharts()"
+                    class="text-[10px]
+                           px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           bg-white
+                           font-semibold
+                           text-slate-700">
+
+                <option value="ALL">All Months</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
     <!-- TOTAL AUDIT CHECKS -->
     <div class="group
@@ -746,9 +834,9 @@
                             <h2 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Findings by Responsible Department</h2>
                             <span class="text-[10px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded font-medium">Department Load</span>
                         </div>
-                        <div class="relative h-64 w-full flex items-center justify-center">
-                            <canvas id="deptFindingsChart"></canvas>
-                        </div>
+                        <div class="relative h-64 w-full overflow-hidden">
+    <canvas id="deptFindingsChart"></canvas>
+</div>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-[#E1DFDD]">
@@ -1086,11 +1174,6 @@
                 Overall
             </th>
 
-            <th class="p-3 min-w-[65px]
-                       text-center">
-                Action
-            </th>
-
         </tr>
 
     </thead>
@@ -1312,9 +1395,6 @@
         Overall
     </th>
 
-    <th class="sticky-action p-3 text-center">
-        Action
-    </th>
 </tr>
 </thead>
 
@@ -1415,29 +1495,71 @@
         </div>
 
 
-        <div class="inline-flex items-center gap-2
-                    px-3 py-2
-                    rounded-lg
-                    bg-violet-50
-                    border border-violet-200
-                    text-violet-700
-                    self-start sm:self-auto">
+       <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
 
-            <i class="fa-solid fa-circle-nodes text-[10px]"></i>
+    <!-- ADD AUDIT PLAN -->
+    <button onclick="openSpecialAuditModal(-1)"
+            class="inline-flex items-center gap-2
+                   px-3.5 py-2
+                   rounded-lg
+                   bg-[#003399]
+                   hover:bg-blue-800
+                   text-white
+                   text-[10px]
+                   font-bold
+                   shadow-sm
+                   transition">
 
-            <span class="text-[10px] font-extrabold">
-                8 Engagements
-            </span>
+        <i class="fa-solid fa-plus"></i>
+        Add Audit Plan
 
-            <span class="w-1 h-1 rounded-full bg-violet-300"></span>
+    </button>
 
-            <span class="text-[9px] font-bold text-violet-500">
-                1 Cycle Each
-            </span>
 
-        </div>
+    <!-- EXPORT REPORT -->
+    <button onclick="exportSpecialAuditsReport()"
+            class="inline-flex items-center gap-2
+                   px-3.5 py-2
+                   rounded-lg
+                   bg-slate-800
+                   hover:bg-slate-700
+                   text-white
+                   text-[10px]
+                   font-bold
+                   shadow-sm
+                   transition">
+
+        <i class="fa-solid fa-file-excel"></i>
+        Export Report
+
+    </button>
+
+
+    <!-- SUMMARY -->
+    <div class="inline-flex items-center gap-2
+                px-3 py-2
+                rounded-lg
+                bg-violet-50
+                border border-violet-200
+                text-violet-700">
+
+        <i class="fa-solid fa-circle-nodes text-[10px]"></i>
+
+        <span class="text-[10px] font-extrabold">
+            8 Engagements
+        </span>
+
+        <span class="w-1 h-1 rounded-full bg-violet-300"></span>
+
+        <span class="text-[9px] font-bold text-violet-500">
+            1 Cycle Each
+        </span>
 
     </div>
+
+</div>
+
+</div>
 
 
     <!-- SMALL LEGEND -->
@@ -2001,7 +2123,320 @@
 
         </main>
     </div>
+<!-- =========================================================
+     PROCESSED / SPECIAL AUDIT ADD / EDIT MODAL
+========================================================= -->
+<div id="specialAuditModal"
+     class="fixed inset-0
+            bg-slate-900/60
+            backdrop-blur-[2px]
+            hidden
+            items-center
+            justify-center
+            p-4
+            z-50">
 
+    <div class="bg-white
+                rounded-2xl
+                shadow-2xl
+                border border-slate-200
+                max-w-xl
+                w-full
+                overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="px-5 py-4
+                    border-b border-slate-100
+                    flex items-center
+                    justify-between">
+
+            <div>
+
+                <div class="text-[9px]
+                            font-extrabold
+                            uppercase
+                            tracking-wider
+                            text-violet-600">
+                    Processed / Special Audit
+                </div>
+
+                <h3 id="specialAuditModalTitle"
+                    class="text-sm
+                           font-extrabold
+                           text-slate-800
+                           mt-0.5">
+                    Add Audit Plan
+                </h3>
+
+            </div>
+
+
+            <button type="button"
+                    onclick="closeSpecialAuditModal()"
+                    class="w-8 h-8
+                           rounded-lg
+                           bg-slate-100
+                           text-slate-500
+                           hover:bg-slate-200">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <form id="specialAuditForm"
+              onsubmit="saveSpecialAudit(event)"
+              class="p-5 space-y-4">
+
+            <input type="hidden"
+                   id="specialAuditEditIndex"
+                   value="-1">
+
+
+            <!-- ENGAGEMENT -->
+            <div>
+
+                <label class="block
+                              text-[10px]
+                              font-bold
+                              text-slate-700
+                              mb-1">
+                    Audit Engagement
+                </label>
+
+                <input type="text"
+                       id="specialAuditTitle"
+                       required
+                       class="w-full
+                              px-3 py-2.5
+                              border border-slate-300
+                              rounded-lg
+                              text-xs
+                              focus:ring-2
+                              focus:ring-violet-500">
+
+            </div>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                <!-- TYPE -->
+                <div>
+
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Audit Type
+                    </label>
+
+                    <select id="specialAuditType"
+                            class="w-full
+                                   px-3 py-2.5
+                                   border border-slate-300
+                                   rounded-lg
+                                   text-xs bg-white">
+
+                        <option value="Processed Audit">
+                            Processed Audit
+                        </option>
+
+                        <option value="Special Audit">
+                            Special Audit
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ICON -->
+                <div>
+
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Engagement Icon
+                    </label>
+
+                    <select id="specialAuditIcon"
+                            class="w-full
+                                   px-3 py-2.5
+                                   border border-slate-300
+                                   rounded-lg
+                                   text-xs bg-white">
+
+                        <option value="fa-screwdriver-wrench">Equipment</option>
+                        <option value="fa-cubes">Formworks</option>
+                        <option value="fa-recycle">Materials</option>
+                        <option value="fa-industry">Operations</option>
+                        <option value="fa-handshake">Subcontract</option>
+                        <option value="fa-truck">Fleet</option>
+                        <option value="fa-bolt">Electrical / Wires</option>
+                        <option value="fa-magnifying-glass-chart">Special Review</option>
+                        <option value="fa-clipboard-check">General Audit</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                <!-- AUDITOR -->
+                <div>
+
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Auditor-in-Charge
+                    </label>
+
+                    <input type="text"
+                           id="specialAuditAuditor"
+                           placeholder="Auditor name"
+                           class="w-full
+                                  px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg
+                                  text-xs">
+
+                </div>
+
+
+                <!-- STATUS -->
+                <div>
+
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Audit Status
+                    </label>
+
+                    <select id="specialAuditStatus"
+                            class="w-full
+                                   px-3 py-2.5
+                                   border border-slate-300
+                                   rounded-lg
+                                   text-xs bg-white">
+
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Delayed">Delayed</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="pt-2 border-t border-slate-100">
+
+                <div class="text-[9px]
+                            font-extrabold
+                            uppercase
+                            tracking-wider
+                            text-slate-500">
+                    Cycle 1 Milestone Dates
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Site Visit Date
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditSiteVisit"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
+                </div>
+
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Audit Report
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditReport"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
+                </div>
+
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Closing
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditClosing"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
+                </div>
+
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        QAS
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditQAS"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
+                </div>
+
+            </div>
+
+
+            <div class="pt-3
+                        border-t border-slate-100
+                        flex justify-end
+                        gap-2">
+
+                <button type="button"
+                        onclick="closeSpecialAuditModal()"
+                        class="px-4 py-2
+                               rounded-lg
+                               border border-slate-300
+                               text-slate-600
+                               text-xs
+                               font-semibold">
+
+                    Cancel
+
+                </button>
+
+
+                <button type="submit"
+                        class="px-4 py-2
+                               rounded-lg
+                               bg-violet-600
+                               hover:bg-violet-700
+                               text-white
+                               text-xs
+                               font-semibold">
+
+                    <i class="fa-solid fa-floppy-disk mr-1.5"></i>
+
+                    Save Audit Plan
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
     <!-- MODAL 1: ADD / EDIT FINDING MODAL -->
     <div id="auditModal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200">
@@ -2719,6 +3154,60 @@ onSnapshot(collection(window.db, "site_warehousing_plan"), (snapshot) => {
                         renderTopInvProjects();
                     }
                 });
+// Processed / Special Audits
+onSnapshot(
+    collection(
+        window.db,
+        "processed_special_audits"
+    ),
+    (snapshot) => {
+
+        if (!snapshot.empty) {
+
+            const firebaseRecords =
+                snapshot.docs.map(
+                    doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                );
+
+
+            firebaseRecords.forEach(
+                savedItem => {
+
+                    const existingIndex =
+                        specialAuditsData.findIndex(
+                            item =>
+                                item.id === savedItem.id
+                        );
+
+
+                    if (existingIndex >= 0) {
+
+                        specialAuditsData[existingIndex] = {
+                            ...specialAuditsData[existingIndex],
+                            ...savedItem
+                        };
+
+                    } else {
+
+                        specialAuditsData.push(
+                            savedItem
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        renderSpecialAudits();
+
+    }
+);
             }
         }
 
@@ -2977,21 +3466,52 @@ function renderSpecialAudits() {
                     </div>
 
 
-                    <span class="
-                        px-2 py-1
-                        rounded-md
-                        border
-                        text-[8px]
-                        font-extrabold
-                        uppercase
-                        whitespace-nowrap
-                        ${statusClass}">
+                    <div class="
+    flex items-center
+    gap-1.5
+    flex-shrink-0">
 
-                        ${displayStatus}
+    <!-- STATUS -->
+    <span class="
+        px-2 py-1
+        rounded-md
+        border
+        text-[8px]
+        font-extrabold
+        uppercase
+        whitespace-nowrap
+        ${statusClass}">
 
-                    </span>
+        ${displayStatus}
 
-                </div>
+    </span>
+
+
+    <!-- EDIT BUTTON -->
+    <button
+        onclick="openSpecialAuditModal(${index})"
+        title="Edit Audit Plan"
+        class="
+            w-8 h-8
+            rounded-lg
+            bg-violet-50
+            border border-violet-200
+            text-violet-700
+            hover:bg-violet-600
+            hover:text-white
+            transition">
+
+        <i class="
+            fa-solid
+            fa-pen-to-square
+            text-[10px]">
+        </i>
+
+    </button>
+
+</div>
+
+</div>
 
 
                 <!-- MILESTONE BODY -->
@@ -3125,7 +3645,7 @@ function renderSpecialAudits() {
     );
 }
 
-const specialAuditsData = [
+let specialAuditsData = [
 
     {
         id: 'cem',
@@ -3172,7 +3692,7 @@ const specialAuditsData = [
     {
         id: 'crf',
         title: 'CRF Operations Review',
-        icon: 'fa-industry',
+        icon: 'fa-bars-staggered',
         type: 'Processed Audit',
         color: 'slate',
         auditor: '',
@@ -3240,7 +3760,333 @@ const specialAuditsData = [
     }
 
 ];
+/* =========================================================
+   SPECIAL AUDIT MODAL FUNCTIONS
+========================================================= */
 
+function openSpecialAuditModal(index = -1) {
+
+    const form =
+        document.getElementById('specialAuditForm');
+
+    form.reset();
+
+
+    document.getElementById(
+        'specialAuditEditIndex'
+    ).value = index;
+
+
+    if (index >= 0) {
+
+        const item =
+            specialAuditsData[index];
+
+
+        document.getElementById(
+            'specialAuditModalTitle'
+        ).innerText =
+            'Edit Audit Plan';
+
+
+        document.getElementById(
+            'specialAuditTitle'
+        ).value =
+            item.title || '';
+
+
+        document.getElementById(
+            'specialAuditType'
+        ).value =
+            item.type || 'Processed Audit';
+
+
+        document.getElementById(
+            'specialAuditIcon'
+        ).value =
+            item.icon || 'fa-clipboard-check';
+
+
+        document.getElementById(
+            'specialAuditAuditor'
+        ).value =
+            item.auditor || '';
+
+
+        document.getElementById(
+            'specialAuditStatus'
+        ).value =
+            item.status || 'Pending';
+
+
+        document.getElementById(
+            'specialAuditSiteVisit'
+        ).value =
+            item.siteVisitDate || '';
+
+
+        document.getElementById(
+            'specialAuditReport'
+        ).value =
+            item.auditReportDate || '';
+
+
+        document.getElementById(
+            'specialAuditClosing'
+        ).value =
+            item.closingDate || '';
+
+
+        document.getElementById(
+            'specialAuditQAS'
+        ).value =
+            item.qasDate || '';
+
+    } else {
+
+        document.getElementById(
+            'specialAuditModalTitle'
+        ).innerText =
+            'Add Audit Plan';
+
+    }
+
+
+    const modal =
+        document.getElementById(
+            'specialAuditModal'
+        );
+
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+
+}
+
+
+function closeSpecialAuditModal() {
+
+    const modal =
+        document.getElementById(
+            'specialAuditModal'
+        );
+
+
+    modal.classList.add('hidden');
+
+    modal.classList.remove('flex');
+
+}
+
+
+async function saveSpecialAudit(event) {
+
+    event.preventDefault();
+
+
+    const index =
+        parseInt(
+            document.getElementById(
+                'specialAuditEditIndex'
+            ).value
+        );
+
+
+    const existing =
+        index >= 0
+            ? specialAuditsData[index]
+            : null;
+
+
+    const item = {
+
+        id:
+            existing?.id ||
+            ('special_' + Date.now()),
+
+        title:
+            document.getElementById(
+                'specialAuditTitle'
+            ).value.trim(),
+
+        type:
+            document.getElementById(
+                'specialAuditType'
+            ).value,
+
+        icon:
+            document.getElementById(
+                'specialAuditIcon'
+            ).value,
+
+        color:
+            existing?.color ||
+            (
+                document.getElementById(
+                    'specialAuditType'
+                ).value === 'Special Audit'
+                    ? 'violet'
+                    : 'blue'
+            ),
+
+        auditor:
+            document.getElementById(
+                'specialAuditAuditor'
+            ).value.trim(),
+
+        status:
+            document.getElementById(
+                'specialAuditStatus'
+            ).value,
+
+        siteVisitDate:
+            document.getElementById(
+                'specialAuditSiteVisit'
+            ).value,
+
+        auditReportDate:
+            document.getElementById(
+                'specialAuditReport'
+            ).value,
+
+        closingDate:
+            document.getElementById(
+                'specialAuditClosing'
+            ).value,
+
+        qasDate:
+            document.getElementById(
+                'specialAuditQAS'
+            ).value
+
+    };
+
+
+    if (index >= 0) {
+
+        specialAuditsData[index] =
+            item;
+
+    } else {
+
+        specialAuditsData.push(item);
+
+    }
+
+
+    await saveToFirebase(
+        'processed_special_audits',
+        item.id,
+        item
+    );
+
+
+    closeSpecialAuditModal();
+
+    renderSpecialAudits();
+
+}
+function exportSpecialAuditsReport() {
+
+    const exportData =
+        specialAuditsData.map(
+            (item, index) => {
+
+                const completedMilestones =
+                    [
+                        item.siteVisitDate,
+                        item.auditReportDate,
+                        item.closingDate,
+                        item.qasDate
+                    ]
+                    .filter(Boolean)
+                    .length;
+
+
+                const progress =
+                    Math.round(
+                        completedMilestones /
+                        4 *
+                        100
+                    );
+
+
+                return {
+
+                    'No.':
+                        index + 1,
+
+                    'Audit Engagement':
+                        item.title,
+
+                    'Audit Type':
+                        item.type,
+
+                    'Auditor-in-Charge':
+                        item.auditor || '',
+
+                    'Status':
+                        item.status || 'Pending',
+
+                    'Site Visit Date':
+                        item.siteVisitDate || '',
+
+                    'Audit Report Date':
+                        item.auditReportDate || '',
+
+                    'Closing Date':
+                        item.closingDate || '',
+
+                    'QAS Date':
+                        item.qasDate || '',
+
+                    'Progress (%)':
+                        progress
+
+                };
+
+            }
+        );
+
+
+    const ws =
+        XLSX.utils.json_to_sheet(
+            exportData
+        );
+
+
+    ws['!cols'] = [
+        { wch: 6 },
+        { wch: 40 },
+        { wch: 18 },
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 16 },
+        { wch: 18 },
+        { wch: 16 },
+        { wch: 16 },
+        { wch: 14 }
+    ];
+
+
+    const wb =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        'Special Audits'
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        'Processed_Special_Audits_2026.xlsx'
+    );
+
+}
         /* ==================== VIEW NAVIGATION LOGIC ==================== */
         function switchView(viewName) {
             const containers = {
@@ -4895,13 +5741,39 @@ function renderAuditPlanTable() {
 
          <td class="sticky-project p-3 align-top border-r border-slate-200 bg-white shadow-[2px_0_5px_rgba(15,23,42,0.06)]">
 
-                <div class="text-[12px]
-                            font-extrabold
-                            text-slate-800
-                            whitespace-normal
-                            leading-tight">
-                    ${item.projectName || '-'}
-                </div>
+               <div class="flex items-start justify-between gap-2">
+
+    <div class="text-[12px]
+                font-extrabold
+                text-slate-800
+                whitespace-normal
+                leading-tight
+                flex-1">
+
+        ${item.projectName || '-'}
+
+    </div>
+
+    <button
+        onclick="openPlanModal(${actualIndex})"
+        title="Edit Site Warehousing Audit Plan"
+        class="w-7 h-7
+               rounded-lg
+               bg-blue-50
+               border border-blue-200
+               text-[#003399]
+               hover:bg-[#003399]
+               hover:text-white
+               transition
+               flex items-center
+               justify-center
+               flex-shrink-0">
+
+        <i class="fa-solid fa-pen-to-square text-[9px]"></i>
+
+    </button>
+
+</div>
 
 
                 <div class="mt-1.5">
@@ -5018,26 +5890,7 @@ function renderAuditPlanTable() {
             </td>
 
 
-            <td class="p-3 align-top text-center">
-
-                <button
-                    onclick="openPlanModal(${actualIndex})"
-                    title="Edit Site Warehousing Audit Plan"
-                    class="w-8 h-8
-                           rounded-lg
-                           bg-blue-50
-                           border border-blue-200
-                           text-[#003399]
-                           hover:bg-[#003399]
-                           hover:text-white
-                           transition">
-
-                    <i class="fa-solid fa-pen-to-square"></i>
-
-                </button>
-
-            </td>
-
+            
         `;
 
         tbody.appendChild(tr);
@@ -5481,15 +6334,237 @@ const auditCenterTextPlugin = {
 }
 
         function exportAuditPlanToExcel() {
-            const ws = XLSX.utils.json_to_sheet(auditPlanData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Site Warehousing Plan");
-            XLSX.writeFile(wb, "Site_Warehousing_Audit_Plan_2026.xlsx");
-        }
 
-        function handleAuditPlanUpload(e) {
-            alert("Site Warehousing Plan template uploaded successfully!");
-        }
+    const exportData = auditPlanData.map((item, index) => {
+
+        const getCycleDuration = (cycle) => {
+            if (!cycle?.siteVisitDate || !cycle?.qasDate) return '';
+
+           const days = getBusinessDaysBetween(
+    cycle.siteVisitDate,
+    cycle.qasDate
+);
+
+            return days !== null ? days : '';
+        };
+
+
+        return {
+
+            'No.': index + 1,
+
+            'Entity Type':
+                item.entityType || '',
+
+            'Project / Entity':
+                item.projectName || '',
+
+            'Project Code':
+                item.projectCode || '',
+
+            'Construction Manager / Head':
+                item.cm || '',
+
+            'Area Manager / Operations Manager':
+                item.am || '',
+
+
+            /* ================= CYCLE 1 ================= */
+
+            'C1 Auditor':
+                item.c1?.auditor || '',
+
+            'C1 Status':
+                item.c1?.status || '',
+
+            'C1 Rating':
+                item.c1?.rating ?? '',
+
+            'C1 Site Visit':
+                item.c1?.siteVisitDate || '',
+
+            'C1 Checklist':
+                item.c1?.checklistDate || '',
+
+            'C1 Closing':
+                item.c1?.closingDate || '',
+
+            'C1 QAS':
+                item.c1?.qasDate || '',
+
+            'C1 Total Duration (Business Days)':
+                getCycleDuration(item.c1),
+
+
+            /* ================= CYCLE 2 ================= */
+
+            'C2 Auditor':
+                item.c2?.auditor || '',
+
+            'C2 Status':
+                item.c2?.status || '',
+
+            'C2 Rating':
+                item.c2?.rating ?? '',
+
+            'C2 Site Visit':
+                item.c2?.siteVisitDate || '',
+
+            'C2 Checklist':
+                item.c2?.checklistDate || '',
+
+            'C2 Closing':
+                item.c2?.closingDate || '',
+
+            'C2 QAS':
+                item.c2?.qasDate || '',
+
+            'C2 Total Duration (Business Days)':
+                getCycleDuration(item.c2),
+
+
+            /* ================= CYCLE 3 ================= */
+
+            'C3 Auditor':
+                item.c3?.auditor || '',
+
+            'C3 Status':
+                item.c3?.status || '',
+
+            'C3 Rating':
+                item.c3?.rating ?? '',
+
+            'C3 Site Visit':
+                item.c3?.siteVisitDate || '',
+
+            'C3 Checklist':
+                item.c3?.checklistDate || '',
+
+            'C3 Closing':
+                item.c3?.closingDate || '',
+
+            'C3 QAS':
+                item.c3?.qasDate || '',
+
+            'C3 Total Duration (Business Days)':
+                getCycleDuration(item.c3),
+
+
+            /* ================= CYCLE 4 ================= */
+
+            'C4 Auditor':
+                item.c4?.auditor || '',
+
+            'C4 Status':
+                item.c4?.status || '',
+
+            'C4 Rating':
+                item.c4?.rating ?? '',
+
+            'C4 Site Visit':
+                item.c4?.siteVisitDate || '',
+
+            'C4 Checklist':
+                item.c4?.checklistDate || '',
+
+            'C4 Closing':
+                item.c4?.closingDate || '',
+
+            'C4 QAS':
+                item.c4?.qasDate || '',
+
+            'C4 Total Duration (Business Days)':
+                getCycleDuration(item.c4)
+
+        };
+
+    });
+
+
+    const ws =
+        XLSX.utils.json_to_sheet(exportData);
+
+
+    /* COLUMN WIDTHS */
+    ws['!cols'] = [
+
+        { wch: 6 },   // No.
+        { wch: 18 },  // Entity Type
+        { wch: 38 },  // Project
+        { wch: 14 },  // Code
+        { wch: 28 },  // CM
+        { wch: 30 },  // AM
+
+        /* C1 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C2 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C3 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C4 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 }
+
+    ];
+
+
+    /* AUTO FILTER */
+    if (exportData.length > 0) {
+
+        ws['!autofilter'] = {
+            ref: ws['!ref']
+        };
+
+    }
+
+
+    const wb =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        'Site Warehousing Plan'
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        'Site_Warehousing_Audit_Plan_2026.xlsx'
+    );
+
+}
 
         /* ==================== INVENTORY MANAGEMENT AUDIT PLAN LOGIC (CONTAINER 3.5) ==================== */
         function openInvPlanModal(idx = -1) {
@@ -5699,13 +6774,39 @@ function renderInvAuditPlanTable() {
 
           <td class="sticky-project p-3 align-top border-r border-slate-200 bg-white shadow-[2px_0_5px_rgba(15,23,42,0.06)]">
 
-                <div class="text-[12px]
-                            font-extrabold
-                            text-slate-800
-                            whitespace-normal
-                            leading-tight">
-                    ${item.projectName || '-'}
-                </div>
+              <div class="flex items-start justify-between gap-2">
+
+    <div class="text-[12px]
+                font-extrabold
+                text-slate-800
+                whitespace-normal
+                leading-tight
+                flex-1">
+
+        ${item.projectName || '-'}
+
+    </div>
+
+    <button
+        onclick="openInvPlanModal(${actualIndex})"
+        title="Edit Inventory Management Plan"
+        class="w-7 h-7
+               rounded-lg
+               bg-amber-50
+               border border-amber-200
+               text-amber-700
+               hover:bg-amber-600
+               hover:text-white
+               transition
+               flex items-center
+               justify-center
+               flex-shrink-0">
+
+        <i class="fa-solid fa-pen-to-square text-[9px]"></i>
+
+    </button>
+
+</div>
 
 
                 <div class="mt-1.5">
@@ -5822,27 +6923,6 @@ function renderInvAuditPlanTable() {
                     </div>
 
                 </div>
-
-            </td>
-
-
-            <td class="sticky-action p-3 align-top text-center">
-
-                <button
-                    onclick="openInvPlanModal(${actualIndex})"
-                    title="Edit Inventory Management Plan"
-                    class="w-8 h-8
-                           rounded-lg
-                           bg-amber-50
-                           border border-amber-200
-                           text-amber-700
-                           hover:bg-amber-600
-                           hover:text-white
-                           transition">
-
-                    <i class="fa-solid fa-pen-to-square"></i>
-
-                </button>
 
             </td>
 
@@ -6233,11 +7313,235 @@ function renderInvAuditPlanTable() {
 }
 
         function exportInvAuditPlanToExcel() {
-            const ws = XLSX.utils.json_to_sheet(invAuditPlanData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Inventory Plan 2026");
-            XLSX.writeFile(wb, "Inventory_Management_Audit_Plan_2026.xlsx");
-        }
+
+    const exportData = invAuditPlanData.map((item, index) => {
+
+        const getCycleDuration = (cycle) => {
+            if (!cycle?.siteVisitDate || !cycle?.qasDate) return '';
+
+         const days = getBusinessDaysBetween(
+    cycle.siteVisitDate,
+    cycle.qasDate
+);
+
+            return days !== null ? days : '';
+        };
+
+
+        return {
+
+            'No.': index + 1,
+
+            'Entity Type':
+                item.entityType || '',
+
+            'Project / Entity':
+                item.projectName || '',
+
+            'Project Code':
+                item.projectCode || '',
+
+            'Construction Manager / Head':
+                item.cm || '',
+
+            'Area Manager / Operations Manager':
+                item.am || '',
+
+
+            /* ================= CYCLE 1 ================= */
+
+            'C1 Auditor':
+                item.c1?.auditor || '',
+
+            'C1 Status':
+                item.c1?.status || '',
+
+            'C1 Rating':
+                item.c1?.rating ?? '',
+
+            'C1 Site Visit':
+                item.c1?.siteVisitDate || '',
+
+            'C1 Checklist':
+                item.c1?.checklistDate || '',
+
+            'C1 Closing':
+                item.c1?.closingDate || '',
+
+            'C1 QAS':
+                item.c1?.qasDate || '',
+
+            'C1 Total Duration (Business Days)':
+                getCycleDuration(item.c1),
+
+
+            /* ================= CYCLE 2 ================= */
+
+            'C2 Auditor':
+                item.c2?.auditor || '',
+
+            'C2 Status':
+                item.c2?.status || '',
+
+            'C2 Rating':
+                item.c2?.rating ?? '',
+
+            'C2 Site Visit':
+                item.c2?.siteVisitDate || '',
+
+            'C2 Checklist':
+                item.c2?.checklistDate || '',
+
+            'C2 Closing':
+                item.c2?.closingDate || '',
+
+            'C2 QAS':
+                item.c2?.qasDate || '',
+
+            'C2 Total Duration (Business Days)':
+                getCycleDuration(item.c2),
+
+
+            /* ================= CYCLE 3 ================= */
+
+            'C3 Auditor':
+                item.c3?.auditor || '',
+
+            'C3 Status':
+                item.c3?.status || '',
+
+            'C3 Rating':
+                item.c3?.rating ?? '',
+
+            'C3 Site Visit':
+                item.c3?.siteVisitDate || '',
+
+            'C3 Checklist':
+                item.c3?.checklistDate || '',
+
+            'C3 Closing':
+                item.c3?.closingDate || '',
+
+            'C3 QAS':
+                item.c3?.qasDate || '',
+
+            'C3 Total Duration (Business Days)':
+                getCycleDuration(item.c3),
+
+
+            /* ================= CYCLE 4 ================= */
+
+            'C4 Auditor':
+                item.c4?.auditor || '',
+
+            'C4 Status':
+                item.c4?.status || '',
+
+            'C4 Rating':
+                item.c4?.rating ?? '',
+
+            'C4 Site Visit':
+                item.c4?.siteVisitDate || '',
+
+            'C4 Checklist':
+                item.c4?.checklistDate || '',
+
+            'C4 Closing':
+                item.c4?.closingDate || '',
+
+            'C4 QAS':
+                item.c4?.qasDate || '',
+
+            'C4 Total Duration (Business Days)':
+                getCycleDuration(item.c4)
+
+        };
+
+    });
+
+
+    const ws =
+        XLSX.utils.json_to_sheet(exportData);
+
+
+    ws['!cols'] = [
+
+        { wch: 6 },
+        { wch: 18 },
+        { wch: 38 },
+        { wch: 14 },
+        { wch: 28 },
+        { wch: 30 },
+
+        /* C1 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C2 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C3 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 },
+
+        /* C4 */
+        { wch: 24 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 25 }
+
+    ];
+
+
+    if (exportData.length > 0) {
+
+        ws['!autofilter'] = {
+            ref: ws['!ref']
+        };
+
+    }
+
+
+    const wb =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        'Inventory Audit Plan'
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        'Inventory_Management_Audit_Plan_2026.xlsx'
+    );
+
+}
 
         /* ==================== HELPER RATING & TREND UTILITY ==================== */
       function getRatingBadge(rating) {
@@ -6581,15 +7885,23 @@ function renderInvAuditPlanTable() {
 
 
             /* TOP 10 BASED ON OVERALL AUDIT SCORE */
-            items.sort(
-                (a, b) =>
-                    b.average - a.average
-            );
+           items.sort((a, b) => {
+
+    if (a.average === null && b.average === null) {
+        return (a.item.projectName || '')
+            .localeCompare(b.item.projectName || '');
+    }
+
+    if (a.average === null) return 1;
+    if (b.average === null) return -1;
+
+    return b.average - a.average;
+
+});
 
 
-            items
-            .slice(0, 10)
-            .forEach((record, idx) => {
+items
+.forEach((record, idx) => {
 
                 const {
                     item,
@@ -6843,10 +8155,7 @@ function renderInvAuditPlanTable() {
                             getAverage(ratings)
                     };
 
-                })
-                .filter(x =>
-                    x.average !== null
-                );
+                    });
 
 
             /* SAME RANKING RULE AS SITE WAREHOUSING */
@@ -6855,10 +8164,8 @@ function renderInvAuditPlanTable() {
                     b.average - a.average
             );
 
-
-            items
-            .slice(0, 10)
-            .forEach((record, idx) => {
+items
+.forEach((record, idx) => {
 
                 const {
                     item,
@@ -6950,7 +8257,7 @@ function renderInvAuditPlanTable() {
                         <div class="text-[13px]
                                     font-extrabold
                                     text-[#003399]">
-                            ${average}%
+                       ${average !== null ? average + '%' : 'N/A'}
                         </div>
 
                         <div class="text-[8px]
@@ -7013,11 +8320,155 @@ function renderInvAuditPlanTable() {
         'Landbank'
     );
 }
+/* =========================================================
+   ANALYTICS YEAR / MONTH FILTER
+========================================================= */
+
+function populateAnalyticsYearFilter() {
+
+    const select =
+        document.getElementById('analyticsYearFilter');
+
+    if (!select) return;
+
+
+    const currentValue =
+        select.value || 'ALL';
+
+
+    const years = [
+        ...new Set(
+            auditData
+                .map(item => {
+                    if (!item.date) return null;
+
+                    const match =
+                        String(item.date)
+                        .match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+                    return match
+                        ? match[1]
+                        : null;
+                })
+                .filter(Boolean)
+        )
+    ].sort((a, b) => Number(b) - Number(a));
+
+
+    select.innerHTML =
+        `<option value="ALL">All Years</option>` +
+        years
+            .map(year =>
+                `<option value="${year}">${year}</option>`
+            )
+            .join('');
+
+
+    if (
+        currentValue === 'ALL' ||
+        years.includes(currentValue)
+    ) {
+        select.value = currentValue;
+    }
+
+}
+
+
+function applyAnalyticsDateFilter(data) {
+
+    const year =
+        document.getElementById(
+            'analyticsYearFilter'
+        )?.value || 'ALL';
+
+
+    const month =
+        document.getElementById(
+            'analyticsMonthFilter'
+        )?.value || 'ALL';
+
+
+    return data.filter(item => {
+
+        if (!item.date) {
+
+            return (
+                year === 'ALL' &&
+                month === 'ALL'
+            );
+
+        }
+
+
+        const match =
+            String(item.date)
+            .match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+
+        if (!match) return false;
+
+
+        const itemYear =
+            match[1];
+
+        const itemMonth =
+            match[2];
+
+
+        const yearMatch =
+            year === 'ALL' ||
+            itemYear === year;
+
+
+        const monthMatch =
+            month === 'ALL' ||
+            itemMonth === month;
+
+
+        return (
+            yearMatch &&
+            monthMatch
+        );
+
+    });
+
+}
+
+
+function resetAnalyticsDateFilter() {
+
+    const year =
+        document.getElementById(
+            'analyticsYearFilter'
+        );
+
+    const month =
+        document.getElementById(
+            'analyticsMonthFilter'
+        );
+
+
+    if (year) year.value = 'ALL';
+
+    if (month) month.value = 'ALL';
+
+
+    initCharts();
+
+}
 
         /* ==================== CONTAINER 1: ANALYTICS DASHBOARD CHARTS ==================== */
-        function initCharts() {
+  function initCharts() {
 
-    let filtered = filterDataByEntity(auditData);
+    populateAnalyticsYearFilter();
+
+
+    let filtered =
+        filterDataByEntity(auditData);
+
+
+    filtered =
+        applyAnalyticsDateFilter(filtered);
 
 
     /* =========================================================
@@ -7409,6 +8860,84 @@ layout: {
         chartInstances.trendLine.destroy();
     }
 
+/* ACTUAL FINDINGS TREND FROM AUDIT DATES */
+
+const trendMap = {};
+
+
+filtered.forEach(item => {
+
+    if (!item.date) return;
+
+
+    const match =
+        String(item.date)
+        .match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+
+    if (!match) return;
+
+
+    const year =
+        match[1];
+
+    const month =
+        match[2];
+
+
+    const key =
+        `${year}-${month}`;
+
+
+    trendMap[key] =
+        (trendMap[key] || 0) + 1;
+
+});
+
+
+const trendKeys =
+    Object.keys(trendMap)
+    .sort();
+
+
+const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+];
+
+
+const trendLabels =
+    trendKeys.map(key => {
+
+        const [year, month] =
+            key.split('-');
+
+
+        return (
+            monthNames[
+                Number(month) - 1
+            ] +
+            ' ' +
+            year
+        );
+
+    });
+
+
+const trendValues =
+    trendKeys.map(
+        key => trendMap[key]
+    );
 
     chartInstances.trendLine =
         new Chart(ctx3, {
@@ -7417,24 +8946,14 @@ layout: {
 
             data: {
 
-                labels: [
-                    'Jan 2026',
-                    'Feb 2026',
-                    'Mar 2026',
-                    'Apr 2026'
-                ],
+                labels: trendLabels,
 
                 datasets: [{
 
                     label:
                         'Findings Count',
 
-                    data: [
-                        12,
-                        18,
-                        total,
-                        total + 5
-                    ],
+                    data: trendValues,
 
                     borderColor:
                         COLORS.blue,
@@ -7913,24 +9432,28 @@ layout: {
             },
 
 
-            options: {
+options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '66%',
 
-                responsive: true,
+    plugins: {
+        legend: {
+            position: 'bottom',
 
-                maintainAspectRatio: false,
+            labels: {
+                boxWidth: 10,
+                boxHeight: 10,
+                padding: 12,
 
-                cutout: '66%',
-
-                plugins: {
-
-                    legend:
-                        legendStyle,
-
-                    tooltip:
-                        tooltipStyle
+                font: {
+                    size: 10
                 }
             }
-        });
+        }
+    }
+}
+});
 
 
 
