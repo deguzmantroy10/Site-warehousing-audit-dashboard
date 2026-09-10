@@ -574,28 +574,26 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
         import { getFirestore, collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         /* =========================================================
-           V45 — GITHUB PAGES STATIC FIREBASE INITIALIZATION
-           No Firebase Hosting auto-discovery. No /__/firebase/init.*
-           requests. GitHub Pages initializes Firebase only from this
-           static configuration object.
+           V46 — GITHUB PAGES STATIC FIREBASE INITIALIZATION
+           Static Firebase Web App configuration copied from the
+           Firebase Console for the "site-warehousing" web app.
+           No Firebase Hosting /__/firebase/init.* auto-discovery.
         ========================================================= */
         const firebaseConfig = {
-            apiKey: "AIzaSyCko6WQ4ox3VgWIco06CqVX8i573Ee3q9c",
-            authDomain: "attendance-monitoring-sy-832b8.firebaseapp.com",
-            projectId: "attendance-monitoring-sy-832b8",
-            storageBucket: "attendance-monitoring-sy-832b8.firebasestorage.app",
-            messagingSenderId: "217151172479",
-            appId: "PASTE_FIREBASE_WEB_APP_ID_HERE",
-            measurementId: "G-G9K9F6B4RS"
+            apiKey: "AIzaSyAWbJytckI0L-SuG7A5Ff9yLfLQf9z42Lk",
+            authDomain: "site-warehousing.firebaseapp.com",
+            projectId: "site-warehousing",
+            storageBucket: "site-warehousing.firebasestorage.app",
+            messagingSenderId: "168863258972",
+            appId: "1:168863258972:web:38ef7ca3b13dae546d4999",
+            measurementId: "G-VFEQSRMDZV"
         };
 
         const firebaseWebAppIdPattern = /^1:\d+:web:[A-Za-z0-9_-]+$/;
         const configuredAppId = String(firebaseConfig.appId || '').trim();
 
-        if (!configuredAppId || configuredAppId === 'PASTE_FIREBASE_WEB_APP_ID_HERE') {
-            console.error(
-                'Firebase config missing Web App ID. Open Firebase Console > Project settings > General > Your apps > Web app > SDK setup and configuration > Config, then copy the exact appId (1:...:web:...).'
-            );
+        if (!firebaseConfig.appId) {
+            console.error('Firebase config missing');
             window.__firebaseInitDiagnostics = {
                 status: 'config-error',
                 projectId: firebaseConfig.projectId,
@@ -604,7 +602,7 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
             };
         } else if (!firebaseWebAppIdPattern.test(configuredAppId)) {
             console.error(
-                'Firebase config has an invalid Web App ID. Expected Firebase appId format similar to 1:217151172479:web:xxxxxxxxxxxxxxxx. Firestore was not initialized.'
+                'Firebase config has an invalid Web App ID. Expected format 1:...:web:.... Firestore was not initialized.'
             );
             window.__firebaseInitDiagnostics = {
                 status: 'config-error',
@@ -619,7 +617,16 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
                 const db = getFirestore(app);
 
                 window.db = db;
-                window.firebaseModules = { collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs };
+                window.firebaseModules = {
+                    collection,
+                    doc,
+                    setDoc,
+                    deleteDoc,
+                    writeBatch,
+                    getDoc,
+                    onSnapshot,
+                    getDocs
+                };
                 window.__firebaseInitDiagnostics = {
                     status: 'initialized',
                     source: 'static-github-pages-config',
@@ -627,6 +634,7 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
                     appId: configuredAppId,
                     initializedAt: new Date().toISOString()
                 };
+                console.info('Firebase initialized successfully for project:', firebaseConfig.projectId);
             } catch (error) {
                 window.__firebaseInitDiagnostics = {
                     status: 'error',
