@@ -574,153 +574,47 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
         import { getFirestore, collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         /* =========================================================
-           V44 — AUTHORITATIVE FIREBASE WEB CONFIG INITIALIZATION
-           The previous value "G-G9K9F6B4RS" is a Google Analytics
-           Measurement ID, not a Firebase Web App ID. Never initialize
-           Firestore with a fabricated/invalid appId. Resolve the exact
-           Firebase Web configuration from the project's Hosting config.
+           V45 — GITHUB PAGES STATIC FIREBASE INITIALIZATION
+           No Firebase Hosting auto-discovery. No /__/firebase/init.*
+           requests. GitHub Pages initializes Firebase only from this
+           static configuration object.
         ========================================================= */
-        const FIREBASE_PROJECT_ID = "attendance-monitoring-sy-832b8";
-        const FIREBASE_AUTH_DOMAIN = `${FIREBASE_PROJECT_ID}.firebaseapp.com`;
-        const FIREBASE_WEBAPP_DOMAIN = `${FIREBASE_PROJECT_ID}.web.app`;
-        const FIREBASE_EXPECTED_SENDER_ID = "217151172479";
-
-        // Non-app-specific fields retained as a validated fallback/base only.
-        // appId is intentionally NOT hard-coded unless obtained from Firebase.
-        const firebaseConfigBase = {
+        const firebaseConfig = {
             apiKey: "AIzaSyCko6WQ4ox3VgWIco06CqVX8i573Ee3q9c",
-            authDomain: FIREBASE_AUTH_DOMAIN,
-            projectId: FIREBASE_PROJECT_ID,
-            storageBucket: `${FIREBASE_PROJECT_ID}.firebasestorage.app`,
-            messagingSenderId: FIREBASE_EXPECTED_SENDER_ID,
+            authDomain: "attendance-monitoring-sy-832b8.firebaseapp.com",
+            projectId: "attendance-monitoring-sy-832b8",
+            storageBucket: "attendance-monitoring-sy-832b8.firebasestorage.app",
+            messagingSenderId: "217151172479",
+            appId: "PASTE_FIREBASE_WEB_APP_ID_HERE",
             measurementId: "G-G9K9F6B4RS"
         };
 
-        const isValidFirebaseWebAppId = (value) =>
-            /^1:\d+:web:[A-Za-z0-9]+$/.test(String(value || '').trim());
+        const firebaseWebAppIdPattern = /^1:\d+:web:[A-Za-z0-9_-]+$/;
+        const configuredAppId = String(firebaseConfig.appId || '').trim();
 
-        function validateAuthoritativeFirebaseConfig(config, source) {
-            if (!config || typeof config !== 'object') {
-                throw new Error(`Firebase config from ${source} is empty or invalid.`);
-            }
-            if (String(config.projectId || '') !== FIREBASE_PROJECT_ID) {
-                throw new Error(`Firebase config project mismatch from ${source}. Expected ${FIREBASE_PROJECT_ID}.`);
-            }
-            if (String(config.messagingSenderId || '') !== FIREBASE_EXPECTED_SENDER_ID) {
-                throw new Error(`Firebase sender ID mismatch from ${source}.`);
-            }
-            if (!isValidFirebaseWebAppId(config.appId)) {
-                throw new Error(`Firebase Web App ID from ${source} is missing or malformed.`);
-            }
-            return {
-                ...firebaseConfigBase,
-                ...config,
-                projectId: FIREBASE_PROJECT_ID,
-                authDomain: config.authDomain || FIREBASE_AUTH_DOMAIN,
-                messagingSenderId: FIREBASE_EXPECTED_SENDER_ID
+        if (!configuredAppId || configuredAppId === 'PASTE_FIREBASE_WEB_APP_ID_HERE') {
+            console.error(
+                'Firebase config missing Web App ID. Open Firebase Console > Project settings > General > Your apps > Web app > SDK setup and configuration > Config, then copy the exact appId (1:...:web:...).'
+            );
+            window.__firebaseInitDiagnostics = {
+                status: 'config-error',
+                projectId: firebaseConfig.projectId,
+                reason: 'missing-web-app-id',
+                initializedAt: null
             };
-        }
-
-        async function fetchFirebaseHostingConfig() {
-            const urls = [];
-            const currentHost = String(window.location.hostname || '').toLowerCase();
-            if (currentHost === FIREBASE_AUTH_DOMAIN || currentHost === FIREBASE_WEBAPP_DOMAIN) {
-                urls.push('/__/firebase/init.json');
-            }
-            urls.push(`https://${FIREBASE_AUTH_DOMAIN}/__/firebase/init.json`);
-
-            let lastError = null;
-            for (const url of [...new Set(urls)]) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        cache: 'no-store',
-                        credentials: 'omit',
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status} from ${url}`);
-                    }
-                    const config = await response.json();
-                    return {
-                        config: validateAuthoritativeFirebaseConfig(config, url),
-                        source: url
-                    };
-                } catch (error) {
-                    lastError = error;
-                    console.warn('Firebase Hosting config JSON unavailable:', url, error);
-                }
-            }
-            throw lastError || new Error('Firebase Hosting config JSON could not be loaded.');
-        }
-
-        function loadFirebaseHostingConfigViaScript() {
-            return new Promise((resolve, reject) => {
-                const url = `https://${FIREBASE_AUTH_DOMAIN}/__/firebase/init.js`;
-                const previousFirebase = window.firebase;
-                let capturedConfig = null;
-                let settled = false;
-                const script = document.createElement('script');
-
-                const cleanup = () => {
-                    try { script.remove(); } catch (_) {}
-                    if (previousFirebase === undefined) {
-                        try { delete window.firebase; } catch (_) { window.firebase = undefined; }
-                    } else {
-                        window.firebase = previousFirebase;
-                    }
-                };
-                const finish = (handler, value) => {
-                    if (settled) return;
-                    settled = true;
-                    cleanup();
-                    handler(value);
-                };
-
-                window.firebase = {
-                    initializeApp(config) {
-                        capturedConfig = config;
-                        return { options: config };
-                    }
-                };
-
-                script.async = true;
-                script.src = url;
-                script.onload = () => {
-                    try {
-                        if (!capturedConfig) {
-                            throw new Error('Firebase init.js loaded without providing a configuration object.');
-                        }
-                        finish(resolve, {
-                            config: validateAuthoritativeFirebaseConfig(capturedConfig, url),
-                            source: url
-                        });
-                    } catch (error) {
-                        finish(reject, error);
-                    }
-                };
-                script.onerror = () => finish(reject, new Error(`Unable to load ${url}`));
-                document.head.appendChild(script);
-            });
-        }
-
-        async function resolveAuthoritativeFirebaseConfig() {
+        } else if (!firebaseWebAppIdPattern.test(configuredAppId)) {
+            console.error(
+                'Firebase config has an invalid Web App ID. Expected Firebase appId format similar to 1:217151172479:web:xxxxxxxxxxxxxxxx. Firestore was not initialized.'
+            );
+            window.__firebaseInitDiagnostics = {
+                status: 'config-error',
+                projectId: firebaseConfig.projectId,
+                appId: configuredAppId,
+                reason: 'invalid-web-app-id',
+                initializedAt: null
+            };
+        } else {
             try {
-                return await fetchFirebaseHostingConfig();
-            } catch (jsonError) {
-                console.warn('Falling back to Firebase Hosting init.js config capture.', jsonError);
-                return await loadFirebaseHostingConfigViaScript();
-            }
-        }
-
-        let firebaseRuntimeInitPromise = null;
-        async function initializeFirebaseRuntime() {
-            if (window.db && window.firebaseModules) return true;
-            if (firebaseRuntimeInitPromise) return firebaseRuntimeInitPromise;
-
-            firebaseRuntimeInitPromise = (async () => {
-                const resolved = await resolveAuthoritativeFirebaseConfig();
-                const firebaseConfig = resolved.config;
                 const app = initializeApp(firebaseConfig);
                 const db = getFirestore(app);
 
@@ -728,44 +622,23 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
                 window.firebaseModules = { collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs };
                 window.__firebaseInitDiagnostics = {
                     status: 'initialized',
-                    source: resolved.source,
+                    source: 'static-github-pages-config',
                     projectId: firebaseConfig.projectId,
-                    appIdValid: isValidFirebaseWebAppId(firebaseConfig.appId),
+                    appId: configuredAppId,
                     initializedAt: new Date().toISOString()
                 };
-
-                // setupFirebaseSync() may already be waiting/retrying from DOMContentLoaded.
-                // If it is defined now, trigger one clean installation immediately.
-                if (typeof window.setupFirebaseSync === 'function') {
-                    try { window.setupFirebaseSync(true); } catch (_) {}
-                }
-                return true;
-            })().catch(error => {
+            } catch (error) {
                 window.__firebaseInitDiagnostics = {
                     status: 'error',
-                    projectId: FIREBASE_PROJECT_ID,
+                    source: 'static-github-pages-config',
+                    projectId: firebaseConfig.projectId,
+                    appId: configuredAppId,
                     message: error?.message || String(error),
                     failedAt: new Date().toISOString()
                 };
-                console.error('Firebase initialization failed. Firestore was not started with an invalid appId.', error);
-                throw error;
-            }).finally(() => {
-                firebaseRuntimeInitPromise = null;
-            });
-
-            return firebaseRuntimeInitPromise;
-        }
-
-        // Start immediately; V41/V43 listener readiness logic safely waits for window.db.
-        initializeFirebaseRuntime().catch(() => {});
-
-        // If the authoritative config was temporarily unreachable, retry initialization
-        // when connectivity returns instead of leaving the page permanently uninitialized.
-        window.addEventListener('online', () => {
-            if (!window.db || !window.firebaseModules) {
-                initializeFirebaseRuntime().catch(() => {});
+                console.error('Firebase static initialization failed.', error);
             }
-        });
+        }
     </script>
 
 <style>/* =========================================================
