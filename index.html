@@ -4,22 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Security and Material Control Inspection - Audit Dashboard</title>
-    <!-- V48 WP4-B closure candidate: security/data-integrity hardening from V47 baseline. -->
-
-    <!-- =========================================================
-         V47 — REGRESSION BASELINE · 2026-09-11
-         Source: V46 GitHub Pages Firebase Fixed
-         Regression result: PASS (static + offline dependency-mocked runtime)
-         No business logic, formulas, CRUD, Firebase routes, charts, filters,
-         audit-plan logic, QAS logic, or Excel export logic changed.
-         Live external-network/Firebase authorization remains deployment-verified.
-    ========================================================== -->
     <!-- Tailwind CSS CDN -->
     <script defer src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js CDN -->
-    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- SheetJS Library para sa Excel Mass Upload at Export -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>/* =========================================================
@@ -576,21 +566,12 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
 @media (max-width: 1023px) {
     body > aside.sidebar-shell,
     body > aside.sidebar-shell .sidebar-main {height: auto !important;min-height: 0 !important;overflow: visible !important;}
-}
-
-/* =========================================================
-   V49 — FIREBASE EMAIL/PASSWORD AUTHENTICATION GATE
-   Auth + access_users role enforcement. Business logic unchanged.
-========================================================= */
-.audit-auth-gate{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 12% 8%,rgba(46,132,255,.18),transparent 28rem),linear-gradient(145deg,#eef5fc 0%,#f8fbff 48%,#eaf2fb 100%);font-family:"Inter","Segoe UI",sans-serif}.audit-auth-gate[hidden]{display:none!important}.audit-auth-card{width:min(430px,100%);overflow:hidden;border:1px solid #d7e3f2;border-radius:20px;background:rgba(255,255,255,.985);box-shadow:0 30px 70px -34px rgba(7,42,94,.5)}.audit-auth-brand{display:flex;align-items:center;gap:12px;padding:20px 22px 16px;border-bottom:1px solid #e6edf6;background:linear-gradient(135deg,#ffffff 0%,#f2f7ff 100%)}.audit-auth-brand-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 auto;border:1px solid #c8dcf8;border-radius:12px;background:linear-gradient(145deg,#0b5fc7,#073a80);color:#fff;box-shadow:0 10px 20px -14px rgba(7,58,128,.8)}.audit-auth-brand-copy strong{display:block;color:#0b2f63;font-size:14px;font-weight:800;line-height:1.25}.audit-auth-brand-copy span{display:block;margin-top:3px;color:#71839a;font-size:10px;font-weight:550}.audit-auth-panel{padding:22px}.audit-auth-panel[hidden]{display:none!important}.audit-auth-eyebrow{display:block;margin-bottom:5px;color:#0b5fc7;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.audit-auth-panel h2{margin:0;color:#102a4f;font-size:20px;font-weight:800;line-height:1.2}.audit-auth-panel p{margin:7px 0 0;color:#6d7f94;font-size:11px;line-height:1.55}.audit-auth-field{display:grid;gap:6px;margin-top:14px}.audit-auth-field label{color:#344a65;font-size:10px;font-weight:700}.audit-auth-field input{width:100%;height:42px;padding:0 12px;border:1px solid #ccd9e8;border-radius:10px;background:#fff;color:#16243a;font-size:12px;font-weight:550;outline:none;transition:border-color .16s ease,box-shadow .16s ease}.audit-auth-field input:focus{border-color:#4c8ddd;box-shadow:0 0 0 3px rgba(37,99,235,.1)}.audit-auth-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:42px;margin-top:17px;border:0;border-radius:10px;background:linear-gradient(135deg,#0b5fc7,#073a80);color:#fff;font-size:11px;font-weight:800;cursor:pointer;box-shadow:0 12px 22px -16px rgba(7,58,128,.95)}.audit-auth-submit:disabled{opacity:.65;cursor:wait}.audit-auth-secondary{display:inline-flex;align-items:center;justify-content:center;margin:10px auto 0;border:0;background:transparent;color:#245fa7;font-size:10px;font-weight:700;cursor:pointer}.audit-auth-message{min-height:18px;margin-top:11px!important;padding:0!important;color:#b42318!important;font-size:10px!important;font-weight:650!important}.audit-auth-message.is-success{color:#18794e!important}.audit-auth-loader{width:36px;height:36px;margin:7px auto 14px;border:3px solid #d8e6f7;border-top-color:#0b5fc7;border-radius:50%;animation:auditAuthSpin .8s linear infinite}@keyframes auditAuthSpin{to{transform:rotate(360deg)}}.audit-auth-denied-icon{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 13px;border-radius:14px;background:#fff0f0;color:#c62828;font-size:20px}.audit-auth-denied{text-align:center}.audit-auth-denied .audit-auth-submit{margin-top:15px;background:#fff;color:#173d70;border:1px solid #cbd9e8;box-shadow:none}.audit-user-chip{display:inline-flex;align-items:center;gap:8px;min-width:0;padding:5px 7px 5px 9px;border:1px solid #d8e4f1;border-radius:11px;background:#fff;box-shadow:0 4px 12px -10px rgba(15,42,82,.45)}.audit-user-chip[hidden]{display:none!important}.audit-user-avatar{display:grid;place-items:center;width:28px;height:28px;flex:0 0 auto;border-radius:8px;background:#edf5ff;color:#0b4dbb;font-size:11px}.audit-user-copy{display:grid;min-width:0;line-height:1.15}.audit-user-copy strong{max-width:170px;overflow:hidden;color:#203a5c;font-size:9px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.audit-user-copy span{margin-top:2px;color:#71839a;font-size:8px;font-weight:650;text-transform:capitalize}.audit-user-logout{display:grid;place-items:center;width:27px;height:27px;border:0;border-radius:8px;background:#f6f8fb;color:#536a84;cursor:pointer}.audit-user-logout:hover{background:#eef4fb;color:#0b4dbb}body[data-audit-role="viewer"] [data-requires-role="editor"],body:not([data-audit-role]) [data-requires-role="editor"]{display:none!important}@media(max-width:900px){.audit-user-copy{display:none}.audit-user-chip{padding-left:6px}.audit-auth-card{border-radius:16px}}
-
-</style>
+}</style>
 
     <!-- FIREBASE SDKs (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, setPersistence, browserLocalPersistence, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, writeBatch, getDoc, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         /* =========================================================
            V46 — GITHUB PAGES STATIC FIREBASE INITIALIZATION
@@ -599,7 +580,7 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
            No Firebase Hosting /__/firebase/init.* auto-discovery.
         ========================================================= */
         const firebaseConfig = {
-            apiKey: "AIzaSyAWbJytcKlOL-SuG7A5Ff9yLfLQf9z42Lk",
+            apiKey: "AIzaSyAWbJytckI0L-SuG7A5Ff9yLfLQf9z42Lk",
             authDomain: "site-warehousing.firebaseapp.com",
             projectId: "site-warehousing",
             storageBucket: "site-warehousing.firebasestorage.app",
@@ -634,15 +615,8 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
             try {
                 const app = initializeApp(firebaseConfig);
                 const db = getFirestore(app);
-                const auth = getAuth(app);
-                setPersistence(auth, browserLocalPersistence).catch(error => console.warn('Firebase Auth persistence warning:', error));
 
                 window.db = db;
-                window.firebaseAuth = auth;
-                window.__auditAuthAuthorized = false;
-                window.__auditAuthRole = null;
-                window.__auditAuthUser = null;
-                window.__auditAuthState = 'initializing';
                 window.firebaseModules = {
                     collection,
                     doc,
@@ -651,173 +625,8 @@ body > aside.sidebar-shell .sidebar-nav-label {white-space: normal !important;ov
                     writeBatch,
                     getDoc,
                     onSnapshot,
-                    getDocs,
-                    runTransaction,
-                    serverTimestamp
+                    getDocs
                 };
-                window.firebaseAuthModules = {
-                    signInWithEmailAndPassword,
-                    signOut,
-                    onAuthStateChanged,
-                    sendPasswordResetEmail
-                };
-
-                let accessUnsubscribe = null;
-                let lastAuthorizedSignature = '';
-
-                const whenDomReady = () => document.readyState === 'loading'
-                    ? new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve, { once: true }))
-                    : Promise.resolve();
-
-                function setAuthGateState(state, message = '') {
-                    window.__auditAuthState = state;
-                    const gate = document.getElementById('auditAuthGate');
-                    if (!gate) return;
-                    const panels = {
-                        loading: document.getElementById('auditAuthLoadingPanel'),
-                        login: document.getElementById('auditAuthLoginPanel'),
-                        denied: document.getElementById('auditAuthDeniedPanel')
-                    };
-                    Object.entries(panels).forEach(([key, panel]) => { if (panel) panel.hidden = key !== state; });
-                    const loginMessage = document.getElementById('auditAuthLoginMessage');
-                    if (loginMessage && state === 'login') loginMessage.textContent = message || '';
-                    const deniedMessage = document.getElementById('auditAuthDeniedMessage');
-                    if (deniedMessage && state === 'denied') deniedMessage.textContent = message || 'This account is not approved for the Internal Audit Dashboard.';
-                    gate.hidden = state === 'authorized';
-                }
-
-                function updateAuthorizedUserUI(user, access) {
-                    const chip = document.getElementById('auditUserChip');
-                    const email = document.getElementById('auditUserEmail');
-                    const role = document.getElementById('auditUserRole');
-                    if (email) email.textContent = user?.email || 'Signed-in user';
-                    if (role) role.textContent = String(access?.role || '').toLowerCase();
-                    if (chip) chip.hidden = false;
-                    document.body.dataset.auditRole = String(access?.role || '').toLowerCase();
-                    if (typeof window.applyAuditRoleUI === 'function') window.applyAuditRoleUI();
-                }
-
-                function clearAuthorizedUserUI() {
-                    const chip = document.getElementById('auditUserChip');
-                    if (chip) chip.hidden = true;
-                    if (document.body) delete document.body.dataset.auditRole;
-                }
-
-                function revokeAuthorization(reason = 'Authentication required.', state = 'login') {
-                    const wasAuthorized = Boolean(window.__auditAuthAuthorized);
-                    window.__auditAuthAuthorized = false;
-                    window.__auditAuthRole = null;
-                    window.__auditAuthUser = null;
-                    lastAuthorizedSignature = '';
-                    clearAuthorizedUserUI();
-                    if (wasAuthorized) window.dispatchEvent(new CustomEvent('audit-auth-revoked', { detail: { reason } }));
-                    setAuthGateState(state, reason);
-                }
-
-                function authorizeUser(user, access) {
-                    const role = String(access?.role || '').trim().toLowerCase();
-                    const signature = `${user?.uid || ''}|${role}|${access?.active === true}`;
-                    window.__auditAuthAuthorized = true;
-                    window.__auditAuthRole = role;
-                    window.__auditAuthUser = { uid: user.uid, email: user.email || '', role };
-                    updateAuthorizedUserUI(user, access);
-                    setAuthGateState('authorized');
-                    if (signature !== lastAuthorizedSignature) {
-                        lastAuthorizedSignature = signature;
-                        window.dispatchEvent(new CustomEvent('audit-auth-authorized', { detail: { uid: user.uid, email: user.email || '', role } }));
-                    }
-                }
-
-                function validateAccessDocument(user, snapshot) {
-                    if (!snapshot?.exists()) return { ok: false, reason: 'Your account is signed in but is not listed in access_users.' };
-                    const access = snapshot.data() || {};
-                    const role = String(access.role || '').trim().toLowerCase();
-                    if (access.active !== true) return { ok: false, reason: 'Your Internal Audit dashboard access is inactive.' };
-                    if (!['admin', 'editor', 'viewer'].includes(role)) return { ok: false, reason: 'Your access role is missing or invalid. Ask the administrator to update access_users.' };
-                    const configuredEmail = String(access.email || '').trim().toLowerCase();
-                    const signedInEmail = String(user?.email || '').trim().toLowerCase();
-                    if (configuredEmail && signedInEmail && configuredEmail !== signedInEmail) return { ok: false, reason: 'The access_users email does not match the signed-in Firebase account.' };
-                    return { ok: true, access: { ...access, role } };
-                }
-
-                async function bindAccessRecord(user) {
-                    if (typeof accessUnsubscribe === 'function') { try { accessUnsubscribe(); } catch (_) {} accessUnsubscribe = null; }
-                    setAuthGateState('loading');
-                    const accessRef = doc(db, 'access_users', user.uid);
-                    accessUnsubscribe = onSnapshot(accessRef, snapshot => {
-                        const check = validateAccessDocument(user, snapshot);
-                        if (!check.ok) { revokeAuthorization(check.reason, 'denied'); return; }
-                        authorizeUser(user, check.access);
-                    }, error => {
-                        console.error('Unable to verify access_users authorization:', error);
-                        revokeAuthorization(`Unable to verify dashboard access: ${error?.message || error}`, 'denied');
-                    });
-                }
-
-                window.handleAuditLogin = async function(event) {
-                    event?.preventDefault?.();
-                    const emailInput = document.getElementById('auditAuthEmail');
-                    const passwordInput = document.getElementById('auditAuthPassword');
-                    const button = document.getElementById('auditAuthSubmitBtn');
-                    const message = document.getElementById('auditAuthLoginMessage');
-                    const email = String(emailInput?.value || '').trim();
-                    const password = String(passwordInput?.value || '');
-                    if (!email || !password) { if (message) message.textContent = 'Enter your email address and password.'; return false; }
-                    if (message) { message.classList.remove('is-success'); message.textContent = ''; }
-                    if (button) { button.disabled = true; button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in…'; }
-                    try {
-                        await signInWithEmailAndPassword(auth, email, password);
-                        if (passwordInput) passwordInput.value = '';
-                        return true;
-                    } catch (error) {
-                        const code = String(error?.code || '');
-                        const friendly = code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')
-                            ? 'Invalid email or password.'
-                            : code.includes('too-many-requests')
-                                ? 'Too many failed attempts. Please wait before trying again.'
-                                : code.includes('network-request-failed')
-                                    ? 'Network error. Check your internet connection and try again.'
-                                    : (error?.message || 'Unable to sign in.');
-                        if (message) message.textContent = friendly;
-                        return false;
-                    } finally {
-                        if (button) { button.disabled = false; button.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign in'; }
-                    }
-                };
-
-                window.handleAuditPasswordReset = async function() {
-                    const email = String(document.getElementById('auditAuthEmail')?.value || '').trim();
-                    const message = document.getElementById('auditAuthLoginMessage');
-                    if (!email) { if (message) message.textContent = 'Enter your email address first, then click Forgot password.'; return false; }
-                    try {
-                        await sendPasswordResetEmail(auth, email);
-                        if (message) { message.classList.add('is-success'); message.textContent = 'Password reset email sent.'; }
-                        return true;
-                    } catch (error) {
-                        if (message) { message.classList.remove('is-success'); message.textContent = error?.message || 'Unable to send password reset email.'; }
-                        return false;
-                    }
-                };
-
-                window.handleAuditLogout = async function() {
-                    try { await signOut(auth); } finally { window.location.reload(); }
-                };
-
-                whenDomReady().then(() => {
-                    document.getElementById('auditAuthLoginPanel')?.addEventListener('submit', window.handleAuditLogin);
-                    document.getElementById('auditAuthResetBtn')?.addEventListener('click', window.handleAuditPasswordReset);
-                    document.getElementById('auditLogoutBtn')?.addEventListener('click', window.handleAuditLogout);
-                    document.getElementById('auditDeniedSignOutBtn')?.addEventListener('click', window.handleAuditLogout);
-                    setAuthGateState('loading');
-                    onAuthStateChanged(auth, user => {
-                        if (typeof accessUnsubscribe === 'function') { try { accessUnsubscribe(); } catch (_) {} accessUnsubscribe = null; }
-                        if (!user) { revokeAuthorization('', 'login'); return; }
-                        bindAccessRecord(user);
-                    }, error => {
-                        console.error('Firebase Auth state error:', error);
-                        revokeAuthorization(error?.message || 'Unable to initialize Firebase Authentication.', 'denied');
-                    });
-                });
                 window.__firebaseInitDiagnostics = {
                     status: 'initialized',
                     source: 'static-github-pages-config',
@@ -1245,51 +1054,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
 </head>
 <body class="bg-[#F3F4F6] text-[#252423] antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
-    <!-- V49 SECURE AUTHENTICATION GATE -->
-    <div id="auditAuthGate" class="audit-auth-gate" aria-live="polite">
-        <div class="audit-auth-card">
-            <div class="audit-auth-brand">
-                <span class="audit-auth-brand-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>
-                <div class="audit-auth-brand-copy">
-                    <strong>Internal Audit Secure Access</strong>
-                    <span>Audit Planning and Risk Management Tracker</span>
-                </div>
-            </div>
-
-            <section id="auditAuthLoadingPanel" class="audit-auth-panel" aria-label="Checking access">
-                <div class="audit-auth-loader" aria-hidden="true"></div>
-                <h2 style="text-align:center;font-size:15px">Verifying access</h2>
-                <p style="text-align:center">Checking Firebase Authentication and your Internal Audit access role.</p>
-            </section>
-
-            <form id="auditAuthLoginPanel" class="audit-auth-panel" hidden>
-                <span class="audit-auth-eyebrow">Authorized users only</span>
-                <h2>Sign in</h2>
-                <p>Use the Email/Password account created for you in Firebase Authentication.</p>
-                <div class="audit-auth-field">
-                    <label for="auditAuthEmail">Email address</label>
-                    <input id="auditAuthEmail" name="email" type="email" autocomplete="username" required placeholder="name@company.com">
-                </div>
-                <div class="audit-auth-field">
-                    <label for="auditAuthPassword">Password</label>
-                    <input id="auditAuthPassword" name="password" type="password" autocomplete="current-password" required placeholder="Enter password">
-                </div>
-                <button id="auditAuthSubmitBtn" class="audit-auth-submit" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
-                <button id="auditAuthResetBtn" class="audit-auth-secondary" type="button">Forgot password?</button>
-                <p id="auditAuthLoginMessage" class="audit-auth-message" role="alert"></p>
-            </form>
-
-            <section id="auditAuthDeniedPanel" class="audit-auth-panel audit-auth-denied" hidden>
-                <span class="audit-auth-denied-icon" aria-hidden="true"><i class="fa-solid fa-user-lock"></i></span>
-                <span class="audit-auth-eyebrow">Access denied</span>
-                <h2>Account not authorized</h2>
-                <p id="auditAuthDeniedMessage">This account is not approved for the Internal Audit Dashboard.</p>
-                <button id="auditDeniedSignOutBtn" class="audit-auth-submit" type="button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out</button>
-            </section>
-        </div>
-    </div>
-
-
     <!-- LEFT SIDEBAR NAVIGATION -->
     <aside class="sidebar-shell w-full lg:w-64 text-white flex-shrink-0 flex flex-col z-20" aria-label="Primary navigation">
         <div class="sidebar-main">
@@ -1397,17 +1161,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                 </div>
                 <div class="executive-topbar-logo-wrap" aria-label="DMCI Homes">
                     <img src="dmci-homes-logo.png" alt="DMCI Homes" class="executive-topbar-logo">
-                </div>
-
-                <div id="auditUserChip" class="audit-user-chip" hidden aria-label="Signed-in Internal Audit user">
-                    <span class="audit-user-avatar" aria-hidden="true"><i class="fa-solid fa-user-shield"></i></span>
-                    <span class="audit-user-copy">
-                        <strong id="auditUserEmail">Authorized user</strong>
-                        <span id="auditUserRole">role</span>
-                    </span>
-                    <button id="auditLogoutBtn" type="button" class="audit-user-logout" title="Sign out" aria-label="Sign out">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </button>
                 </div>
 
                 <div class="audit-notification-wrap">
@@ -1716,7 +1469,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                                     <div class="combined-plan-card-head">
                                         <span><i class="fa-solid fa-warehouse"></i> Site Warehousing Audit</span>
                                         <div class="combined-plan-head-actions">
-                                            <button type="button" data-requires-role="editor" class="combined-plan-edit-btn" onclick="openAuditCycleSettingsModal('warehouse')" title="Edit total annual planned cycles">
+                                            <button type="button" class="combined-plan-edit-btn" onclick="openAuditCycleSettingsModal('warehouse')" title="Edit total annual planned cycles">
                                                 <i class="fa-solid fa-pen"></i>
                                             </button>
                                             <strong id="warehouseProgressPercent">0%</strong>
@@ -1734,7 +1487,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                                     <div class="combined-plan-card-head">
                                         <span><i class="fa-solid fa-boxes-stacked"></i> Inventory Management Audit</span>
                                         <div class="combined-plan-head-actions">
-                                            <button type="button" data-requires-role="editor" class="combined-plan-edit-btn" onclick="openAuditCycleSettingsModal('inventory')" title="Edit total annual planned cycles">
+                                            <button type="button" class="combined-plan-edit-btn" onclick="openAuditCycleSettingsModal('inventory')" title="Edit total annual planned cycles">
                                                 <i class="fa-solid fa-pen"></i>
                                             </button>
                                             <strong id="inventoryProgressPercent">0%</strong>
@@ -2177,10 +1930,10 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                             <p class="text-[11px] text-slate-500 mt-0.5">Comprehensive log of project sites, landbanking, and support group audit evaluations.</p>
                         </div>
                         <div class="qas-toolbar-actions">
-                            <button type="button" data-requires-role="editor" onclick="openModal()" class="qas-action-btn qas-action-primary">
+                            <button type="button" onclick="openModal()" class="qas-action-btn qas-action-primary">
                                 <i class="fa-solid fa-plus"></i><span>Add Finding</span>
                             </button>
-                            <label data-requires-role="editor" class="qas-action-btn qas-action-success cursor-pointer">
+                            <label class="qas-action-btn qas-action-success cursor-pointer">
                                 <i class="fa-solid fa-file-arrow-up"></i><span>Mass Upload</span>
                                 <input type="file" id="excelUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)">
                             </label>
@@ -2377,10 +2130,10 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                             <p class="text-[11px] text-slate-500 mt-0.5">Internal Audit Department - Construction Operations Group.</p>
                         </div>
                         <div class="plan-section-actions">
-                            <button data-requires-role="editor" onclick="openPlanModal(-1)" class="plan-action-btn primary">
+                            <button onclick="openPlanModal(-1)" class="plan-action-btn primary">
                                 <i class="fa-solid fa-plus"></i> Add Plan Entry
                             </button>
-                            <label data-requires-role="editor" class="plan-action-btn success cursor-pointer">
+                            <label class="plan-action-btn success cursor-pointer">
                                 <i class="fa-solid fa-file-excel"></i> Upload Template (.xlsx)
                                 <input type="file" id="auditPlanUploadInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleAuditPlanUpload(event)">
                             </label>
@@ -2576,7 +2329,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                             <p class="text-[11px] text-slate-500 mt-0.5">Internal Audit Department - Inventory & Stockpile Verification Group.</p>
                         </div>
                         <div class="plan-section-actions">
-                            <button data-requires-role="editor" onclick="openInvPlanModal(-1)" class="plan-action-btn primary">
+                            <button onclick="openInvPlanModal(-1)" class="plan-action-btn primary">
                                 <i class="fa-solid fa-plus"></i> Add Inventory Plan Entry
                             </button>
                             <button onclick="exportInvAuditPlanToExcel()" class="plan-action-btn dark">
@@ -2736,7 +2489,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
        <div class="flex items-center gap-2 flex-wrap self-start sm:self-auto">
 
     <!-- ADD AUDIT PLAN -->
-    <button data-requires-role="editor" onclick="openSpecialAuditModal(-1)"
+    <button onclick="openSpecialAuditModal(-1)"
             class="inline-flex items-center gap-2
                    px-3.5 py-2
                    rounded-lg
@@ -4166,36 +3919,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
         let currentPage = 1;
         let chartInstances = {};
 
-        /* V49 — ROLE-AWARE CLIENT GUARDS (Firestore Rules remain authoritative) */
-        const AUDIT_ROLE_LEVELS = Object.freeze({ viewer: 1, editor: 2, admin: 3 });
-        window.getAuditRole = () => String(window.__auditAuthRole || '').trim().toLowerCase();
-        window.hasAuditRole = function(minimumRole = 'viewer') {
-            if (!window.__auditAuthAuthorized) return false;
-            const current = AUDIT_ROLE_LEVELS[window.getAuditRole()] || 0;
-            const required = AUDIT_ROLE_LEVELS[String(minimumRole || 'viewer').toLowerCase()] || 999;
-            return current >= required;
-        };
-        window.requireAuditRole = function(minimumRole = 'viewer', action = 'perform this action', { silent = false } = {}) {
-            const allowed = window.hasAuditRole(minimumRole);
-            if (!allowed && !silent) alert(`Access denied. ${String(minimumRole).toUpperCase()} permission is required to ${action}.`);
-            return allowed;
-        };
-        window.assertAuditRole = function(minimumRole = 'viewer', action = 'perform this action') {
-            if (!window.hasAuditRole(minimumRole)) throw new Error(`${String(minimumRole).toUpperCase()} permission is required to ${action}.`);
-            return true;
-        };
-        window.applyAuditRoleUI = function() {
-            const role = window.getAuditRole();
-            if (document.body) document.body.dataset.auditRole = role || '';
-            document.querySelectorAll('[data-requires-role]').forEach(el => {
-                const required = el.getAttribute('data-requires-role') || 'viewer';
-                const allowed = window.hasAuditRole(required);
-                el.setAttribute('aria-hidden', allowed ? 'false' : 'true');
-                if ('disabled' in el) el.disabled = !allowed;
-            });
-        };
-
-
         /* DATA STORAGE ARRAYS */
         let auditData = [];
         let auditPlanData = [];
@@ -4267,21 +3990,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
 
         /* ==================== DATA INITIALIZATION LOGIC FOR ALL ENTITIES ==================== */
         function initAllData() {
-            /* =========================================================
-               V48 — PRODUCTION DATA PROVENANCE
-               Master entity-name arrays remain available to filters and
-               dropdowns, but generated sample plan ratings/statuses/dates
-               must never become live production records. Firestore is the
-               source of truth for Site Warehousing and Inventory plans.
-            ========================================================= */
-            const useLocalPlanSeedData = false;
-            if (!useLocalPlanSeedData) {
-                auditPlanData = [];
-                invAuditPlanData = [];
-                auditData = [];
-                return;
-            }
-
             // 1. Populate auditPlanData (Site Warehousing) if empty
             if (!auditPlanData || auditPlanData.length === 0) {
                 auditPlanData = [];
@@ -4642,10 +4350,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
         }
 
         function setupFirebaseSync(force = false) {
-            if (!window.__auditAuthAuthorized) {
-                setFirebaseSyncState('connecting', 'Waiting for an authorized Internal Audit sign-in.');
-                return false;
-            }
             if (firebaseSyncInstalling) return false;
             if (window.__firebaseSyncActive && !force) return true;
 
@@ -4773,7 +4477,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
 
         const firebaseWriteLocks = new Map();
         async function saveToFirebase(collectionName, docId, data) {
-            window.assertAuditRole('editor', `save ${collectionName}`);
             if (!window.db || !window.firebaseModules) {
                 const error = new Error('Firebase is not initialized. The record was not marked as saved.');
                 console.error(error);
@@ -4792,11 +4495,10 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
             const writeKey = `${collectionName}::${String(docId)}`;
             if (firebaseWriteLocks.has(writeKey)) return firebaseWriteLocks.get(writeKey);
 
-            const { doc, setDoc, serverTimestamp } = window.firebaseModules;
+            const { doc, setDoc } = window.firebaseModules;
             const payload = {
                 ...data,
-                firebaseSyncedAt: new Date().toISOString(),
-                ...(typeof serverTimestamp === 'function' ? { firebaseServerSyncedAt: serverTimestamp() } : {})
+                firebaseSyncedAt: new Date().toISOString()
             };
 
             const writePromise = (async () => {
@@ -4824,7 +4526,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
             }
         }
         async function deleteFromFirebase(collectionName, docId) {
-            window.assertAuditRole(collectionName === 'qas_audit_findings' ? 'editor' : 'admin', `delete from ${collectionName}`);
             if (!window.db || !window.firebaseModules) {
                 const error = new Error('Firebase is not initialized. The record was not deleted.');
                 console.error(error);
@@ -4856,7 +4557,6 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
             }
         }
         async function saveRecordsAtomically(collectionName, records, { maxWrites = 450 } = {}) {
-            window.assertAuditRole('editor', `import records into ${collectionName}`);
             if (!window.db || !window.firebaseModules) {
                 const error = new Error('Firebase is not initialized. Nothing was imported.');
                 setFirebaseSyncState('error', error.message);
@@ -4873,7 +4573,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
             if (rows.length > maxWrites) {
                 throw new Error(`Import contains ${rows.length} records. For all-or-nothing Firebase safety, import at most ${maxWrites} records per file.`);
             }
-            const { doc, writeBatch, serverTimestamp } = window.firebaseModules;
+            const { doc, writeBatch } = window.firebaseModules;
             if (typeof writeBatch !== 'function') {
                 throw new Error('Firebase atomic batch capability is unavailable. Nothing was imported.');
             }
@@ -4883,11 +4583,7 @@ body > aside.sidebar-shell .sidebar-nav .executive-nav-btn span{font-size:.69rem
                 if (!record?.id) throw new Error('An import record is missing its Firebase document ID. Nothing was imported.');
                 batch.set(
                     doc(window.db, collectionName, String(record.id)),
-                    {
-                        ...record,
-                        firebaseSyncedAt: syncedAt,
-                        ...(typeof serverTimestamp === 'function' ? { firebaseServerSyncedAt: serverTimestamp() } : {})
-                    },
+                    { ...record, firebaseSyncedAt: syncedAt },
                     { merge: true }
                 );
             });
@@ -5150,14 +4846,6 @@ function renderSpecialAudits() {
                     : 'Pending';
 
 
-            const allowedSpecialAuditIcons = new Set([
-                'fa-screwdriver-wrench','fa-cubes','fa-recycle','fa-industry','fa-handshake',
-                'fa-truck','fa-bolt','fa-magnifying-glass-chart','fa-clipboard-check'
-            ]);
-            const safeSpecialAuditIcon = allowedSpecialAuditIcons.has(String(item.icon || ''))
-                ? String(item.icon)
-                : 'fa-clipboard-check';
-
             const card =
                 document.createElement('div');
 
@@ -5201,7 +4889,7 @@ function renderSpecialAudits() {
 
                             <i class="
                                 fa-solid
-                                ${safeSpecialAuditIcon}">
+                                ${item.icon}">
                             </i>
 
                         </div>
@@ -5215,7 +4903,7 @@ function renderSpecialAudits() {
                                 text-slate-800
                                 leading-4">
 
-                                ${escapeDashboardHtml(item.title)}
+                                ${item.title}
 
                             </div>
 
@@ -5231,7 +4919,7 @@ function renderSpecialAudits() {
                                     font-bold
                                     ${colors.text}">
 
-                                    ${escapeDashboardHtml(item.type)}
+                                    ${item.type}
 
                                 </span>
 
@@ -5265,7 +4953,6 @@ function renderSpecialAudits() {
 
     <!-- EDIT BUTTON -->
     <button
-        data-requires-role="editor"
         onclick="openSpecialAuditModal(${index})"
         title="Edit Audit Plan"
         class="
@@ -5339,9 +5026,9 @@ function renderSpecialAudits() {
 
                                         ${
                                             milestone.date
-                                                ? escapeDashboardHtml(formatPlanDate(
+                                                ? formatPlanDate(
                                                     milestone.date
-                                                  ))
+                                                  )
                                                 : 'Not Set'
                                         }
 
@@ -5552,7 +5239,6 @@ let specialAuditsData = [
 ========================================================= */
 
 function openSpecialAuditModal(index = -1) {
-if (!window.requireAuditRole('editor', 'add or edit audit plans')) return;
 
     const form =
         document.getElementById('specialAuditForm');
@@ -5669,7 +5355,6 @@ function closeSpecialAuditModal() {
 
 
 async function saveSpecialAudit(event) {
-if (!window.requireAuditRole('editor', 'save audit plans')) { event?.preventDefault?.(); return; }
 
     event.preventDefault();
 
@@ -6022,155 +5707,7 @@ if (viewName === 'specialAudits') renderSpecialAudits();
             return series;
         }
 
-        function qasSeriesRegistryId(series) {
-            const normalized = String(series || '').trim().toUpperCase();
-            if (!normalized) throw new Error('Series # is required.');
-            return encodeURIComponent(normalized);
-        }
-
-        async function saveQASRecordWithUniqueSeries(record, previousSeries = '') {
-            window.assertAuditRole('editor', 'save QAS findings');
-            const modules = window.firebaseModules || {};
-            const { doc, runTransaction, serverTimestamp } = modules;
-            if (!window.db || typeof doc !== 'function' || typeof runTransaction !== 'function') {
-                throw new Error('Firebase transaction capability is unavailable. The QAS record was not saved.');
-            }
-            if (navigator.onLine === false) {
-                throw new Error('The browser is offline. Reconnect before saving the QAS record.');
-            }
-
-            const series = String(record?.series || '').trim();
-            const registryId = qasSeriesRegistryId(series);
-            const recordId = String(record?.id || '').trim();
-            if (!recordId) throw new Error('QAS record ID is required.');
-
-            const findingRef = doc(window.db, 'qas_audit_findings', recordId);
-            const registryRef = doc(window.db, 'qas_series_registry', registryId);
-            const oldSeries = String(previousSeries || '').trim();
-            const oldRegistryId = oldSeries ? qasSeriesRegistryId(oldSeries) : '';
-            const oldRegistryRef = oldRegistryId && oldRegistryId !== registryId
-                ? doc(window.db, 'qas_series_registry', oldRegistryId)
-                : null;
-            const syncedAt = new Date().toISOString();
-
-            setFirebaseSyncState('syncing', 'Saving QAS finding with unique Series #…');
-            await runTransaction(window.db, async transaction => {
-                const registrySnap = await transaction.get(registryRef);
-                if (registrySnap.exists()) {
-                    const owner = String(registrySnap.data()?.recordId || '');
-                    if (owner && owner !== recordId) {
-                        throw new Error(`Duplicate QAS Series # detected: ${series}. Another Firebase record already owns this Series #.`);
-                    }
-                }
-
-                let oldRegistrySnap = null;
-                if (oldRegistryRef) oldRegistrySnap = await transaction.get(oldRegistryRef);
-
-                if (oldRegistryRef && oldRegistrySnap?.exists() && String(oldRegistrySnap.data()?.recordId || '') === recordId) {
-                    transaction.delete(oldRegistryRef);
-                }
-
-                transaction.set(registryRef, {
-                    series,
-                    recordId,
-                    updatedAtClient: syncedAt,
-                    ...(typeof serverTimestamp === 'function' ? { updatedAt: serverTimestamp() } : {})
-                }, { merge: true });
-
-                transaction.set(findingRef, {
-                    ...record,
-                    firebaseSyncedAt: syncedAt,
-                    ...(typeof serverTimestamp === 'function' ? { firebaseServerSyncedAt: serverTimestamp() } : {})
-                }, { merge: true });
-            });
-            window.__firebaseLastWriteAt = syncedAt;
-            markFirebaseWriteHealthy('QAS finding and unique Series # confirmed by Firebase transaction.');
-            return true;
-        }
-
-        async function deleteQASRecordWithSeries(record) {
-            window.assertAuditRole('editor', 'delete QAS findings');
-            const modules = window.firebaseModules || {};
-            const { doc, runTransaction } = modules;
-            if (!window.db || typeof doc !== 'function' || typeof runTransaction !== 'function') {
-                throw new Error('Firebase transaction capability is unavailable. The QAS record was not deleted.');
-            }
-            const recordId = String(record?.id || '').trim();
-            const series = String(record?.series || '').trim();
-            if (!recordId) throw new Error('QAS record ID is required.');
-            const findingRef = doc(window.db, 'qas_audit_findings', recordId);
-            const registryRef = series ? doc(window.db, 'qas_series_registry', qasSeriesRegistryId(series)) : null;
-
-            await runTransaction(window.db, async transaction => {
-                let registrySnap = null;
-                if (registryRef) registrySnap = await transaction.get(registryRef);
-                transaction.delete(findingRef);
-                if (registryRef && registrySnap?.exists() && String(registrySnap.data()?.recordId || '') === recordId) {
-                    transaction.delete(registryRef);
-                }
-            });
-            window.__firebaseLastWriteAt = new Date().toISOString();
-            markFirebaseWriteHealthy('QAS finding deletion confirmed by Firebase transaction.');
-            return true;
-        }
-
-        async function saveQASRecordsAtomically(records, { maxRecords = 200 } = {}) {
-            window.assertAuditRole('editor', 'import QAS findings');
-            const rows = Array.isArray(records) ? records.filter(Boolean) : [];
-            if (!rows.length) return 0;
-            if (rows.length > maxRecords) {
-                throw new Error(`QAS import contains ${rows.length} records. For transaction-safe Series uniqueness, import at most ${maxRecords} records per file.`);
-            }
-            const modules = window.firebaseModules || {};
-            const { doc, runTransaction, serverTimestamp } = modules;
-            if (!window.db || typeof doc !== 'function' || typeof runTransaction !== 'function') {
-                throw new Error('Firebase transaction capability is unavailable. Nothing was imported.');
-            }
-            const syncedAt = new Date().toISOString();
-
-            await runTransaction(window.db, async transaction => {
-                const refs = rows.map(record => ({
-                    record,
-                    findingRef: doc(window.db, 'qas_audit_findings', String(record.id)),
-                    registryRef: doc(window.db, 'qas_series_registry', qasSeriesRegistryId(record.series))
-                }));
-
-                const registrySnaps = [];
-                for (const ref of refs) registrySnaps.push(await transaction.get(ref.registryRef));
-
-                registrySnaps.forEach((snap, index) => {
-                    if (!snap.exists()) return;
-                    const owner = String(snap.data()?.recordId || '');
-                    const currentId = String(refs[index].record.id || '');
-                    if (owner && owner !== currentId) {
-                        throw new Error(`Duplicate QAS Series # detected in Firebase: ${refs[index].record.series}. Nothing was imported.`);
-                    }
-                });
-
-                refs.forEach(({ record, findingRef, registryRef }) => {
-                    transaction.set(registryRef, {
-                        series: String(record.series || '').trim(),
-                        recordId: String(record.id),
-                        updatedAtClient: syncedAt,
-                        ...(typeof serverTimestamp === 'function' ? { updatedAt: serverTimestamp() } : {})
-                    }, { merge: true });
-
-                    transaction.set(findingRef, {
-                        ...record,
-                        firebaseSyncedAt: syncedAt,
-                        ...(typeof serverTimestamp === 'function' ? { firebaseServerSyncedAt: serverTimestamp() } : {})
-                    }, { merge: true });
-                });
-            });
-
-            window.__firebaseLastWriteAt = syncedAt;
-            markFirebaseWriteHealthy(`${rows.length} QAS record(s) and Series registry entries confirmed by Firebase transaction.`);
-            return rows.length;
-        }
-
-
         function openModal(editRef = -1) {
-            if (!window.requireAuditRole('editor', 'add or edit QAS findings')) return;
             const form = document.getElementById('auditForm');
             form.reset();
 
@@ -6219,7 +5756,6 @@ if (viewName === 'specialAudits') renderSpecialAudits();
         }
 
         async function handleFormSubmit(e) {
-            if (!window.requireAuditRole('editor', 'save QAS findings')) { e?.preventDefault?.(); return; }
             e.preventDefault();
             const editRecordId = String(document.getElementById('editIndex').value || '').trim();
             const isEdit = Boolean(editRecordId && editRecordId !== '-1');
@@ -6242,13 +5778,10 @@ if (viewName === 'specialAudits') renderSpecialAudits();
             };
             record.series = String(record.series || '').trim() || getNextQASSeries();
             assertUniqueQASSeries(record.series, isEdit ? record.id : '');
-            const previousRecord = isEdit
-                ? (Array.isArray(auditData) ? auditData.find(row => String(row?.id || '') === record.id) : null)
-                : null;
 
-            // QAS Series uniqueness is protected by a Firestore transaction + registry document.
-            // The realtime snapshot remains the source of truth for auditData.
-            await saveQASRecordWithUniqueSeries(record, previousRecord?.series || '');
+            // Firestore is the QAS source of truth. Do not mutate auditData before/after save;
+            // the realtime snapshot will replace auditData and trigger all dependent renders.
+            await saveToFirebase("qas_audit_findings", record.id, record);
 
             addAuditActivity(
                 isEdit ? 'Finding Updated' : 'Finding Added',
@@ -6266,7 +5799,6 @@ if (viewName === 'specialAudits') renderSpecialAudits();
         }
 
         async function deleteFinding(recordRef) {
-            if (!window.requireAuditRole('editor', 'delete QAS findings')) return;
             if (!confirm("Are you sure you want to delete this finding record?")) return;
 
             const item = typeof recordRef === 'string'
@@ -6278,7 +5810,7 @@ if (viewName === 'specialAudits') renderSpecialAudits();
             }
 
             try {
-                await deleteQASRecordWithSeries(item);
+                await deleteFromFirebase('qas_audit_findings', item.id);
                 addAuditActivity('Finding Deleted', 'QAS finding deleted', `${item?.series || 'Record'} · ${item?.projectName || 'Unknown entity'}`, 'warning');
                 if (typeof scheduleLiveAnalyticsRefresh === 'function') scheduleLiveAnalyticsRefresh('qas-delete');
             } catch (error) {
@@ -6344,7 +5876,7 @@ if (viewName === 'specialAudits') renderSpecialAudits();
             else if (normalized.includes('requires')) cls = 'rating-requires-improvement';
             else if (normalized.includes('inadequate')) cls = 'rating-inadequate';
             else if (normalized.includes('critical')) cls = 'rating-critical';
-            return `<span class="qas-audit-rating-badge ${cls}">${escapeDashboardHtml(label)}</span>`;
+            return `<span class="qas-audit-rating-badge ${cls}">${label}</span>`;
         }
 
         function getFindingTypeBadge(value) {
@@ -6354,7 +5886,7 @@ if (viewName === 'specialAudits') renderSpecialAudits();
             if (normalized.includes('positive')) cls = 'type-positive-observation';
             else if (normalized.includes('action')) cls = 'type-action-item';
             else if (normalized.includes('non')) cls = 'type-non-conformance';
-            return `<span class="finding-type-badge ${cls}">${escapeDashboardHtml(label || '—')}</span>`;
+            return `<span class="finding-type-badge ${cls}">${label || '—'}</span>`;
         }
 
         function renderTable() {
@@ -6399,22 +5931,22 @@ if (viewName === 'specialAudits') renderSpecialAudits();
                 if (item.severity === 'Generally Compliant') sevBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Generally Compliant</span>`;
 
                 tr.innerHTML = `
-                    <td class="p-3.5 pl-5 font-mono font-bold text-[#003399]">${escapeDashboardHtml(item.series)}</td>
-                    <td class="p-3.5 font-semibold text-slate-800">${escapeDashboardHtml(item.projectName)}</td>
+                    <td class="p-3.5 pl-5 font-mono font-bold text-[#003399]">${item.series}</td>
+                    <td class="p-3.5 font-semibold text-slate-800">${item.projectName}</td>
                     <td class="p-3.5">${statusBadge}</td>
-                    <td class="p-3.5 text-slate-600 font-medium">${escapeDashboardHtml(item.category)}</td>
+                    <td class="p-3.5 text-slate-600 font-medium">${item.category}</td>
                     <td class="p-3.5 whitespace-nowrap">${getQASAuditRatingBadge(item)}</td>
-                    <td class="p-3.5 max-w-xs truncate text-slate-700" title="${escapeDashboardHtml(item.finding)}">${escapeDashboardHtml(item.finding)}</td>
+                    <td class="p-3.5 max-w-xs truncate text-slate-700" title="${item.finding}">${item.finding}</td>
                     <td class="p-3.5">${getFindingTypeBadge(item.findingType)}</td>
-                    <td class="p-3.5 hidden">${escapeDashboardHtml(item.program)}</td>
-                    <td class="p-3.5 text-slate-600">${escapeDashboardHtml(item.auditor)}</td>
-                    <td class="p-3.5 text-slate-600">${escapeDashboardHtml(item.dept)}</td>
-                    <td class="p-3.5 text-slate-600 font-medium">${escapeDashboardHtml(item.issuedPerson)}</td>
+                    <td class="p-3.5 hidden">${item.program}</td>
+                    <td class="p-3.5 text-slate-600">${item.auditor}</td>
+                    <td class="p-3.5 text-slate-600">${item.dept}</td>
+                    <td class="p-3.5 text-slate-600 font-medium">${item.issuedPerson}</td>
                     <td class="p-3.5">${sevBadge}</td>
-                    <td class="p-3.5 whitespace-nowrap text-slate-500">${escapeDashboardHtml(item.date)}</td>
+                    <td class="p-3.5 whitespace-nowrap text-slate-500">${item.date}</td>
                     <td class="p-3.5 pr-5 text-center whitespace-nowrap">
-                        <button type="button" data-requires-role="editor" data-record-id="${escapeDashboardHtml(String(item.id || ''))}" onclick="openModal(this.dataset.recordId)" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" data-requires-role="editor" data-record-id="${escapeDashboardHtml(String(item.id || ''))}" onclick="deleteFinding(this.dataset.recordId)" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" data-record-id="${String(item.id || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" onclick="openModal(this.dataset.recordId)" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" data-record-id="${String(item.id || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" onclick="deleteFinding(this.dataset.recordId)" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -6443,7 +5975,6 @@ if (viewName === 'specialAudits') renderSpecialAudits();
         }
 
 async function handleExcelUpload(e) {
-    if (!window.requireAuditRole('editor', 'mass upload QAS findings')) { if (e?.target) e.target.value = ''; return; }
 
     const file =
         e.target.files[0];
@@ -7112,9 +6643,10 @@ async function handleExcelUpload(e) {
            All records commit together or none are committed. This prevents
            partial QAS imports and keeps Firestore as the single source of truth.
         ============================= */
-        const savedCount = await saveQASRecordsAtomically(
+        const savedCount = await saveRecordsAtomically(
+            'qas_audit_findings',
             importedRecords,
-            { maxRecords: 200 }
+            { maxWrites: 450 }
         );
         currentPage = 1;
 
@@ -7179,7 +6711,6 @@ async function handleExcelUpload(e) {
 
         /* ==================== SITE WAREHOUSING PLAN LOGIC (CONTAINER 3) ==================== */
         function openPlanModal(idx = -1) {
-            if (!window.requireAuditRole('editor', 'add or edit Site Warehousing plans')) return;
             const form = document.getElementById('auditPlanForm');
             if (idx < 0) {
                 form?.reset();
@@ -7221,16 +6752,7 @@ async function handleExcelUpload(e) {
             document.getElementById('auditPlanModal').classList.remove('flex');
         }
 
-        function readCycleRatingInput(inputId, fallbackValue) {
-            const raw = document.getElementById(inputId)?.value;
-            if (raw === '' || raw === null || raw === undefined) return fallbackValue;
-            const value = Number(raw);
-            if (!Number.isFinite(value)) return fallbackValue;
-            return Math.max(0, Math.min(100, value));
-        }
-
         async function handlePlanFormSubmit(e) {
-            if (!window.requireAuditRole('editor', 'save Site Warehousing plans')) { e?.preventDefault?.(); return; }
             e.preventDefault();
             const idx = parseInt(document.getElementById('editPlanIndex').value);
             const record = {
@@ -7242,7 +6764,7 @@ async function handleExcelUpload(e) {
                 c1: {
                     auditor: document.getElementById('planC1Auditor').value,
                     status: document.getElementById('planC1Status').value,
-                    rating: readCycleRatingInput('planC1Rating', 85),
+                    rating: parseInt(document.getElementById('planC1Rating').value) || 85,
                     siteVisitDate: document.getElementById('planC1Date').value,
                     checklistDate: document.getElementById('planC1ChkDate').value,
                     closingDate: document.getElementById('planC1ClDate').value,
@@ -7251,7 +6773,7 @@ async function handleExcelUpload(e) {
                 c2: {
                     auditor: document.getElementById('planC2Auditor').value,
                     status: document.getElementById('planC2Status').value,
-                    rating: readCycleRatingInput('planC2Rating', 88),
+                    rating: parseInt(document.getElementById('planC2Rating').value) || 88,
                     siteVisitDate: document.getElementById('planC2Date').value,
                     checklistDate: document.getElementById('planC2ChkDate').value,
                     closingDate: document.getElementById('planC2ClDate').value,
@@ -7260,7 +6782,7 @@ async function handleExcelUpload(e) {
                 c3: {
                     auditor: document.getElementById('planC3Auditor').value,
                     status: document.getElementById('planC3Status').value,
-                    rating: readCycleRatingInput('planC3Rating', 90),
+                    rating: parseInt(document.getElementById('planC3Rating').value) || 90,
                     siteVisitDate: document.getElementById('planC3Date').value,
                     checklistDate: document.getElementById('planC3ChkDate').value,
                     closingDate: document.getElementById('planC3ClDate').value,
@@ -7269,7 +6791,7 @@ async function handleExcelUpload(e) {
                 c4: {
                     auditor: document.getElementById('planC4Auditor').value,
                     status: document.getElementById('planC4Status').value,
-                    rating: readCycleRatingInput('planC4Rating', 92),
+                    rating: parseInt(document.getElementById('planC4Rating').value) || 92,
                     siteVisitDate: document.getElementById('planC4Date').value,
                     checklistDate: document.getElementById('planC4ChkDate').value,
                     closingDate: document.getElementById('planC4ClDate').value,
@@ -7511,7 +7033,7 @@ const totalCycleDuration =
                                 text-slate-800
                                 whitespace-normal
                                 leading-tight">
-                        ${escapeDashboardHtml(auditor)}
+                        ${auditor}
                     </div>
 
                 </div>
@@ -7532,7 +7054,7 @@ const totalCycleDuration =
 
                         ${statusIcon}
 
-                        ${escapeDashboardHtml(status.toUpperCase())}
+                        ${status.toUpperCase()}
 
                     </span>
 
@@ -7556,7 +7078,7 @@ const totalCycleDuration =
                         </span>
 
                         <strong class="text-slate-700">
-                            ${escapeDashboardHtml(formatPlanDate(c.siteVisitDate))}
+                            ${formatPlanDate(c.siteVisitDate)}
                         </strong>
 
                         <span class="px-1.5 py-0.5
@@ -7583,7 +7105,7 @@ const totalCycleDuration =
                         </span>
 
                         <strong class="text-slate-700">
-                            ${escapeDashboardHtml(formatPlanDate(c.checklistDate))}
+                            ${formatPlanDate(c.checklistDate)}
                         </strong>
 
                        <span class="px-1.5 py-0.5
@@ -7614,7 +7136,7 @@ const totalCycleDuration =
                         </span>
 
                         <strong class="text-slate-700">
-                            ${escapeDashboardHtml(formatPlanDate(c.closingDate))}
+                            ${formatPlanDate(c.closingDate)}
                         </strong>
 
                         <span class="px-1.5 py-0.5
@@ -7645,7 +7167,7 @@ const totalCycleDuration =
                         </span>
 
                         <strong class="text-slate-700">
-                            ${escapeDashboardHtml(formatPlanDate(c.qasDate))}
+                            ${formatPlanDate(c.qasDate)}
                         </strong>
 
                         <span class="px-1.5 py-0.5
@@ -7857,12 +7379,11 @@ function renderAuditPlanTable() {
                 leading-tight
                 flex-1">
 
-        ${escapeDashboardHtml(item.projectName || '-')}
+        ${item.projectName || '-'}
 
     </div>
 
     <button
-        data-requires-role="editor"
         onclick="openPlanModal(${actualIndex})"
         title="Edit Site Warehousing Audit Plan"
         class="plan-edit-btn w-7 h-7
@@ -7907,7 +7428,7 @@ function renderAuditPlanTable() {
                                     font-semibold
                                     text-slate-700
                                     whitespace-normal">
-                            ${escapeDashboardHtml(item.cm || '-')}
+                            ${item.cm || '-'}
                         </div>
                     </div>
 
@@ -7925,7 +7446,7 @@ function renderAuditPlanTable() {
                                     font-semibold
                                     text-slate-700
                                     whitespace-normal">
-                            ${escapeDashboardHtml(item.am || '-')}
+                            ${item.am || '-'}
                         </div>
                     </div>
 
@@ -8442,7 +7963,6 @@ const auditCenterTextPlugin = {
 }
 
         async function handleAuditPlanUpload(event) {
-            if (!window.requireAuditRole('editor', 'upload Site Warehousing plans')) { if (event?.target) event.target.value = ''; return; }
             const input = event.target;
             const file = input.files && input.files[0];
 
@@ -8844,7 +8364,6 @@ const auditCenterTextPlugin = {
 
         /* ==================== INVENTORY MANAGEMENT AUDIT PLAN LOGIC (CONTAINER 3.5) ==================== */
         function openInvPlanModal(idx = -1) {
-            if (!window.requireAuditRole('editor', 'add or edit Inventory plans')) return;
             const form = document.getElementById('invAuditPlanForm');
             if (idx < 0) {
                 form?.reset();
@@ -8887,7 +8406,6 @@ const auditCenterTextPlugin = {
         }
 
         async function handleInvPlanFormSubmit(e) {
-            if (!window.requireAuditRole('editor', 'save Inventory plans')) { e?.preventDefault?.(); return; }
             e.preventDefault();
             const idx = parseInt(document.getElementById('editInvPlanIndex').value);
             const record = {
@@ -8899,7 +8417,7 @@ const auditCenterTextPlugin = {
                 c1: {
                     auditor: document.getElementById('invPlanC1Auditor').value,
                     status: document.getElementById('invPlanC1Status').value,
-                    rating: readCycleRatingInput('invPlanC1Rating', 88),
+                    rating: parseInt(document.getElementById('invPlanC1Rating').value) || 88,
                     siteVisitDate: document.getElementById('invPlanC1Date').value,
                     checklistDate: document.getElementById('invPlanC1ChkDate').value,
                     closingDate: document.getElementById('invPlanC1ClDate').value,
@@ -8908,7 +8426,7 @@ const auditCenterTextPlugin = {
                 c2: {
                     auditor: document.getElementById('invPlanC2Auditor').value,
                     status: document.getElementById('invPlanC2Status').value,
-                    rating: readCycleRatingInput('invPlanC2Rating', 91),
+                    rating: parseInt(document.getElementById('invPlanC2Rating').value) || 91,
                     siteVisitDate: document.getElementById('invPlanC2Date').value,
                     checklistDate: document.getElementById('invPlanC2ChkDate').value,
                     closingDate: document.getElementById('invPlanC2ClDate').value,
@@ -8917,7 +8435,7 @@ const auditCenterTextPlugin = {
                 c3: {
                     auditor: document.getElementById('invPlanC3Auditor').value,
                     status: document.getElementById('invPlanC3Status').value,
-                    rating: readCycleRatingInput('invPlanC3Rating', 93),
+                    rating: parseInt(document.getElementById('invPlanC3Rating').value) || 93,
                     siteVisitDate: document.getElementById('invPlanC3Date').value,
                     checklistDate: document.getElementById('invPlanC3ChkDate').value,
                     closingDate: document.getElementById('invPlanC3ClDate').value,
@@ -8926,7 +8444,7 @@ const auditCenterTextPlugin = {
                 c4: {
                     auditor: document.getElementById('invPlanC4Auditor').value,
                     status: document.getElementById('invPlanC4Status').value,
-                    rating: readCycleRatingInput('invPlanC4Rating', 95),
+                    rating: parseInt(document.getElementById('invPlanC4Rating').value) || 95,
                     siteVisitDate: document.getElementById('invPlanC4Date').value,
                     checklistDate: document.getElementById('invPlanC4ChkDate').value,
                     closingDate: document.getElementById('invPlanC4ClDate').value,
@@ -9085,12 +8603,11 @@ function renderInvAuditPlanTable() {
                 leading-tight
                 flex-1">
 
-        ${escapeDashboardHtml(item.projectName || '-')}
+        ${item.projectName || '-'}
 
     </div>
 
     <button
-        data-requires-role="editor"
         onclick="openInvPlanModal(${actualIndex})"
         title="Edit Inventory Management Plan"
         class="plan-edit-btn w-7 h-7
@@ -9136,7 +8653,7 @@ function renderInvAuditPlanTable() {
                                     font-semibold
                                     text-slate-700
                                     whitespace-normal">
-                            ${escapeDashboardHtml(item.cm || '-')}
+                            ${item.cm || '-'}
                         </div>
 
                     </div>
@@ -9156,7 +8673,7 @@ function renderInvAuditPlanTable() {
                                     font-semibold
                                     text-slate-700
                                     whitespace-normal">
-                            ${escapeDashboardHtml(item.am || '-')}
+                            ${item.am || '-'}
                         </div>
 
                     </div>
@@ -10265,7 +9782,7 @@ items
 
                     <td class="p-2.5">
                         <div class="top10-project-inline">
-                            <span class="top10-project-name" title="${escapeDashboardHtml(item.projectName || '-')}">${escapeDashboardHtml(item.projectName || '-')}</span>
+                            <span class="top10-project-name" title="${item.projectName || '-'}">${item.projectName || '-'}</span>
                             <span class="top10-entity-inline">${getEntityBadge(item.entityType)}</span>
                         </div>
                     </td>
@@ -10527,7 +10044,7 @@ items
 
                     <td class="p-2.5">
                         <div class="top10-project-inline">
-                            <span class="top10-project-name" title="${escapeDashboardHtml(item.projectName || '-')}">${escapeDashboardHtml(item.projectName || '-')}</span>
+                            <span class="top10-project-name" title="${item.projectName || '-'}">${item.projectName || '-'}</span>
                             <span class="top10-entity-inline">${getEntityBadge(item.entityType)}</span>
                         </div>
                     </td>
@@ -10698,9 +10215,9 @@ function renderDashboardAuditCompletionOrbits(){
                             </span>`;
                     }).join('');
                     return `
-                        <div class="engagement-compact-row" title="${escapeDashboardHtml(item?.title || '')}">
+                        <div class="engagement-compact-row" title="${String(item?.title || '').replace(/"/g, '&quot;')}">
                             <div class="engagement-compact-name">
-                                <strong>${escapeDashboardHtml(compactTitle(item?.title))}</strong>
+                                <strong>${compactTitle(item?.title)}</strong>
                                 <small>${completed}/${total} milestones completed</small>
                             </div>
                             <div class="engagement-compact-milestones">${stageMarkup}</div>
@@ -10788,7 +10305,6 @@ function handleAuditProgressYearChange() {
 }
 
 function openAuditCycleSettingsModal(planType) {
-    if (!window.requireAuditRole('editor', 'edit annual audit cycle settings')) return;
     const normalizedType = planType === 'inventory' ? 'inventory' : 'warehouse';
     const year = getActiveAuditProgressYear();
     applyAuditProgressSettingsForYear(year);
@@ -10810,7 +10326,6 @@ function closeAuditCycleSettingsModal() {
 }
 
 async function saveAuditCycleSettings(event) {
-    if (!window.requireAuditRole('editor', 'save annual audit cycle settings')) { event?.preventDefault?.(); return; }
     event.preventDefault();
     const planType = document.getElementById('auditCycleSettingsType').value === 'inventory' ? 'inventory' : 'warehouse';
     const year = Math.max(2020, Number(document.getElementById('auditCycleSettingsYear').value || 2026));
@@ -11316,7 +10831,7 @@ function renderProjectRiskTable(rows) {
         const row = document.createElement('tr');
         row.tabIndex = 0;
         row.setAttribute('role', 'button');
-        row.setAttribute('aria-label', `Focus ${escapeDashboardHtml(item.projectName)} on map`);
+        row.setAttribute('aria-label', `Focus ${item.projectName} on map`);
         row.innerHTML = `
             <td>
                 <div class="project-risk-project-cell" style="--risk-color:${item.risk.color}">
@@ -11479,7 +10994,7 @@ function renderProjectRiskMap(shouldFit = false) {
 
         const marker = window.L.marker([item.lat, item.lng], {
             icon,
-            title: `${escapeDashboardHtml(item.projectName)} — ${item.risk.label}`,
+            title: `${item.projectName} — ${item.risk.label}`,
             keyboard: true
         }).bindPopup(buildProjectRiskPopup(item), { maxWidth: 280 });
 
@@ -11912,9 +11427,9 @@ function updateExecutiveKpiOrbit(total, open, closedRate, nonCompRate, highRiskC
             const count = locationValues[index];
             const percent = locationTotal > 0 ? Math.round((count / locationTotal) * 100) : 0;
             return `
-                <div class="location-summary-row" title="${escapeDashboardHtml(region)}: ${escapeDashboardHtml(regionProjects[region].map(item => item.city).join(', '))}">
+                <div class="location-summary-row" title="${region}: ${regionProjects[region].map(item => item.city).join(', ')}">
                     <span class="location-summary-dot" style="background:${locationRegionColors[region]}"></span>
-                    <span class="location-summary-label">${escapeDashboardHtml(region)}</span>
+                    <span class="location-summary-label">${region}</span>
                     <span class="location-summary-value">${count}<small>${percent}%</small></span>
                 </div>
             `;
@@ -13771,37 +13286,13 @@ function renderQASRiskOversight(filtered) {
 }
 
 
-        /* ==================== V49 AUTHORIZATION-AWARE APP INITIALIZATION ==================== */
-        let authorizedAuditAppStarted = false;
-        function startAuthorizedAuditApp() {
-            if (!window.__auditAuthAuthorized) return false;
-            if (!authorizedAuditAppStarted) {
-                initAllData();
-                initAuditNotificationLog();
-                syncCombinedCycleFilterOptions();
-                switchView('dashboard');
-                authorizedAuditAppStarted = true;
-                window.__auditAuthorizedAppStarted = true;
-            }
-            window.applyAuditRoleUI?.();
-            setupFirebaseSync(true);
-            return true;
-        }
-        window.startAuthorizedAuditApp = startAuthorizedAuditApp;
-
-        window.addEventListener('audit-auth-authorized', () => {
-            if (document.readyState === 'loading') return;
-            startAuthorizedAuditApp();
-        });
-        window.addEventListener('audit-auth-revoked', () => {
-            clearFirebaseRealtimeListeners();
-            setFirebaseSyncState('connecting', 'Authentication required. Firebase listeners are paused.');
-        });
-
+        /* ==================== DOM READY INITIALIZATION ==================== */
         window.addEventListener('DOMContentLoaded', () => {
-            window.__auditAppDomReady = true;
-            if (window.__auditAuthAuthorized) startAuthorizedAuditApp();
-            else setFirebaseSyncState('connecting', 'Waiting for an authorized Internal Audit sign-in.');
+            initAllData();
+            initAuditNotificationLog();
+            syncCombinedCycleFilterOptions();
+            setupFirebaseSync();
+            switchView('dashboard');
         });
     </script>
 
@@ -13891,12 +13382,12 @@ function renderQASRiskOversight(filtered) {
                         }).join('');
 
                         return `
-                            <div class="engagement-compact-row" title="${escapeDashboardHtml((item && item.title) || '')}">
+                            <div class="engagement-compact-row" title="${String((item && item.title) || '').replace(/"/g, '&quot;')}">
                                 <span class="engagement-audit-icon" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
                                 <div class="engagement-compact-main">
                                     <div class="engagement-compact-head">
                                         <div class="engagement-compact-name">
-                                            <strong>${escapeDashboardHtml(compactTitle(item && item.title))}</strong>
+                                            <strong>${compactTitle(item && item.title)}</strong>
                                             <small>${completed} of ${total} milestones completed</small>
                                         </div>
                                         <span class="engagement-compact-inline-value">${completed}/${total}</span>
@@ -14189,13 +13680,7 @@ function renderQASRiskOversight(filtered) {
         configs.forEach(([name,id])=>appendTitledJsonSheet(wb,extractTableRows(document.getElementById(id)?.closest('table')),name,'Management-level Top 10 ranking'));
     }
 
-    function buildExecutiveSummarySheet(wb, { qasRowCount = 0, processedSpecialRowCount = 0 } = {}){
-        const qasCount = Math.max(0, Number(qasRowCount) || 0);
-        const processedCount = Math.max(0, Number(processedSpecialRowCount) || 0);
-        const qasLastRow = 5 + qasCount;
-        const processedLastRow = 5 + processedCount;
-        const qasRange = column => qasCount ? `'QAS Findings'!${column}6:${column}${qasLastRow}` : '';
-        const processedRange = column => processedCount ? `'Processed Special'!${column}6:${column}${processedLastRow}` : '';
+    function buildExecutiveSummarySheet(wb){
         const ws=XLSX.utils.aoa_to_sheet([
             [REPORT_TITLE],
             ['Executive Summary - formulas recalculate from exported source sheets'],
@@ -14210,13 +13695,13 @@ function renderQASRiskOversight(filtered) {
             ['Year Filter',document.getElementById('analyticsYearFilter')?.selectedOptions?.[0]?.text||'All Years'],
             ['Month Filter',document.getElementById('analyticsMonthFilter')?.selectedOptions?.[0]?.text||'All Months']
         ]);
-        ws['B6']=qasCount?{t:'n',f:`COUNTA(${qasRange('A')})`,z:'0'}:{t:'n',v:0,z:'0'};
-        ws['B7']=qasCount?{t:'n',f:`COUNTIF(${qasRange('E')},"Open")`,z:'0'}:{t:'n',v:0,z:'0'};
-        ws['B8']=qasCount?{t:'n',f:`IFERROR((COUNTIF(${qasRange('E')},"Closed")+COUNTIF(${qasRange('E')},"Accepted"))/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
-        ws['B9']=qasCount?{t:'n',f:`IFERROR(COUNTIF(${qasRange('N')},"Non Compliant")/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
-        ws['B10']=qasCount?{t:'n',f:`COUNTIF(${qasRange('Q')},"High")+COUNTIF(${qasRange('Q')},"Critical")`,z:'0'}:{t:'n',v:0,z:'0'};
-        ws['B11']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Processed Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
-        ws['B12']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Special Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
+        ws['B6']={t:'n',f:`COUNTA('QAS Findings'!A6:A10000)`,z:'0'};
+        ws['B7']={t:'n',f:`COUNTIF('QAS Findings'!E6:E10000,\"Open\")`,z:'0'};
+        ws['B8']={t:'n',f:`IFERROR((COUNTIF('QAS Findings'!E6:E10000,\"Closed\")+COUNTIF('QAS Findings'!E6:E10000,\"Accepted\"))/COUNTA('QAS Findings'!A6:A10000),0)`,z:'0%'};
+        ws['B9']={t:'n',f:`IFERROR(COUNTIF('QAS Findings'!N6:N10000,\"Non Compliant\")/COUNTA('QAS Findings'!A6:A10000),0)`,z:'0%'};
+        ws['B10']={t:'n',f:`COUNTIF('QAS Findings'!Q6:Q10000,\"High\")+COUNTIF('QAS Findings'!Q6:Q10000,\"Critical\")`,z:'0'};
+        ws['B11']={t:'n',f:`IFERROR(AVERAGEIF('Processed Special'!B6:B10000,\"Processed Audit\",'Processed Special'!H6:H10000),0)`,z:'0%'};
+        ws['B12']={t:'n',f:`IFERROR(AVERAGEIF('Processed Special'!B6:B10000,\"Special Audit\",'Processed Special'!H6:H10000),0)`,z:'0%'};
         ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}},{s:{r:1,c:0},e:{r:1,c:1}},{s:{r:2,c:0},e:{r:2,c:1}}];
         ws['!cols']=[{wch:28},{wch:28}];
         XLSX.utils.book_append_sheet(wb,ws,'Executive Summary');
@@ -14227,16 +13712,14 @@ function renderQASRiskOversight(filtered) {
         const previous=await prepareLiveReportData();
         try{
             const wb=XLSX.utils.book_new();
-            const qasExportRows = getQASExportRows();
-            const processedSpecialRows = (typeof specialAuditsData!=='undefined' && Array.isArray(specialAuditsData)) ? specialAuditsData : [];
-            appendTitledJsonSheet(wb,qasExportRows,'QAS Findings','QAS Detailed Findings - live Firebase-synced source records');
+            appendTitledJsonSheet(wb,getQASExportRows(),'QAS Findings','QAS Detailed Findings - live Firebase-synced source records');
             appendPlanSheet(wb,(typeof auditPlanData!=='undefined'?auditPlanData:[]),'Site Warehousing');
             appendPlanSheet(wb,(typeof invAuditPlanData!=='undefined'?invAuditPlanData:[]),'Inventory Management');
-            appendProcessedSpecialSheet(wb,processedSpecialRows);
+            appendProcessedSpecialSheet(wb,(typeof specialAuditsData!=='undefined'?specialAuditsData:[]));
             appendTitledJsonSheet(wb,getChartRows(),'Chart Data','Flattened live Chart.js datasets - no JSON blobs');
             appendTop10Sheets(wb,'site');
             appendTop10Sheets(wb,'inventory');
-            buildExecutiveSummarySheet(wb,{qasRowCount:qasExportRows.length,processedSpecialRowCount:processedSpecialRows.length});
+            buildExecutiveSummarySheet(wb);
             // Move Executive Summary to the first tab.
             wb.SheetNames=['Executive Summary',...wb.SheetNames.filter(n=>n!=='Executive Summary')];
             XLSX.writeFile(wb,`Construction_Operation_Report_${nowStamp()}.xlsx`,{compression:true});
@@ -14801,43 +14284,5 @@ function renderQASRiskOversight(filtered) {
 })();
 </script>
 
-<script>
-window.__v49AuthCandidate = Object.freeze({
-    build: 'V49-FIREBASE-AUTH-CANDIDATE',
-    sourceBaseline: 'V48-HARDENED',
-    authProvider: 'firebase-email-password',
-    accessCollection: 'access_users',
-    roles: Object.freeze(['admin','editor','viewer']),
-    protections: Object.freeze([
-        'full-screen-auth-gate',
-        'approved-user-firestore-check',
-        'live-access-role-revocation',
-        'role-aware-write-guards',
-        'auth-gated-realtime-listeners',
-        'logout-state-reload'
-    ])
-});
-</script>
-
-<script>
-window.__wp4bClosure = Object.freeze({
-    build: 'V48-WP4B-CLOSURE',
-    baseline: 'V47',
-    fixes: Object.freeze([
-        'stored-html-injection-hardening',
-        'firestore-plan-source-of-truth',
-        'zero-rating-preservation',
-        'qas-series-transaction-registry',
-        'server-write-timestamp-marker',
-        'dynamic-management-export-ranges',
-        'chartjs-version-pinned'
-    ]),
-    externalFreezePrerequisites: Object.freeze([
-        'verify-firestore-rules-and-authentication-policy',
-        'replace-tailwind-play-cdn-with-production-compiled-css',
-        'complete-scale-qualification'
-    ])
-});
-</script>
 </body>
 </html>
