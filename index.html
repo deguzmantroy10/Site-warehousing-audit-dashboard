@@ -4466,6 +4466,19 @@ body > aside.sidebar-shell .sidebar-main{
     </div>
 
 
+    <!-- ENGAGEMENT COMPLETION COMPARISON -->
+    <div class="special-audit-comparison-panel">
+        <div class="special-audit-comparison-head">
+            <div>
+                <h3><i class="fa-solid fa-chart-bar text-[#0b4dbb] mr-1.5"></i>Engagement Completion Comparison</h3>
+                <p>Common basis for every engagement: Pre-works → Opening Meeting → Site Visit → Closing Meeting → QAS.</p>
+            </div>
+        </div>
+        <div class="special-audit-chart-wrap">
+            <canvas id="specialAuditProgressChart"></canvas>
+        </div>
+    </div>
+
     <!-- ENGAGEMENT CARDS -->
     <div id="specialAuditsCards" class="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start"></div>
 
@@ -8284,9 +8297,7 @@ function exportSpecialAuditsReport() {
         { wch: 18 },
         { wch: 16 },
         { wch: 16 },
-        { wch: 14 },
-        { wch: 24 }, // Legacy Audit Report Date
-        { wch: 14 }  // Progress (%)
+        { wch: 14 }
     ];
 
 
@@ -10796,7 +10807,7 @@ async function handleExcelUpload(e) {
             Object.entries(fieldMap).forEach(([id, field]) => {
                 const element = document.getElementById(id);
                 if (!element) return;
-                const value = String(master?.[field] ?? '');
+                const value = String(master?.[field] || '');
                 if (id === 'planProjectEntityType' && activeMode === 'inventory' && value.toLowerCase() === 'landbank') return;
                 element.value = value;
             });
@@ -11673,40 +11684,6 @@ function formatPlanPocPercentage(value) {
     return `${Number.isInteger(percentage) ? percentage : Number(percentage.toFixed(1))}%`;
 }
 
-/* R95 — Shared Project Master export fields. The raw base64 photo is intentionally
-   excluded from Excel; only photo availability and update metadata are exported. */
-function getPlanMasterExportFields(item) {
-    const displayItem = typeof resolvePlanRecordWithSharedMaster === 'function'
-        ? (resolvePlanRecordWithSharedMaster(item) || item || {})
-        : (item || {});
-    const poc = typeof formatPlanPocPercentage === 'function'
-        ? formatPlanPocPercentage(displayItem.pocPercentage)
-        : 'Not set';
-    const photoData = String(displayItem.projectPhotoDataUrl || '');
-    return {
-        'Project Location': displayItem.location || '',
-        'Project Operations Head': displayItem.projectOperationsHead || '',
-        'Project Stock Clerk': displayItem.projectStockClerk || '',
-        'Inventory and Asset Associate': displayItem.areaStockClerk || '',
-        'Cost Engineer': displayItem.costEngineer || displayItem.projectEngineer || '',
-        'QA/QC Engineer': displayItem.qaQcEngineer || '',
-        'Equipment Engineer': displayItem.equipmentEngineer || '',
-        'Rebar Engineer': displayItem.rebarEngineer || '',
-        'Formworks Engineer': displayItem.formworksEngineer || '',
-        'MEPF Engineer': displayItem.mepfEngineer || '',
-        'Finishing Engineer': displayItem.finishingEngineer || '',
-        'Masonry Engineer': displayItem.masonryEngineer || '',
-        'Safety Officer': displayItem.safetyOfficer || '',
-        'Launch Date': displayItem.launchDate || '',
-        'RFO Date': displayItem.rfoDate || '',
-        'POC (%)': poc === 'Not set' ? '' : poc,
-        'Project Remarks': displayItem.remarks || '',
-        'Project Photo Updated At': displayItem.projectPhotoUpdatedAt || '',
-        'Project Photo Available': photoData.startsWith('data:image/') ? 'Yes' : 'No'
-    };
-}
-window.getPlanMasterExportFields = getPlanMasterExportFields;
-
 
 /* R47: removed unused legacy compact cycle-card renderer; current master/detail renderer is authoritative. */
 function renderAuditPlanTable() {
@@ -12362,7 +12339,6 @@ const auditCenterTextPlugin = {
             'Area Manager / Operations Manager':
                 item.am || '',
 
-            ...getPlanMasterExportFields(item),
 
             /* ================= CYCLE 1 ================= */
 
@@ -12528,28 +12504,7 @@ const auditCenterTextPlugin = {
         { wch: 15 },
         { wch: 15 },
         { wch: 15 },
-        { wch: 25 },
-
-        /* R95 — Shared Project Master details (raw photo bytes are excluded). */
-        { wch: 28 }, // Project Location
-        { wch: 28 }, // Project Operations Head
-        { wch: 28 }, // Project Stock Clerk
-        { wch: 30 }, // Inventory and Asset Associate
-        { wch: 28 }, // Cost Engineer
-        { wch: 24 }, // QA/QC Engineer
-        { wch: 24 }, // Equipment Engineer
-        { wch: 24 }, // Rebar Engineer
-        { wch: 24 }, // Formworks Engineer
-        { wch: 24 }, // MEPF Engineer
-        { wch: 24 }, // Finishing Engineer
-        { wch: 24 }, // Masonry Engineer
-        { wch: 24 }, // Safety Officer
-        { wch: 15 }, // Launch Date
-        { wch: 15 }, // RFO Date
-        { wch: 12 }, // POC (%)
-        { wch: 40 }, // Project Remarks
-        { wch: 22 }, // Project Photo Updated At
-        { wch: 18 }  // Project Photo Available
+        { wch: 25 }
 
     ];
 
@@ -13162,7 +13117,6 @@ function renderInvAuditPlanTable() {
             'Area Manager / Operations Manager':
                 item.am || '',
 
-            ...getPlanMasterExportFields(item),
 
             /* ================= CYCLE 1 ================= */
 
@@ -13327,28 +13281,7 @@ function renderInvAuditPlanTable() {
         { wch: 15 },
         { wch: 15 },
         { wch: 15 },
-        { wch: 25 },
-
-        /* R95 — Shared Project Master details (raw photo bytes are excluded). */
-        { wch: 28 }, // Project Location
-        { wch: 28 }, // Project Operations Head
-        { wch: 28 }, // Project Stock Clerk
-        { wch: 30 }, // Inventory and Asset Associate
-        { wch: 28 }, // Cost Engineer
-        { wch: 24 }, // QA/QC Engineer
-        { wch: 24 }, // Equipment Engineer
-        { wch: 24 }, // Rebar Engineer
-        { wch: 24 }, // Formworks Engineer
-        { wch: 24 }, // MEPF Engineer
-        { wch: 24 }, // Finishing Engineer
-        { wch: 24 }, // Masonry Engineer
-        { wch: 24 }, // Safety Officer
-        { wch: 15 }, // Launch Date
-        { wch: 15 }, // RFO Date
-        { wch: 12 }, // POC (%)
-        { wch: 40 }, // Project Remarks
-        { wch: 22 }, // Project Photo Updated At
-        { wch: 18 }  // Project Photo Available
+        { wch: 25 }
 
     ];
 
@@ -19955,25 +19888,15 @@ function renderQASRiskOversight(filtered) {
     }
 
     function appendPlanSheet(wb, records, sheetName){
-        const masterFieldHeaders=[
-            'Project Location','Project Operations Head','Project Stock Clerk','Inventory and Asset Associate',
-            'Cost Engineer','QA/QC Engineer','Equipment Engineer','Rebar Engineer','Formworks Engineer',
-            'MEPF Engineer','Finishing Engineer','Masonry Engineer','Safety Officer','Launch Date','RFO Date',
-            'POC (%)','Project Remarks','Project Photo Updated At','Project Photo Available'
-        ];
-        const headers=['Project','Entity Type','Construction Manager','Area Manager','C1 Status','C1 Rating','C2 Status','C2 Rating','C3 Status','C3 Rating','C4 Status','C4 Rating','Completed Quarters','Average Rating','Firebase Synced At',...masterFieldHeaders];
-        const aoa=[[REPORT_TITLE],[`${sheetName} - formula-driven quarter completion + Shared Project Master details`],[`Generated: ${new Date().toLocaleString()}`],[],headers];
+        const headers=['Project','Entity Type','Construction Manager','Area Manager','C1 Status','C1 Rating','C2 Status','C2 Rating','C3 Status','C3 Rating','C4 Status','C4 Rating','Completed Quarters','Average Rating','Firebase Synced At'];
+        const aoa=[[REPORT_TITLE],[`${sheetName} - formula-driven quarter completion`],[`Generated: ${new Date().toLocaleString()}`],[],headers];
         const rows=Array.isArray(records)?records:[];
-        rows.forEach(item=>{
-            const masterFields=typeof window.getPlanMasterExportFields==='function' ? window.getPlanMasterExportFields(item) : {};
-            aoa.push([
-                item?.projectName||item?.project||'', item?.entityType||'', item?.cm||item?.constructionManager||'', item?.am||item?.areaManager||'',
-                item?.c1?.status||'', normalizedRating(item?.c1?.rating), item?.c2?.status||'', normalizedRating(item?.c2?.rating),
-                item?.c3?.status||'', normalizedRating(item?.c3?.rating), item?.c4?.status||'', normalizedRating(item?.c4?.rating),
-                '', '', item?.firebaseSyncedAt||'',
-                ...masterFieldHeaders.map(header=>masterFields[header] ?? '')
-            ]);
-        });
+        rows.forEach(item=>aoa.push([
+            item?.projectName||item?.project||'', item?.entityType||'', item?.cm||item?.constructionManager||'', item?.am||item?.areaManager||'',
+            item?.c1?.status||'', normalizedRating(item?.c1?.rating), item?.c2?.status||'', normalizedRating(item?.c2?.rating),
+            item?.c3?.status||'', normalizedRating(item?.c3?.rating), item?.c4?.status||'', normalizedRating(item?.c4?.rating),
+            '', '', item?.firebaseSyncedAt||''
+        ]));
         if(!rows.length) aoa.push(['No data']);
         const ws=XLSX.utils.aoa_to_sheet(aoa);
         const lastDataRow=5+Math.max(1,rows.length);
@@ -19981,11 +19904,9 @@ function renderQASRiskOversight(filtered) {
             ws[`M${r}`]={t:'n',f:`COUNTIF(E${r}:L${r},\"Done\")`,z:'0'};
             ws[`N${r}`]={t:'n',f:`IFERROR(AVERAGE(F${r},H${r},J${r},L${r}),0)`,z:'0.0\"%\"'};
         }
-        const lastColumn=excelColumnName(headers.length-1);
-        ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:headers.length-1}},{s:{r:1,c:0},e:{r:1,c:headers.length-1}},{s:{r:2,c:0},e:{r:2,c:headers.length-1}}];
-        ws['!autofilter']={ref:`A5:${lastColumn}${lastDataRow}`};
-        const widths=[26,16,22,20,13,12,13,12,13,12,13,12,17,15,22,28,28,28,30,28,24,24,24,24,24,24,24,24,15,15,12,40,22,18];
-        ws['!cols']=widths.map(wch=>({wch}));
+        ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:14}},{s:{r:1,c:0},e:{r:1,c:14}},{s:{r:2,c:0},e:{r:2,c:14}}];
+        ws['!autofilter']={ref:`A5:O${lastDataRow}`};
+        ws['!cols']=[26,16,22,20,13,12,13,12,13,12,13,12,17,15,22].map(wch=>({wch}));
         XLSX.utils.book_append_sheet(wb,ws,safeSheetName(sheetName,wb));
         return ws;
     }
@@ -20094,8 +20015,8 @@ function renderQASRiskOversight(filtered) {
         ws['B8']=qasCount?{t:'n',f:`IFERROR((COUNTIF(${qasRange('E')},"Closed")+COUNTIF(${qasRange('E')},"Accepted"))/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['B9']=qasCount?{t:'n',f:`IFERROR(COUNTIF(${qasRange('N')},"Non Compliant")/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['B10']=qasCount?{t:'n',f:`COUNTIF(${qasRange('Q')},"High")+COUNTIF(${qasRange('Q')},"Critical")`,z:'0'}:{t:'n',v:0,z:'0'};
-        ws['B11']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Regular Audit",${processedRange('J')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
-        ws['B12']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Special Audit",${processedRange('J')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
+        ws['B11']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Regular Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
+        ws['B12']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Special Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}},{s:{r:1,c:0},e:{r:1,c:1}},{s:{r:2,c:0},e:{r:2,c:1}}];
         ws['!cols']=[{wch:28},{wch:28}];
         XLSX.utils.book_append_sheet(wb,ws,'Executive Summary');
@@ -20110,10 +20031,7 @@ function renderQASRiskOversight(filtered) {
             const processedSpecialRows = (typeof specialAuditsData!=='undefined' && Array.isArray(specialAuditsData)) ? specialAuditsData : [];
             appendTitledJsonSheet(wb,qasExportRows,'QAS Findings','QAS Detailed Findings - live Firebase-synced source records');
             appendPlanSheet(wb,(typeof auditPlanData!=='undefined'?auditPlanData:[]),'Site Warehousing');
-            const inventoryManagementExportRows = Array.isArray(invAuditPlanData)
-                ? (typeof isInventoryLandbankRecord === 'function' ? invAuditPlanData.filter(item => !isInventoryLandbankRecord(item)) : invAuditPlanData)
-                : [];
-            appendPlanSheet(wb,inventoryManagementExportRows,'Inventory Management');
+            appendPlanSheet(wb,(typeof invAuditPlanData!=='undefined'?invAuditPlanData:[]),'Inventory Management');
             appendProcessedSpecialSheet(wb,processedSpecialRows);
             appendTitledJsonSheet(wb,getChartRows(),'Chart Data','Flattened live Chart.js datasets - no JSON blobs');
             appendTop10Sheets(wb,'site');
@@ -20856,8 +20774,8 @@ function renderQASRiskOversight(filtered) {
 
 <script>
 /* =========================================================
-   R95 — WP10-A NON-INVASIVE REGRESSION HARNESS
-   Base SHA-256: 95e6f4be9afdfd2615f0ea8edd77d136f61fede39b104754f0ee4b75e1351f06
+   V62 — WP10-A NON-INVASIVE REGRESSION HARNESS
+   Base SHA-256: 5f47045fee277da1b27a5349c75cd18b26a2dbc4e391bad082cae11339c6e553
 
    SAFETY CONTRACT
    - Observational diagnostics only.
@@ -20875,10 +20793,10 @@ function renderQASRiskOversight(filtered) {
     if (typeof window.__AUDIT_REGRESSION_AUTO_RUN__ === 'undefined') window.__AUDIT_REGRESSION_AUTO_RUN__ = false;
 
     const BUILD = Object.freeze({
-        version: 'R95',
-        workPackage: 'R95 Safe Patch — export accuracy, Project Master export coverage, and regression contract alignment',
-        baseVersion: 'R94',
-        baseSha256: '95e6f4be9afdfd2615f0ea8edd77d136f61fede39b104754f0ee4b75e1351f06',
+        version: 'v62',
+        workPackage: 'WP10-A Regression Harness + WP1 Security Readiness',
+        baseVersion: 'v61',
+        baseSha256: '5f47045fee277da1b27a5349c75cd18b26a2dbc4e391bad082cae11339c6e553',
         firebaseProjectId: 'site-warehousing',
         installedAt: new Date().toISOString()
     });
@@ -20896,8 +20814,6 @@ function renderQASRiskOversight(filtered) {
 
     const EXPECTED_CANVAS_IDS = Object.freeze([
         'combinedAuditProgressChart',
-        'separateWarehouseTrendChart',
-        'separateInventoryTrendChart',
         'riskOversightMatrixChart',
         'riskOversightTrendChart',
         'qasRatingFindingTypeChart',
@@ -20909,7 +20825,12 @@ function renderQASRiskOversight(filtered) {
         'projectFindingsChart',
         'auditorFindingsChart',
         'deptFindingsChart',
-        'statusIssuedPersonChart'
+        'statusIssuedPersonChart',
+        'auditPlanStatusPieChart',
+        'auditPlanStagesBarChart',
+        'invAuditPlanStatusPieChart',
+        'invAuditPlanStagesBarChart',
+        'specialAuditProgressChart'
     ]);
 
     const CRITICAL_FUNCTIONS = Object.freeze([
@@ -20950,17 +20871,14 @@ function renderQASRiskOversight(filtered) {
 
     const EXPECTED_COLLECTIONS = Object.freeze([
         'access_users',
-        'app_migrations',
-        'audit_activity_log',
-        'audit_progress_settings',
-        'audit_project_master',
-        'inventory_management_plan',
-        'inventory_management_project_registry',
-        'processed_special_audits',
         'qas_audit_findings',
         'qas_series_registry',
         'site_warehousing_plan',
-        'site_warehousing_project_registry'
+        'inventory_management_plan',
+        'processed_special_audits',
+        'audit_progress_settings',
+        'audit_activity_log',
+        'app_migrations'
     ]);
 
     const runtime = window.__wp10RuntimeDiagnostics = window.__wp10RuntimeDiagnostics || {
@@ -21078,10 +20996,6 @@ function renderQASRiskOversight(filtered) {
         const missingCanvases = EXPECTED_CANVAS_IDS.filter(id => !document.getElementById(id));
         addCheck(checks, 'Graph canvases preserved', missingCanvases.length === 0,
             missingCanvases.length ? `Missing: ${missingCanvases.join(', ')}` : `${EXPECTED_CANVAS_IDS.length}/${EXPECTED_CANVAS_IDS.length} chart canvases present.`);
-        const actualCanvasIds = [...document.querySelectorAll('canvas[id]')].map(canvas => canvas.id);
-        const unexpectedCanvases = actualCanvasIds.filter(id => !EXPECTED_CANVAS_IDS.includes(id));
-        addCheck(checks, 'Canvas inventory matches current HTML', unexpectedCanvases.length === 0,
-            unexpectedCanvases.length ? `Unlisted actual canvases: ${unexpectedCanvases.join(', ')}` : `${actualCanvasIds.length} actual canvas IDs match the R95 manifest.`);
 
         const missingFunctions = CRITICAL_FUNCTIONS.filter(name => !getGlobalFunction(name));
         addCheck(checks, 'Critical JS functions preserved', missingFunctions.length === 0,
@@ -21208,15 +21122,14 @@ function renderQASRiskOversight(filtered) {
 
 
 <script>
-/* R95 — CURRENT RELEASE METADATA
-   Safe export corrections and regression-manifest alignment only. Firebase
-   authentication, transaction architecture, save/delete/upload handlers, and
-   Audit Plan calculations remain unchanged. */
+/* R47 — CURRENT RELEASE METADATA
+   Observational only. Firebase, save/delete/upload, authentication, business logic,
+   Audit Plan calculations, and non-map chart renderers are unchanged. */
 window.__auditDashboardCurrentRelease = Object.freeze({
-    version: 'R95',
-    baselineVersion: 'R94',
-    baselineSha256: '95e6f4be9afdfd2615f0ea8edd77d136f61fede39b104754f0ee4b75e1351f06',
-    workPackage: 'Export formula and column fixes + Shared Project Master export coverage + regression manifest alignment'
+    version: 'R47',
+    baselineVersion: 'R46',
+    baselineSha256: '2f9095cce7a2f7bda2fbf45617a8d15d1ca91593c88cbf8636019416162b6a3f',
+    workPackage: 'Moncello Crest map-location correction + proven-unused runtime helper and stale metadata cleanup'
 });
 </script>
 </body>
