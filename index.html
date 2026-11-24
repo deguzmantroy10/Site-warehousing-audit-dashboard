@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- R92 baseline: complete shared Project Master field hydration + five-stage Regular/Special Audit workflow. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Security and Material Control Inspection - Audit Dashboard</title>
@@ -214,7 +213,7 @@
 
 
 
-/* R21 — Regular / Special Audits compact executive presentation only. */
+/* R21 — Processed / Special Audits compact executive presentation only. */
 #specialAuditsCards{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr))!important;
@@ -406,7 +405,7 @@
 .special-audit-milestone-track{
     position:relative;
     display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
+    grid-template-columns:repeat(4,minmax(0,1fr));
     gap:.15rem;
     min-width:0;
 }
@@ -414,8 +413,8 @@
     content:"";
     position:absolute;
     top:9px;
-    left:10%;
-    right:10%;
+    left:12.5%;
+    right:12.5%;
     height:1px;
     background:#d7e3f2;
     z-index:0;
@@ -461,9 +460,7 @@
     font-size:.43rem;
     font-weight:850;
     line-height:1.15;
-    white-space:normal;
-    max-width:100%;
-    overflow-wrap:anywhere;
+    white-space:nowrap;
 }
 .special-audit-milestone-value{
     margin-top:.08rem;
@@ -2524,7 +2521,7 @@ body > aside.sidebar-shell .sidebar-main{
     padding:.36rem .62rem!important;
 }
 
-/* Regular / Special Audits — tighten vertical shells; chart height and engagement cards unchanged. */
+/* Processed / Special Audits — tighten vertical shells; chart height and engagement cards unchanged. */
 #specialAuditsViewContainer .special-audit-title-header{
     min-height:52px!important;
     padding:.45rem .70rem!important;
@@ -2789,178 +2786,72 @@ body > aside.sidebar-shell .sidebar-main{
     line-height:1!important;
 }
 </style>
-<style id="r90Windows100DisplayCompensation">
-/* R90 — Windows 100% display compensation. Chrome browser zoom stays at 100%. */
-@media screen and (min-width: 768px) and (max-resolution: 1.1dppx) {
-  html { font-size: 150% !important; }
-  /* Tailwind arbitrary pixel text utilities are not rem-based; scale them explicitly. */
-  [class~="text-[8px]"] { font-size: 12px !important; }
-  [class~="text-[9px]"] { font-size: 13.5px !important; }
-  [class~="text-[10px]"] { font-size: 15px !important; }
-  [class~="text-[11px]"] { font-size: 16.5px !important; }
-  [class~="text-[13px]"] { font-size: 19.5px !important; }
-  [class~="text-[15px]"] { font-size: 22.5px !important; }
-  #auditAuthLoadingPanel h2 { font-size: 22.5px !important; }
-  #firebaseInitialLoadingGate > div { font-size: 18px !important; }
-  /* The QAS table uses vw/px clamps; scale the px limits and vw coefficient. */
-  #auditTable { font-size: clamp(11.55px, .81vw, 12.675px) !important; }
-  #auditTable thead th { font-size: clamp(9.975px, .69vw, 11.025px) !important; }
-  #auditTable tbody td:first-child { font-size: 10.875px !important; }
-  #auditTable .qas-cell-project { font-size: clamp(11.85px, .825vw, 12.9px) !important; }
-  #auditTable .qas-cell-finding { font-size: clamp(11.775px, .825vw, 12.825px) !important; }
-  #auditTable .qas-cell-status>span, #auditTable .qas-cell-scale>span, #auditTable .qas-audit-rating-badge, #auditTable .finding-type-badge { font-size: 9.225px !important; }
-  .location-summary-label { font-size: 16.5px !important; }
-  .location-summary-value { font-size: 16.5px !important; }
-  .location-summary-value small { font-size: 13.5px !important; }
-  body>aside h1 { font-size: 19.5px !important; }
-  body>aside h1+p { font-size: 13.5px !important; }
-  body>aside nav p { font-size: 13.5px !important; }
-  body>div>header select { font-size: 16.5px !important; }
-  #dashboardViewContainer>section:first-of-type p[class*="uppercase"] { font-size: 13.5px !important; }
-  #dashboardViewContainer>section:first-of-type h3 { font-size: 37.5px !important; }
-  #dashboardViewContainer>section:first-of-type h3+p { font-size: 13.5px !important; }
-  .executive-chart-header h2 { font-size: 16.5px !important; }
-  .executive-chart-header>span { font-size: 13.5px !important; }
-  .project-risk-summary-head h3 i { font-size: 16.5px !important; }
-  .project-risk-summary-head span { font-size: 13.5px !important; }
-  .project-risk-badge { font-size: 13.5px !important; }
-  @media (max-width: 767px) { .project-risk-summary-head h3 { font-size: 15.75px !important; } }
-  body>aside nav>p { font-size: 13.5px !important; }
-  body>aside nav button { font-size: 15.75px !important; }
-  body>aside nav button i { font-size: 16.5px !important; }
-  body>aside>div:first-child>div:first-child h1 { font-size: 19.5px !important; }
-  body>aside>div:first-child>div:first-child p { font-size: 12.75px !important; }
-  .project-risk-filter,.project-risk-region-select { font-size: 15px !important; }
-  .qas-audit-rating-badge { font-size: 15px !important; }
-  .finding-type-badge { font-size: 15px !important; }
-  .qas-heatmap-legend h4 { font-size: 16.5px !important; }
-  .qas-heatmap-legend li { font-size: 15px !important; }
-  .risk-oversight-eyebrow { font-size: 13.5px !important; }
-  .risk-oversight-live { font-size: 13.5px !important; }
-  .risk-oversight-live i { font-size: 10.5px !important; }
-  .risk-oversight-panel-head p { font-size: 13.5px !important; }
-  .risk-oversight-chip { font-size: 12px !important; }
-  .risk-summary-row { font-size: 13.5px !important; }
-  .risk-summary-row strong { font-size: 15px !important; }
-  .risk-summary-row em { font-size: 13.5px !important; }
-  .risk-summary-head { font-size: 12px !important; }
-  .risk-top-table { font-size: 13.5px !important; }
-  .risk-top-table thead th { font-size: 12px !important; }
-  .risk-level-badge { font-size: 12px !important; }
-  .risk-oversight-method-note { font-size: 12px !important; }
-  .audit-section-title-header h2 { font-size: 19.5px !important; }
-  .audit-section-title-header p { font-size: 13.5px !important; }
-  .audit-section-title-header .rounded-full { font-size: 12px !important; }
-  .audit-section-title-header .inline-flex.rounded-lg,.audit-section-title-header button.inline-flex,.audit-section-title-header label.inline-flex { font-size: 13.5px !important; }
-  .audit-notification-badge { font-size: 10.5px !important; }
-  .audit-notification-eyebrow { font-size: 10.5px !important; }
-  .audit-notification-read-btn,.audit-notification-panel-foot button { font-size: 12px !important; }
-  .audit-notification-empty { font-size: 13.5px !important; }
-  .audit-notification-content strong { font-size: 13.5px !important; }
-  .audit-notification-content p { font-size: 12.75px !important; }
-  .audit-notification-meta { font-size: 10.5px !important; }
-  .audit-notification-panel-foot { font-size: 10.5px !important; }
-  .plan-analytics-card>div:first-child span { font-size: 12px !important; }
-  .plan-toolbar input,.plan-toolbar select { font-size: 13.5px !important; }
-  .plan-toolbar>div:last-child>span:first-child { font-size: 13.5px !important; }
-  #auditPlanCountBadge,#invAuditPlanCountBadge { font-size: 13.5px !important; }
-  .plan-view-shell .audit-section-title-header h2 { font-size: 19.5px !important; }
-  .plan-view-shell .audit-section-title-header p { font-size: 12.75px !important; }
-  .plan-analytics-card h2 { font-size: 14.25px !important; }
-  .plan-master-header h2 { font-size: 16.5px !important; }
-  .plan-master-header p { font-size: 12.75px !important; }
-  .plan-action-btn { font-size: 12.75px !important; }
-  .plan-cycle-auditor>div:last-child { font-size: 13.5px !important; }
-  .plan-cycle-status span { font-size: 10.5px !important; }
-  .plan-cycle-rating>span:last-child { font-size: 15px !important; }
-  #auditPlanViewContainer .plan-cycle-auditor>div:last-child,#invAuditPlanViewContainer .plan-cycle-auditor>div:last-child { font-size: 12px !important; }
-  #auditPlanViewContainer .plan-cycle-dates>div,#invAuditPlanViewContainer .plan-cycle-dates>div { font-size: 11.25px !important; }
-  #auditTable { font-size: clamp(11.55px,.54vw,12.675px) !important; }
-  #auditTable thead th { font-size: clamp(9.975px,.46vw,11.025px) !important; }
-  #auditTable tbody td:first-child { font-size: 10.875px !important; }
-  #auditTable .qas-cell-project { font-size: clamp(11.85px,.55vw,12.9px) !important; }
-  #auditTable .qas-cell-finding { font-size: clamp(11.775px,.55vw,12.825px) !important; }
-  #auditTable .qas-cell-status>span,#auditTable .qas-cell-scale>span { font-size: 9.225px !important; }
-  #auditTable .qas-audit-rating-badge,#auditTable .finding-type-badge { font-size: 9.225px !important; }
-  @media (max-width:1100px) { #auditTable { font-size: 11.475px !important; } }
-  @media (max-width:1100px) { #auditTable thead th { font-size: 9.825px !important; } }
-  @media (max-width:1100px) { #auditTable .qas-cell-project,#auditTable .qas-cell-finding { font-size: 11.775px !important; } }
-  @media (max-width:700px) { #auditTable { font-size: 10.875px !important; } }
-  @media (max-width:700px) { #auditTable thead th { font-size: 9.15px !important; } }
-  @media (max-width:700px) { #auditTable .qas-cell-project,#auditTable .qas-cell-finding { font-size: 11.025px !important; } }
-  @media (max-width:700px) { #auditTable .qas-audit-rating-badge,#auditTable .finding-type-badge,#auditTable .qas-cell-status>span,#auditTable .qas-cell-scale>span { font-size: 8.625px !important; } }
-  .combined-plan-edit-btn { font-size: 13.5px !important; }
-  .qas-action-btn { font-size: 15px !important; }
-  .audit-cycle-settings-head h3 { font-size: 19.5px !important; }
-  .audit-cycle-settings-head p { font-size: 15px !important; }
-  .audit-cycle-settings-grid label>span { font-size: 15px !important; }
-  .audit-cycle-settings-grid input { font-size: 18px !important; }
-  .audit-cycle-settings-note { font-size: 15px !important; }
-  .audit-cycle-settings-btn { font-size: 15px !important; }
-  .engagement-summary-name { font-size: 13.5px !important; }
-  .engagement-milestone-cell { font-size: 10.5px !important; }
-  .engagement-summary-percent { font-size: 12px !important; }
-  .sidebar-brand-copy h1 { font-size: 24px !important; }
-  .sidebar-brand-copy p { font-size: 13.5px !important; }
-  .sidebar-nav-label { font-size: 12px !important; }
-  .audit-auth-brand-copy strong { font-size: 21px !important; }
-  .audit-auth-brand-copy span { font-size: 15px !important; }
-  .audit-auth-eyebrow { font-size: 13.5px !important; }
-  .audit-auth-panel h2 { font-size: 30px !important; }
-  .audit-auth-panel p { font-size: 16.5px !important; }
-  .audit-auth-field label { font-size: 15px !important; }
-  .audit-auth-field input { font-size: 18px !important; }
-  .audit-auth-submit { font-size: 16.5px !important; }
-  .audit-auth-secondary { font-size: 15px !important; }
-  .audit-auth-message { font-size: 15px !important; }
-  .audit-auth-denied-icon { font-size: 30px !important; }
-  .audit-user-avatar { font-size: 16.5px !important; }
-  .audit-user-copy strong { font-size: 13.5px !important; }
-  .audit-user-copy span { font-size: 12px !important; }
-  #auditPlanViewContainer .plan-analytics-card .text-\[10px\],
-#invAuditPlanViewContainer .plan-analytics-card .text-\[10px\] { font-size: 15px !important; }
-  #auditPlanViewContainer .plan-section-actions .plan-action-btn,
-#invAuditPlanViewContainer .plan-section-actions .plan-action-btn { font-size: 15px !important; }
-  #auditPlanViewContainer .plan-section-actions .plan-action-btn>i,
-#invAuditPlanViewContainer .plan-section-actions .plan-action-btn>i { font-size: 15px !important; }
-  .audit-auth-welcome-avatar-fallback { font-size: 36px !important; }
-  .audit-auth-welcome-verified { font-size: 13.5px !important; }
-  .audit-auth-welcome h2 { font-size: 31.5px !important; }
-  .audit-auth-welcome>p { font-size: 15.75px !important; }
-  .audit-auth-welcome-status-icon { font-size: 18px !important; }
-  .audit-auth-welcome-status-copy strong { font-size: 15px !important; }
-  .audit-auth-welcome-status-copy span { font-size: 13.5px !important; }
-  @media (max-width:520px) { .audit-auth-welcome h2 { font-size: 28.5px !important; } }
-  #projectRiskMap .leaflet-control-zoom a { font-size: 25.5px !important; }
-  #projectRiskMap .leaflet-control-attribution { font-size: 12px !important; }
-  #projectRiskMap .leaflet-fallback-badge { font-size: 12px !important; }
-  body > aside.sidebar-shell .sidebar-nav .executive-nav-btn i { font-size: 17.25px !important; }
-  .firebase-sync-status i { font-size: 12px !important; }
-  #auditPlanViewContainer .plan-section-actions .plan-action-btn,
-#invAuditPlanViewContainer .plan-section-actions .plan-action-btn { font-size: 15px !important; }
-  #auditPlanViewContainer .plan-section-actions .plan-action-btn>i,
-#invAuditPlanViewContainer .plan-section-actions .plan-action-btn>i { font-size: 15px !important; }
+
+<style id="audit-progress-trend-zoom-fix-r1">
+/* R89 scoped fix: Audit Progress Trend by Module sizing at Windows 100%-125% browser zoom. */
+@media (min-width: 1024px) {
+  #dashboardChartGrid > .separate-breakdown-card {
+    grid-column: 1 / -1 !important;
+    width: 100%;
+    min-width: 0;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+    padding: 1.05rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-item {
+    min-width: 0;
+    padding: 1rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-chart-wrap {
+    height: clamp(250px, 19vw, 320px) !important;
+    min-height: 250px !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-item-head span {
+    font-size: .82rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-item-head strong {
+    font-size: .96rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-metrics {
+    gap: .7rem !important;
+    margin-top: .8rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-metric {
+    padding: .72rem .75rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-metric span {
+    font-size: .66rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-metric strong {
+    font-size: .98rem !important;
+  }
 }
-
-/* Inventory scope: the separate Top 10 Inventory page no longer includes a Landbank panel. */
-#topInvProjectsViewContainer .space-y-3:has(#topInvLandbankTableBody) { display: none !important; }
-
-/* At common 100%-scale desktop widths, stack the master/detail plan panels before the enlarged rem scale can crowd them. */
-@media screen and (min-width: 768px) and (max-width: 1500px) and (max-resolution: 1.1dppx) {
-  .plan-master-detail-layout { grid-template-columns: minmax(0, 1fr) !important; }
-  .plan-master-pane { border-right: 0 !important; border-bottom: 1px solid #dce6f2 !important; }
-  .plan-master-list-scroll { max-height: 430px !important; overflow: auto !important; }
-  .plan-detail-panel, .plan-detail-empty { min-height: 420px !important; }
-  .executive-topbar { flex-wrap: wrap !important; }
-  .executive-topbar-actions { flex-wrap: wrap !important; }
+@media (min-width: 768px) and (max-width: 1023px) {
+  #dashboardChartGrid > .separate-breakdown-card {
+    grid-column: 1 / -1 !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .8rem !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-chart-wrap {
+    height: 250px !important;
+    min-height: 250px !important;
+  }
+}
+@media (max-width: 767px) {
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-grid {
+    grid-template-columns: 1fr !important;
+  }
+  #dashboardChartGrid > .separate-breakdown-card .separate-breakdown-chart-wrap {
+    height: 230px !important;
+    min-height: 230px !important;
+  }
 }
 </style>
-<style id="r92ProjectDateGrid">
-/* R92: three project milestone dates share the available width evenly. */
-#planProjectDetailsModal .plan-editor-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
-@media (max-width:1100px){#planProjectDetailsModal .plan-editor-grid-3{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
-@media (max-width:720px){#planProjectDetailsModal .plan-editor-grid-3{grid-template-columns:1fr!important;}}
-</style>
+
 </head>
 <body class="bg-[#F3F4F6] text-[#252423] antialiased min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
@@ -3098,7 +2989,7 @@ body > aside.sidebar-shell .sidebar-main{
                     <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i><span>Inventory Audit Plan</span>
                 </button>
                 <button id="btnViewSpecialAudits" onclick="switchView('specialAudits')" class="executive-nav-btn">
-                    <i class="fa-solid fa-briefcase" aria-hidden="true"></i><span>Regular / Special Audits</span>
+                    <i class="fa-solid fa-briefcase" aria-hidden="true"></i><span>Processed / Special Audits</span>
                 </button>
                 <button id="btnViewTopSheet" onclick="switchView('topSheet')" class="executive-nav-btn">
                     <i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Top 10 Projects Rating</span>
@@ -3344,7 +3235,7 @@ body > aside.sidebar-shell .sidebar-main{
                 <span class="annual-gantt-title-icon" aria-hidden="true"><i class="fa-solid fa-chart-gantt"></i></span>
                 <div>
                     <h2 id="annualAuditGanttTitle">Annual Audit Plan Timeline</h2>
-                    <p>Consolidated yearly plan for Site Warehousing, Inventory Management, Regular Audits, and Special Audits.</p>
+                    <p>Consolidated yearly plan for Site Warehousing, Inventory Management, Processed Audits, and Special Audits.</p>
                 </div>
             </div>
             <div class="annual-gantt-header-actions">
@@ -3358,7 +3249,7 @@ body > aside.sidebar-shell .sidebar-main{
                         <option value="ALL">All Audit Plans</option>
                         <option value="warehouse">Site Warehousing</option>
                         <option value="inventory">Inventory Management</option>
-                        <option value="processed">Regular Audit</option>
+                        <option value="processed">Processed Audit</option>
                         <option value="special">Special Audit</option>
                     </select>
                 </label>
@@ -3367,7 +3258,7 @@ body > aside.sidebar-shell .sidebar-main{
                     <div class="annual-gantt-edit-popover">
                         <button type="button" onclick="switchView('auditPlan')"><i class="fa-solid fa-warehouse"></i><span>Site Warehousing</span></button>
                         <button type="button" onclick="switchView('invAuditPlan')"><i class="fa-solid fa-boxes-stacked"></i><span>Inventory Management</span></button>
-                        <button type="button" onclick="switchView('specialAudits')"><i class="fa-solid fa-clipboard-check"></i><span>Regular / Special Audits</span></button>
+                        <button type="button" onclick="switchView('specialAudits')"><i class="fa-solid fa-clipboard-check"></i><span>Processed / Special Audits</span></button>
                     </div>
                 </details>
             </div>
@@ -3589,13 +3480,13 @@ body > aside.sidebar-shell .sidebar-main{
                     </div>
 
                     <div class="processed-special-progress-row md:col-span-2 processed-special-comprehensive-row">
-                        <article class="processed-progress-card processed-audit-card comprehensive-engagement-card" aria-label="Regular audit engagement completion">
+                        <article class="processed-progress-card processed-audit-card comprehensive-engagement-card" aria-label="Processed audit engagement completion">
                             <div class="processed-progress-head">
                                 <div class="processed-progress-title-wrap">
                                     <span class="processed-progress-icon"><i class="fa-solid fa-clipboard-check"></i></span>
                                     <div>
-                                        <h3>Regular Audit Completion</h3>
-                                        <p>Five-stage completion: Pre-works → Opening Meeting → Site Visit → Closing Meeting → QAS.</p>
+                                        <h3>Processed Audit Completion</h3>
+                                        <p>Milestone completion by audit engagement, synchronized with Processed / Special Audit records.</p>
                                     </div>
                                 </div>
                                 <div class="processed-progress-summary-chip">
@@ -3627,7 +3518,7 @@ body > aside.sidebar-shell .sidebar-main{
                                     <span class="processed-progress-icon"><i class="fa-solid fa-file-circle-check"></i></span>
                                     <div>
                                         <h3>Special Audit Completion</h3>
-                                        <p>Five-stage completion: Pre-works → Opening Meeting → Site Visit → Closing Meeting → QAS.</p>
+                                        <p>Standalone special engagements with milestone-level completion and management summary.</p>
                                     </div>
                                 </div>
                                 <div class="processed-progress-summary-chip">
@@ -4177,7 +4068,7 @@ body > aside.sidebar-shell .sidebar-main{
                                 <i class="fa-solid fa-boxes-stacked text-[#003399]"></i>
                                 <span>Inventory Management Audit Plan 2026</span>
                             </h2>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Scope: Project Sites and Support Groups only. Landbank is covered under Site Warehousing.</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Internal Audit Department - Inventory & Stockpile Verification Group.</p>
                         </div>
                         <div class="plan-section-actions">
                             <button data-requires-role="editor" onclick="openInvPlanModal(-1)" class="plan-action-btn primary">
@@ -4211,6 +4102,7 @@ body > aside.sidebar-shell .sidebar-main{
                                 <option value="ALL">All Entities</option>
                                 <option value="Project Site">Project Sites</option>
                                 <option value="Support Group">Support Group</option>
+                                <option value="Landbank">Landbank</option>
                             </select>
                             <select id="invAuditPlanSortFilter" onchange="setPlanMasterSortFromSelect('inventory', this.value)" class="plan-master-toolbar-select plan-sort-select" aria-label="Sort Inventory Management projects" title="Sort projects">
                                 <option value="overall|desc">Overall Score: Highest to Lowest</option>
@@ -4304,7 +4196,7 @@ body > aside.sidebar-shell .sidebar-main{
 
                         <i class="fa-solid fa-bolt"></i>
 
-                        Regular / Special Audits
+                        Processed / Special Audits
 
                     </span>
 
@@ -4325,7 +4217,7 @@ body > aside.sidebar-shell .sidebar-main{
                            font-extrabold
                            text-slate-800">
 
-                    Regular &amp; Special Audit Engagements
+                    Process & Special Audit Engagements
 
                 </h2>
 
@@ -4402,7 +4294,7 @@ body > aside.sidebar-shell .sidebar-main{
 
 </div>
 
-    <!-- V61: Firebase-authoritative Regular / Special Audit sync state.
+    <!-- V61: Firebase-authoritative Processed / Special Audit sync state.
          Hidden while healthy; shown for initial hydration, verification failures, or realtime read errors. -->
     <div id="processedSpecialSyncBanner"
          class="hidden rounded-xl border px-4 py-3 text-[10px] font-semibold flex items-start justify-between gap-3"
@@ -4411,7 +4303,7 @@ body > aside.sidebar-shell .sidebar-main{
             <i id="processedSpecialSyncBannerIcon" class="fa-solid fa-cloud-arrow-up mt-0.5"></i>
             <div class="min-w-0">
                 <div id="processedSpecialSyncBannerTitle" class="font-extrabold text-[10px]">Firebase synchronization</div>
-                <div id="processedSpecialSyncBannerMessage" class="mt-0.5 font-medium leading-relaxed">Checking live Regular / Special Audit records…</div>
+                <div id="processedSpecialSyncBannerMessage" class="mt-0.5 font-medium leading-relaxed">Checking live Processed / Special Audit records…</div>
             </div>
         </div>
         <button id="processedSpecialSyncRetryButton" type="button"
@@ -4441,7 +4333,7 @@ body > aside.sidebar-shell .sidebar-main{
                         tracking-wider
                         text-slate-700">
 
-                Regular / Special Audit Milestones
+                Standard Audit Milestones
 
             </div>
 
@@ -4452,15 +4344,65 @@ body > aside.sidebar-shell .sidebar-main{
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-            <span class="px-2.5 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 text-[9px] font-bold"><i class="fa-solid fa-clipboard-list mr-1"></i>Pre-works</span>
+
+            <span class="px-2.5 py-1.5
+                         rounded-lg
+                         bg-blue-50
+                         text-blue-700
+                         border border-blue-200
+                         text-[9px]
+                         font-bold">
+
+                <i class="fa-solid fa-location-dot mr-1"></i>
+                Site Visit
+
+            </span>
+
             <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span class="px-2.5 py-1.5 rounded-lg bg-violet-50 text-violet-700 border border-violet-200 text-[9px] font-bold"><i class="fa-solid fa-handshake mr-1"></i>Opening Meeting</span>
+
+            <span class="px-2.5 py-1.5
+                         rounded-lg
+                         bg-sky-50
+                         text-sky-700
+                         border border-sky-200
+                         text-[9px]
+                         font-bold">
+
+                <i class="fa-solid fa-file-lines mr-1"></i>
+                Audit Report
+
+            </span>
+
             <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span class="px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-[9px] font-bold"><i class="fa-solid fa-location-dot mr-1"></i>Site Visit</span>
+
+            <span class="px-2.5 py-1.5
+                         rounded-lg
+                         bg-amber-50
+                         text-amber-700
+                         border border-amber-200
+                         text-[9px]
+                         font-bold">
+
+                <i class="fa-solid fa-comments mr-1"></i>
+                Closing
+
+            </span>
+
             <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span class="px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-bold"><i class="fa-solid fa-comments mr-1"></i>Closing Meeting</span>
-            <i class="fa-solid fa-chevron-right text-[8px] text-slate-300"></i>
-            <span class="px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-bold"><i class="fa-solid fa-circle-check mr-1"></i>QAS</span>
+
+            <span class="px-2.5 py-1.5
+                         rounded-lg
+                         bg-emerald-50
+                         text-emerald-700
+                         border border-emerald-200
+                         text-[9px]
+                         font-bold">
+
+                <i class="fa-solid fa-circle-check mr-1"></i>
+                QAS
+
+            </span>
+
         </div>
 
     </div>
@@ -4471,7 +4413,7 @@ body > aside.sidebar-shell .sidebar-main{
         <div class="special-audit-comparison-head">
             <div>
                 <h3><i class="fa-solid fa-chart-bar text-[#0b4dbb] mr-1.5"></i>Engagement Completion Comparison</h3>
-                <p>Common basis for every engagement: Pre-works → Opening Meeting → Site Visit → Closing Meeting → QAS.</p>
+                <p>Common basis for every engagement: Site Visit → Audit Report → Closing → QAS.</p>
             </div>
         </div>
         <div class="special-audit-chart-wrap">
@@ -4972,7 +4914,7 @@ body > aside.sidebar-shell .sidebar-main{
                             uppercase
                             tracking-wider
                             text-violet-600">
-                    Regular / Special Audit
+                    Processed / Special Audit
                 </div>
 
                 <h3 id="specialAuditModalTitle"
@@ -5008,8 +4950,6 @@ body > aside.sidebar-shell .sidebar-main{
             <input type="hidden"
                    id="specialAuditEditIndex"
                    value="-1">
-            <!-- Legacy Audit Report date is retained for old Firebase records; it is no longer an active workflow milestone. -->
-            <input type="hidden" id="specialAuditReport" value="">
 
 
             <!-- ENGAGEMENT -->
@@ -5054,7 +4994,7 @@ body > aside.sidebar-shell .sidebar-main{
                                    text-xs bg-white">
 
                         <option value="Processed Audit">
-                            Regular Audit
+                            Processed Audit
                         </option>
 
                         <option value="Special Audit">
@@ -5151,7 +5091,7 @@ body > aside.sidebar-shell .sidebar-main{
                             uppercase
                             tracking-wider
                             text-slate-500">
-                    Audit Milestone Dates
+                    Quarter 1 Milestone Dates
                 </div>
 
             </div>
@@ -5160,28 +5100,54 @@ body > aside.sidebar-shell .sidebar-main{
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-700 mb-1">Pre-works Date</label>
-                    <input type="date" id="specialAuditPreWorks" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs">
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Site Visit Date
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditSiteVisit"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-700 mb-1">Opening Meeting Date</label>
-                    <input type="date" id="specialAuditOpeningMeeting" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs">
-                </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-700 mb-1">Site Visit Date</label>
-                    <input type="date" id="specialAuditSiteVisit" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs">
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Audit Report
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditReport"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-700 mb-1">Closing Meeting Date</label>
-                    <input type="date" id="specialAuditClosing" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs">
-                </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-700 mb-1">QAS Date</label>
-                    <input type="date" id="specialAuditQAS" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs">
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        Closing
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditClosing"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
+                </div>
+
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-700 mb-1">
+                        QAS
+                    </label>
+
+                    <input type="date"
+                           id="specialAuditQAS"
+                           class="w-full px-3 py-2.5
+                                  border border-slate-300
+                                  rounded-lg text-xs">
                 </div>
 
             </div>
@@ -5452,8 +5418,8 @@ body > aside.sidebar-shell .sidebar-main{
                             <input type="text" id="planProjectStockClerk" placeholder="Project Stock Clerk">
                         </label>
                         <label class="plan-editor-field">
-                            <span>Inventory and Asset Associate</span>
-                            <input type="text" id="planAreaStockClerk" placeholder="Inventory and Asset Associate">
+                            <span>Area Stock Clerk</span>
+                            <input type="text" id="planAreaStockClerk" placeholder="Area Stock Clerk">
                         </label>
                     </div>
                 </div>
@@ -5470,15 +5436,6 @@ body > aside.sidebar-shell .sidebar-main{
                         <label class="plan-editor-field"><span>Finishing Engineer</span><input type="text" id="planFinishingEngineer" placeholder="Optional"></label>
                         <label class="plan-editor-field"><span>Masonry Engineer</span><input type="text" id="planMasonryEngineer" placeholder="Optional"></label>
                         <label class="plan-editor-field"><span>Safety Officer</span><input type="text" id="planSafetyOfficer" placeholder="Optional"></label>
-                    </div>
-                </div>
-
-                <div class="plan-editor-section">
-                    <div class="plan-editor-section-title"><i class="fa-solid fa-calendar-days"></i><span>Project Timeline & Completion</span><small>Launch schedule, RFO target, and percentage of completion</small></div>
-                    <div class="plan-editor-grid plan-editor-grid-3">
-                        <label class="plan-editor-field"><span>Launch Date</span><input type="date" id="planLaunchDate"></label>
-                        <label class="plan-editor-field"><span>RFO Date</span><input type="date" id="planRfoDate"></label>
-                        <label class="plan-editor-field"><span>POC (%)</span><input type="number" id="planPocPercentage" min="0" max="100" step="0.1" inputmode="decimal" placeholder="e.g. 89"></label>
                     </div>
                 </div>
 
@@ -6315,7 +6272,7 @@ body > aside.sidebar-shell .sidebar-main{
                 banner.classList.add('border-blue-200', 'bg-blue-50', 'text-blue-800');
                 if (icon) icon.className = 'fa-solid fa-arrows-rotate fa-spin mt-0.5';
                 if (title) title.textContent = 'Loading live Firebase records';
-                if (message) message.textContent = detail || 'Reading Regular / Special Audit records directly from Firestore…';
+                if (message) message.textContent = detail || 'Reading Processed / Special Audit records directly from Firestore…';
             } else if (normalized === 'offline') {
                 banner.classList.add('border-amber-200', 'bg-amber-50', 'text-amber-800');
                 if (icon) icon.className = 'fa-solid fa-cloud-arrow-down mt-0.5';
@@ -6324,7 +6281,7 @@ body > aside.sidebar-shell .sidebar-main{
             } else {
                 banner.classList.add('border-red-200', 'bg-red-50', 'text-red-800');
                 if (icon) icon.className = 'fa-solid fa-triangle-exclamation mt-0.5';
-                if (title) title.textContent = 'Regular / Special Audit sync error';
+                if (title) title.textContent = 'Processed / Special Audit sync error';
                 if (message) message.textContent = detail || 'Live Firebase records could not be verified. The built-in baseline may be visible, but it is not being reported as a successful live sync.';
             }
         }
@@ -6376,19 +6333,19 @@ body > aside.sidebar-shell .sidebar-main{
                 const modules = window.firebaseModules || {};
                 const { collection, getDocsFromServer, getDocs } = modules;
                 if (!window.db || typeof collection !== 'function' || (typeof getDocsFromServer !== 'function' && typeof getDocs !== 'function')) {
-                    const error = new Error('Firebase server-read capability is unavailable for Regular / Special Audits.');
+                    const error = new Error('Firebase server-read capability is unavailable for Processed / Special Audits.');
                     setProcessedSpecialSyncBanner('error', error.message);
                     handleFirebaseReadError('processed_special_audits', error);
                     return false;
                 }
                 if (navigator.onLine === false) {
-                    const error = new Error('Browser is offline. Live Regular / Special Audit records cannot be verified.');
+                    const error = new Error('Browser is offline. Live Processed / Special Audit records cannot be verified.');
                     setProcessedSpecialSyncBanner('offline', error.message);
                     setFirebaseSyncState('offline', error.message);
                     return false;
                 }
 
-                setProcessedSpecialSyncBanner('syncing', 'Performing initial Firestore hydration before accepting Regular / Special Audit data as live.');
+                setProcessedSpecialSyncBanner('syncing', 'Performing initial Firestore hydration before accepting Processed / Special Audit data as live.');
                 setFirebaseSyncState('syncing', 'Hydrating processed_special_audits from Firestore.');
                 try {
                     const reader = typeof getDocsFromServer === 'function' ? getDocsFromServer : getDocs;
@@ -6653,7 +6610,7 @@ body > aside.sidebar-shell .sidebar-main{
                         } catch (renderError) {
                             console.error(`Realtime reconciliation failed for ${collectionName}:`, renderError);
                             if (collectionName === 'processed_special_audits' && typeof setProcessedSpecialSyncBanner === 'function') {
-                                setProcessedSpecialSyncBanner('error', `Live Firebase data arrived, but the Regular / Special Audit UI could not render it: ${renderError?.message || renderError}`);
+                                setProcessedSpecialSyncBanner('error', `Live Firebase data arrived, but the Processed / Special Audit UI could not render it: ${renderError?.message || renderError}`);
                             }
                             setFirebaseSyncState('error', `${collectionName} data arrived but the UI render failed: ${renderError?.message || renderError}`);
                             if (typeof addAuditActivity === 'function') {
@@ -7559,7 +7516,7 @@ function renderSpecialAuditProgressChart() {
     const canvas = document.getElementById('specialAuditProgressChart');
     if (!canvas || typeof Chart === 'undefined') return;
 
-    const milestoneFields = ['preWorksDate', 'openingMeetingDate', 'siteVisitDate', 'closingDate', 'qasDate'];
+    const milestoneFields = ['siteVisitDate', 'auditReportDate', 'closingDate', 'qasDate'];
     const rows = (specialAuditsData || []).map(item => {
         const completed = milestoneFields.filter(field => Boolean(item?.[field])).length;
         return {
@@ -7647,7 +7604,7 @@ function renderSpecialAudits() {
             <div class="special-audit-group-heading">
                 <span class="special-audit-group-icon"><i class="fa-solid fa-clipboard-check"></i></span>
                 <div class="special-audit-group-copy">
-                    <h3>Regular Audits</h3>
+                    <h3>Processed Audits</h3>
                     <p>Active and completed audit engagements</p>
                 </div>
                 <span class="special-audit-group-count">${processedAuditCount} ${processedAuditCount === 1 ? 'Audit' : 'Audits'}</span>
@@ -7732,11 +7689,31 @@ function renderSpecialAudits() {
 
 
             const milestones = [
-                { label: 'Pre-works', icon: 'fa-clipboard-list', date: item.preWorksDate },
-                { label: 'Opening Meeting', icon: 'fa-handshake', date: item.openingMeetingDate },
-                { label: 'Site Visit', icon: 'fa-location-dot', date: item.siteVisitDate },
-                { label: 'Closing Meeting', icon: 'fa-comments', date: item.closingDate },
-                { label: 'QAS', icon: 'fa-circle-check', date: item.qasDate }
+
+                {
+                    label: 'Site Visit',
+                    icon: 'fa-location-dot',
+                    date: item.siteVisitDate
+                },
+
+                {
+                    label: 'Audit Report',
+                    icon: 'fa-file-lines',
+                    date: item.auditReportDate
+                },
+
+                {
+                    label: 'Closing',
+                    icon: 'fa-comments',
+                    date: item.closingDate
+                },
+
+                {
+                    label: 'QAS',
+                    icon: 'fa-circle-check',
+                    date: item.qasDate
+                }
+
             ];
 
 
@@ -7800,7 +7777,6 @@ function renderSpecialAudits() {
                 : 'fa-clipboard-check';
 
             const normalizedType = String(item.type || '').toLowerCase();
-            const displayAuditType = normalizedType.includes('special') ? 'Special Audit' : 'Regular Audit';
             const auditTypeKey = normalizedType.includes('special') ? 'special' : 'processed';
             const currentMilestoneIndex = progress >= 100
                 ? -1
@@ -7826,7 +7802,7 @@ function renderSpecialAudits() {
                         </div>
                         <div class="special-audit-card-copy">
                             <div class="special-audit-card-title">${escapeDashboardHtml(item.title)}</div>
-                            <div class="special-audit-card-type">${escapeDashboardHtml(displayAuditType)}</div>
+                            <div class="special-audit-card-type">${escapeDashboardHtml(item.type)}</div>
                         </div>
                     </div>
 
@@ -7900,8 +7876,6 @@ let specialAuditsData = [
         color: 'blue',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7916,8 +7890,6 @@ let specialAuditsData = [
         color: 'indigo',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7932,8 +7904,6 @@ let specialAuditsData = [
         color: 'emerald',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7948,8 +7918,6 @@ let specialAuditsData = [
         color: 'slate',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7964,8 +7932,6 @@ let specialAuditsData = [
         color: 'cyan',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7980,8 +7946,6 @@ let specialAuditsData = [
         color: 'amber',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -7996,8 +7960,6 @@ let specialAuditsData = [
         color: 'orange',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -8012,8 +7974,6 @@ let specialAuditsData = [
         color: 'violet',
         auditor: '',
         status: 'Pending',
-        preWorksDate: '',
-        openingMeetingDate: '',
         siteVisitDate: '',
         auditReportDate: '',
         closingDate: '',
@@ -8094,10 +8054,16 @@ if (!window.requireAuditRole('editor', 'add or edit audit plans')) return;
             item.status || 'Pending';
 
 
-        document.getElementById('specialAuditPreWorks').value = item.preWorksDate || '';
-        document.getElementById('specialAuditOpeningMeeting').value = item.openingMeetingDate || '';
-        document.getElementById('specialAuditSiteVisit').value = item.siteVisitDate || '';
-        document.getElementById('specialAuditReport').value = item.auditReportDate || '';
+        document.getElementById(
+            'specialAuditSiteVisit'
+        ).value =
+            item.siteVisitDate || '';
+
+
+        document.getElementById(
+            'specialAuditReport'
+        ).value =
+            item.auditReportDate || '';
 
 
         document.getElementById(
@@ -8175,8 +8141,6 @@ if (!window.requireAuditRole('editor', 'save audit plans')) { event?.preventDefa
         color: existing?.color || (document.getElementById('specialAuditType').value === 'Special Audit' ? 'violet' : 'blue'),
         auditor: document.getElementById('specialAuditAuditor').value.trim(),
         status: document.getElementById('specialAuditStatus').value,
-        preWorksDate: document.getElementById('specialAuditPreWorks').value,
-        openingMeetingDate: document.getElementById('specialAuditOpeningMeeting').value,
         siteVisitDate: document.getElementById('specialAuditSiteVisit').value,
         auditReportDate: document.getElementById('specialAuditReport').value,
         closingDate: document.getElementById('specialAuditClosing').value,
@@ -8241,11 +8205,22 @@ function exportSpecialAuditsReport() {
             (item, index) => {
 
                 const completedMilestones =
-                    [item.preWorksDate, item.openingMeetingDate, item.siteVisitDate, item.closingDate, item.qasDate]
+                    [
+                        item.siteVisitDate,
+                        item.auditReportDate,
+                        item.closingDate,
+                        item.qasDate
+                    ]
                     .filter(Boolean)
                     .length;
 
-                const progress = Math.round(completedMilestones / 5 * 100);
+
+                const progress =
+                    Math.round(
+                        completedMilestones /
+                        4 *
+                        100
+                    );
 
 
                 return {
@@ -8257,7 +8232,7 @@ function exportSpecialAuditsReport() {
                         item.title,
 
                     'Audit Type':
-                        (String(item?.type || '').toLowerCase().includes('special') ? 'Special Audit' : 'Regular Audit'),
+                        item.type,
 
                     'Auditor-in-Charge':
                         item.auditor || '',
@@ -8265,12 +8240,17 @@ function exportSpecialAuditsReport() {
                     'Status':
                         item.status || 'Pending',
 
-                    'Pre-works Date': item.preWorksDate || '',
-                    'Opening Meeting Date': item.openingMeetingDate || '',
-                    'Site Visit Date': item.siteVisitDate || '',
-                    'Closing Meeting Date': item.closingDate || '',
-                    'QAS Date': item.qasDate || '',
-                    'Legacy Audit Report Date': item.auditReportDate || '',
+                    'Site Visit Date':
+                        item.siteVisitDate || '',
+
+                    'Audit Report Date':
+                        item.auditReportDate || '',
+
+                    'Closing Date':
+                        item.closingDate || '',
+
+                    'QAS Date':
+                        item.qasDate || '',
 
                     'Progress (%)':
                         progress
@@ -8314,7 +8294,7 @@ function exportSpecialAuditsReport() {
 
     XLSX.writeFile(
         wb,
-        'Regular_Special_Audits_2026.xlsx'
+        'Processed_Special_Audits_2026.xlsx'
     );
 
 }
@@ -8345,7 +8325,7 @@ specialAudits: 'btnViewSpecialAudits',
                 matrix: 'Active View: QAS Detailed Audit',
                 auditPlan: 'Active View: Site Warehousing Plan',
                 invAuditPlan: 'Active View: Inventory Mgmt Plan 2026',
-specialAudits: 'Active View: Regular / Special Audits',
+specialAudits: 'Active View: Processed / Special Audits',
                 topSheet: 'Active View: Top 10 Projects Rating',
                 topInvProjects: 'Active View: Top 10 Inventory Projects'
             };
@@ -8385,7 +8365,7 @@ if (viewName === 'specialAudits') {
                 if (window.__processedSpecialAuthoritativeReady === true || window.__firebaseProcessedHydrationComplete === true) {
                     renderSpecialAudits();
                 } else if (typeof window.setProcessedSpecialSyncBanner === 'function') {
-                    window.setProcessedSpecialSyncBanner('syncing', 'Loading Regular / Special Audit records from Firebase…');
+                    window.setProcessedSpecialSyncBanner('syncing', 'Loading Processed / Special Audit records from Firebase…');
                 }
                 if (typeof window.refreshProcessedSpecialAuthoritativeView === 'function') {
                     window.refreshProcessedSpecialAuthoritativeView().catch(error => {
@@ -9750,28 +9730,20 @@ async function handleExcelUpload(e) {
         const SHARED_PROJECT_MASTER_FIELDS = Object.freeze([
             'projectPhotoDataUrl',
             'projectPhotoUpdatedAt',
-            'entityType',
             'projectCode',
             'location',
             'cm',
             'am',
-            'projectOperationsHead',
             'projectStockClerk',
             'areaStockClerk',
             'projectEngineer',
             'costEngineer',
             'qaQcEngineer',
-            'equipmentEngineer',
-            'rebarEngineer',
-            'formworksEngineer',
             'mepfEngineer',
             'finishingEngineer',
             'masonryEngineer',
             'safetyOfficer',
-            'remarks',
-            'launchDate',
-            'rfoDate',
-            'pocPercentage'
+            'remarks'
         ]);
         const sharedProjectMasterByKey = new Map();
         let sharedProjectMasterHydrated = false;
@@ -9837,7 +9809,6 @@ async function handleExcelUpload(e) {
                 id: projectNameRegistryId(projectName),
                 projectName: String(candidates[0]?.projectName || projectName || '').trim(),
                 projectNameKey: key,
-                entityType: String(candidates[0]?.entityType || '').trim(),
                 revision: 0,
                 __legacyFallback: true
             };
@@ -9875,18 +9846,13 @@ async function handleExcelUpload(e) {
 
         function resolvePlanRecordWithSharedMaster(record) {
             if (!record) return record;
-            const master = getSharedProjectMasterRecordByName(record.projectName);
-            // Landbank details remain exclusive to Site Warehousing and are never overlaid
-            // onto Inventory records, even if a legacy project name happens to match.
-            if (isInventoryLandbankRecord(record) || String(master?.entityType || '').trim().toLowerCase() === 'landbank') return record;
-            return overlaySharedProjectMasterFields(record, master);
+            return overlaySharedProjectMasterFields(record, getSharedProjectMasterRecordByName(record.projectName));
         }
 
         function applySharedProjectMasterToPlanArrays() {
             const apply = record => {
                 const master = sharedProjectMasterByKey.get(normalizeProjectNameUniquenessKey(record?.projectName));
-                if (!master || isInventoryLandbankRecord(record) || String(master?.entityType || '').trim().toLowerCase() === 'landbank') return record;
-                return overlaySharedProjectMasterFields(record, master);
+                return master ? overlaySharedProjectMasterFields(record, master) : record;
             };
             if (Array.isArray(auditPlanData)) auditPlanData = auditPlanData.map(apply);
             if (Array.isArray(invAuditPlanData)) invAuditPlanData = invAuditPlanData.map(apply);
@@ -9964,10 +9930,7 @@ async function handleExcelUpload(e) {
             const config = getPlanModeConfig(mode);
             const currentScore = getPlanOverallSummary(item).score;
             if (!Number.isFinite(Number(currentScore))) return { rank: null, label: 'Rank pending' };
-            const rankRecords = config.mode === 'inventory'
-                ? (Array.isArray(config.data) ? config.data.filter(record => !isInventoryLandbankRecord(record)) : [])
-                : (Array.isArray(config.data) ? config.data : []);
-            const distinctScores = [...new Set(rankRecords
+            const distinctScores = [...new Set((Array.isArray(config.data) ? config.data : [])
                 .map(record => getPlanOverallSummary(record).score)
                 .filter(score => Number.isFinite(Number(score)))
                 .map(Number))]
@@ -10238,19 +10201,9 @@ async function handleExcelUpload(e) {
             renderPlanMasterUiOnly(normalizedMode);
         }
 
-        function isInventoryLandbankRecord(item) {
-            if (String(item?.entityType || '').trim().toLowerCase() === 'landbank') return true;
-            const projectKey = normalizeProjectNameUniquenessKey(item?.projectName || item?.project || '');
-            if (!projectKey) return false;
-            const sharedMaster = sharedProjectMasterByKey?.get(projectKey);
-            if (String(sharedMaster?.entityType || '').trim().toLowerCase() === 'landbank') return true;
-            return landbanks.some(name => normalizeProjectNameUniquenessKey(name) === projectKey);
-        }
-
         function getFilteredPlanMasterRecords(mode) {
             const config = getPlanModeConfig(mode);
             let filtered = [...filterDataByEntity(config.data)];
-            if (config.mode === 'inventory') filtered = filtered.filter(item => !isInventoryLandbankRecord(item));
             const search = String(document.getElementById(config.searchId)?.value || '').trim().toLowerCase();
             const statusFilter = document.getElementById(config.statusFilterId)?.value || 'ALL';
             const entityFilter = document.getElementById(config.entityFilterId)?.value || 'ALL';
@@ -10363,7 +10316,7 @@ async function handleExcelUpload(e) {
                 'Area Manager': 'fa-user-group',
                 'Project Operations Head': 'fa-user',
                 'Project Stock Clerk': 'fa-clipboard-list',
-                'Inventory and Asset Associate': 'fa-boxes-stacked',
+                'Area Stock Clerk': 'fa-cube',
                 'Cost Engineer': 'fa-calculator',
                 'QA/QC Engineer': 'fa-clipboard-check',
                 'Equipment Engineer': 'fa-screwdriver-wrench',
@@ -10374,9 +10327,6 @@ async function handleExcelUpload(e) {
                 'Masonry Engineer': 'fa-trowel-bricks',
                 'Safety Officer': 'fa-shield-halved',
                 'Remarks': 'fa-message',
-                'Launch Date': 'fa-rocket',
-                'RFO Date': 'fa-flag-checkered',
-                'POC (%)': 'fa-percent',
                 'Last Audited By': 'fa-user-check',
                 'Last Site Visit': 'fa-calendar-check',
                 'Latest Quarter / Status': 'fa-rotate',
@@ -10485,9 +10435,9 @@ async function handleExcelUpload(e) {
             const optionalPersonnel = [
                 ['Cost Engineer', displayItem.costEngineer || displayItem.projectEngineer],
                 ['QA/QC Engineer', displayItem.qaQcEngineer],
-                ['Equipment Engineer', displayItem.equipmentEngineer],
-                ['Rebar Engineer', displayItem.rebarEngineer],
-                ['Formworks Engineer', displayItem.formworksEngineer],
+                ['Equipment Engineer', item.equipmentEngineer],
+                ['Rebar Engineer', item.rebarEngineer],
+                ['Formworks Engineer', item.formworksEngineer],
                 ['MEPF Engineer', displayItem.mepfEngineer],
                 ['Finishing Engineer', displayItem.finishingEngineer],
                 ['Masonry Engineer', displayItem.masonryEngineer],
@@ -10521,9 +10471,9 @@ async function handleExcelUpload(e) {
                             ${planDetailField('Location', getPlanProjectLocationText(displayItem))}
                             ${planDetailField('Construction Manager', displayItem.cm)}
                             ${planDetailField('Area Manager', displayItem.am)}
-                            ${planDetailField('Project Operations Head', displayItem.projectOperationsHead)}
+                            ${planDetailField('Project Operations Head', item.projectOperationsHead)}
                             ${planDetailField('Project Stock Clerk', displayItem.projectStockClerk)}
-                            ${planDetailField('Inventory and Asset Associate', displayItem.areaStockClerk)}
+                            ${planDetailField('Area Stock Clerk', displayItem.areaStockClerk)}
                             ${planDetailField('Remarks', displayItem.remarks)}
                             ${optionalPersonnel}
                         </div>
@@ -10561,18 +10511,14 @@ async function handleExcelUpload(e) {
                                     <span class="plan-detail-badge score"><i class="fa-solid fa-chart-line"></i>${overall.score === null ? '--' : `${overall.score}%`} overall</span>
                                     <span class="plan-detail-badge master${overallRank.rank >= 1 && overallRank.rank <= 3 ? ` rank-${overallRank.rank}` : ''}"><i class="fa-solid fa-trophy"></i>${escapeDashboardHtml(overallRank.label)}</span>
                                 </div>
-                                <div class="plan-audit-mini-timeline plan-project-launch-timeline" aria-label="Project launch, RFO, and percentage of completion">
+                                <div class="plan-audit-mini-timeline" aria-label="Latest audit activity">
                                     <div class="plan-audit-mini-item">
-                                        <span class="plan-audit-mini-node" aria-hidden="true"><i class="fa-solid fa-rocket"></i></span>
-                                        <div class="plan-audit-mini-copy"><span class="plan-audit-mini-label">Launch Date</span><strong class="plan-audit-mini-value">${escapeDashboardHtml(formatPlanDate(displayItem.launchDate))}</strong></div>
+                                        <span class="plan-audit-mini-node" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+                                        <div class="plan-audit-mini-copy"><span class="plan-audit-mini-label">Last Site Visit</span><strong class="plan-audit-mini-value">${escapeDashboardHtml(latestAudit.siteVisitDate ? formatPlanDate(latestAudit.siteVisitDate) : 'Not recorded')}${latestAudit.siteVisitCycleNumber ? `<span class="plan-audit-mini-sep" aria-hidden="true">•</span>Quarter ${latestAudit.siteVisitCycleNumber}` : ''}</strong></div>
                                     </div>
                                     <div class="plan-audit-mini-item">
-                                        <span class="plan-audit-mini-node" aria-hidden="true"><i class="fa-solid fa-flag-checkered"></i></span>
-                                        <div class="plan-audit-mini-copy"><span class="plan-audit-mini-label">RFO Date</span><strong class="plan-audit-mini-value">${escapeDashboardHtml(formatPlanDate(displayItem.rfoDate))}</strong></div>
-                                    </div>
-                                    <div class="plan-audit-mini-item">
-                                        <span class="plan-audit-mini-node" aria-hidden="true"><i class="fa-solid fa-percent"></i></span>
-                                        <div class="plan-audit-mini-copy"><span class="plan-audit-mini-label">POC (%)</span><strong class="plan-audit-mini-value">${escapeDashboardHtml(formatPlanPocPercentage(displayItem.pocPercentage))}</strong></div>
+                                        <span class="plan-audit-mini-node" aria-hidden="true"><i class="fa-solid fa-user-check"></i></span>
+                                        <div class="plan-audit-mini-copy"><span class="plan-audit-mini-label">Audited By</span><strong class="plan-audit-mini-value">${escapeDashboardHtml(latestAudit.auditor || 'Unassigned')}</strong></div>
                                     </div>
                                 </div>
                                 <p class="plan-detail-hero-tagline">Building better communities<br>for a brighter tomorrow.</p>
@@ -10706,11 +10652,6 @@ async function handleExcelUpload(e) {
             beginWp4EditSession(config.collectionName, item);
             document.getElementById('planProjectDetailsForm')?.reset();
             document.getElementById('planProjectDetailsMode').value = config.mode;
-            const inventoryLandbankOption = document.querySelector('#planProjectEntityType option[value="Landbank"]');
-            if (inventoryLandbankOption) {
-                inventoryLandbankOption.hidden = config.mode === 'inventory';
-                inventoryLandbankOption.disabled = config.mode === 'inventory';
-            }
             document.getElementById('planProjectDetailsRecordId').value = item?.id || '';
             const projectEditorTitle = document.getElementById('planProjectDetailsModalTitle');
             projectEditorTitle.textContent = item ? `Edit Project Details · ${item.projectName || config.label}` : `Add ${config.label} Project`;
@@ -10722,21 +10663,18 @@ async function handleExcelUpload(e) {
             document.getElementById('planProjectLocation').value = getPlanProjectLocationText(displayItem);
             document.getElementById('planProjectCM').value = displayItem?.cm || '';
             document.getElementById('planProjectAM').value = displayItem?.am || '';
-            document.getElementById('planProjectOperationsHead').value = displayItem?.projectOperationsHead || '';
+            document.getElementById('planProjectOperationsHead').value = item?.projectOperationsHead || '';
             document.getElementById('planProjectStockClerk').value = displayItem?.projectStockClerk || '';
             document.getElementById('planAreaStockClerk').value = displayItem?.areaStockClerk || '';
             document.getElementById('planCostEngineer').value = displayItem?.costEngineer || displayItem?.projectEngineer || '';
             document.getElementById('planQaQcEngineer').value = displayItem?.qaQcEngineer || '';
-            document.getElementById('planEquipmentEngineer').value = displayItem?.equipmentEngineer || '';
-            document.getElementById('planRebarEngineer').value = displayItem?.rebarEngineer || '';
-            document.getElementById('planFormworksEngineer').value = displayItem?.formworksEngineer || '';
+            document.getElementById('planEquipmentEngineer').value = item?.equipmentEngineer || '';
+            document.getElementById('planRebarEngineer').value = item?.rebarEngineer || '';
+            document.getElementById('planFormworksEngineer').value = item?.formworksEngineer || '';
             document.getElementById('planMepfEngineer').value = displayItem?.mepfEngineer || '';
             document.getElementById('planFinishingEngineer').value = displayItem?.finishingEngineer || '';
             document.getElementById('planMasonryEngineer').value = displayItem?.masonryEngineer || '';
             document.getElementById('planSafetyOfficer').value = displayItem?.safetyOfficer || '';
-            document.getElementById('planLaunchDate').value = displayItem?.launchDate || '';
-            document.getElementById('planRfoDate').value = displayItem?.rfoDate || '';
-            document.getElementById('planPocPercentage').value = displayItem?.pocPercentage ?? '';
             document.getElementById('planProjectRemarks').value = displayItem?.remarks || '';
             const sharedPhotoState = masterRecord ? { dataUrl: String(masterRecord.projectPhotoDataUrl || '') } : { dataUrl: '' };
             pendingPlanProjectPhotoDataUrl = String(sharedPhotoState.dataUrl || '');
@@ -10762,54 +10700,32 @@ async function handleExcelUpload(e) {
         }
 
         function syncPlanProjectMasterFieldsFromName() {
-            const projectName = document.getElementById('planProjectName')?.value || '';
-            const activeMode = document.getElementById('planProjectDetailsMode')?.value || 'site';
-            const master = getSharedProjectMasterRecordByName(projectName);
-            const masterIsLandbank = String(master?.entityType || '').trim().toLowerCase() === 'landbank';
-
-            // Landbank project information is deliberately excluded from Inventory sharing.
-            // Do not prefill its personnel, dates, remarks, or photo into an Inventory form.
-            if (activeMode === 'inventory' && (masterIsLandbank || isInventoryLandbankRecord({ projectName }))) {
-                if (!pendingPlanProjectPhotoDirty) pendingPlanProjectPhotoDataUrl = '';
-                renderPendingPlanProjectPhoto();
-                return;
-            }
-
             syncPlanProjectPhotoControls();
-            if (!pendingPlanProjectPhotoNameLookup || !master) return;
-
+            if (!pendingPlanProjectPhotoNameLookup) return;
+            const projectName = document.getElementById('planProjectName')?.value || '';
+            const master = getSharedProjectMasterRecordByName(projectName);
+            if (!master) return;
             const authoritative = getSharedProjectMasterRecordByName(projectName, { allowLegacy: false });
             pendingPlanProjectMasterKey = normalizeProjectNameUniquenessKey(projectName);
             pendingPlanProjectMasterRevision = Number(authoritative?.revision || 0);
             const fieldMap = {
-                planProjectEntityType: 'entityType',
                 planProjectCode: 'projectCode',
                 planProjectLocation: 'location',
                 planProjectCM: 'cm',
                 planProjectAM: 'am',
-                planProjectOperationsHead: 'projectOperationsHead',
                 planProjectStockClerk: 'projectStockClerk',
                 planAreaStockClerk: 'areaStockClerk',
                 planCostEngineer: 'costEngineer',
                 planQaQcEngineer: 'qaQcEngineer',
-                planEquipmentEngineer: 'equipmentEngineer',
-                planRebarEngineer: 'rebarEngineer',
-                planFormworksEngineer: 'formworksEngineer',
                 planMepfEngineer: 'mepfEngineer',
                 planFinishingEngineer: 'finishingEngineer',
                 planMasonryEngineer: 'masonryEngineer',
                 planSafetyOfficer: 'safetyOfficer',
-                planProjectRemarks: 'remarks',
-                planLaunchDate: 'launchDate',
-                planRfoDate: 'rfoDate',
-                planPocPercentage: 'pocPercentage'
+                planProjectRemarks: 'remarks'
             };
             Object.entries(fieldMap).forEach(([id, field]) => {
                 const element = document.getElementById(id);
-                if (!element) return;
-                const value = String(master?.[field] || '');
-                if (id === 'planProjectEntityType' && activeMode === 'inventory' && value.toLowerCase() === 'landbank') return;
-                element.value = value;
+                if (element) element.value = String(master?.[field] || '');
             });
             const costEngineerInput = document.getElementById('planCostEngineer');
             if (costEngineerInput && !costEngineerInput.value) costEngineerInput.value = String(master?.projectEngineer || '');
@@ -10819,19 +10735,8 @@ async function handleExcelUpload(e) {
 
         function syncPlanProjectPhotoControls() {
             const projectName = document.getElementById('planProjectName')?.value || '';
-            const activeMode = document.getElementById('planProjectDetailsMode')?.value || 'site';
-            const sharedMaster = getSharedProjectMasterRecordByName(projectName);
-            const isExcludedInventoryLandbank = activeMode === 'inventory' && (
-                String(sharedMaster?.entityType || '').trim().toLowerCase() === 'landbank' ||
-                isInventoryLandbankRecord({ projectName })
-            );
             document.getElementById('planProjectPhotoControls')?.classList.remove('hidden');
             document.getElementById('planProjectPhotoPlaceholderNote')?.classList.add('hidden');
-            if (isExcludedInventoryLandbank) {
-                if (!pendingPlanProjectPhotoDirty) pendingPlanProjectPhotoDataUrl = '';
-                renderPendingPlanProjectPhoto();
-                return;
-            }
             if (!pendingPlanProjectPhotoDirty && pendingPlanProjectPhotoNameLookup) {
                 const shared = getSharedPlanProjectPhotoStateByName(projectName);
                 pendingPlanProjectPhotoDataUrl = String(shared.dataUrl || '');
@@ -11284,20 +11189,8 @@ async function handleExcelUpload(e) {
             const id = existing ? stableEditId : `${config.idPrefix}${Date.now()}`;
             const entityType = document.getElementById('planProjectEntityType').value;
             const projectName = document.getElementById('planProjectName').value.trim();
-            const pocPercentageInput = document.getElementById('planPocPercentage');
-            const pocPercentageRaw = String(pocPercentageInput?.value ?? '').trim();
-            const pocPercentage = pocPercentageRaw === '' ? null : Number(pocPercentageRaw);
-            if (pocPercentage !== null && (!Number.isFinite(pocPercentage) || pocPercentage < 0 || pocPercentage > 100)) {
-                alert('POC must be a percentage from 0% to 100%.');
-                pocPercentageInput?.focus();
-                return;
-            }
             if (!projectName) {
                 alert('Project Name is required.');
-                return;
-            }
-            if (config.mode === 'inventory' && isInventoryLandbankRecord({ projectName, entityType })) {
-                alert('Landbank projects are not included in Inventory Management. Save or maintain this project under Site Warehousing instead.');
                 return;
             }
 
@@ -11315,30 +11208,21 @@ async function handleExcelUpload(e) {
             const masterRecord = {
                 projectName,
                 projectNameKey: targetKey,
-                entityType,
                 projectPhotoDataUrl,
                 projectPhotoUpdatedAt,
                 projectCode: document.getElementById('planProjectCode').value.trim(),
                 location: document.getElementById('planProjectLocation').value.trim(),
                 cm: document.getElementById('planProjectCM').value.trim(),
                 am: document.getElementById('planProjectAM').value.trim(),
-                projectOperationsHead: document.getElementById('planProjectOperationsHead').value.trim(),
                 projectStockClerk: document.getElementById('planProjectStockClerk').value.trim(),
                 areaStockClerk: document.getElementById('planAreaStockClerk').value.trim(),
-                projectEngineer: document.getElementById('planCostEngineer').value.trim(),
                 costEngineer: document.getElementById('planCostEngineer').value.trim(),
                 qaQcEngineer: document.getElementById('planQaQcEngineer').value.trim(),
-                equipmentEngineer: document.getElementById('planEquipmentEngineer').value.trim(),
-                rebarEngineer: document.getElementById('planRebarEngineer').value.trim(),
-                formworksEngineer: document.getElementById('planFormworksEngineer').value.trim(),
                 mepfEngineer: document.getElementById('planMepfEngineer').value.trim(),
                 finishingEngineer: document.getElementById('planFinishingEngineer').value.trim(),
                 masonryEngineer: document.getElementById('planMasonryEngineer').value.trim(),
                 safetyOfficer: document.getElementById('planSafetyOfficer').value.trim(),
-                remarks: document.getElementById('planProjectRemarks').value.trim(),
-                launchDate: document.getElementById('planLaunchDate').value,
-                rfoDate: document.getElementById('planRfoDate').value,
-                pocPercentage
+                remarks: document.getElementById('planProjectRemarks').value.trim()
             };
 
             const record = {
@@ -11674,14 +11558,6 @@ function formatPlanDate(dateValue) {
         day: '2-digit',
         year: 'numeric'
     });
-}
-
-function formatPlanPocPercentage(value) {
-    const raw = String(value ?? '').trim().replace(/%$/, '');
-    if (!raw) return 'Not set';
-    const percentage = Number(raw);
-    if (!Number.isFinite(percentage) || percentage < 0 || percentage > 100) return 'Not set';
-    return `${Number.isInteger(percentage) ? percentage : Number(percentage.toFixed(1))}%`;
 }
 
 
@@ -12550,7 +12426,7 @@ function renderInvAuditPlanTable() {
         function renderInvAuditPlanCharts() {
 
     const data =
-        filterDataByEntity(invAuditPlanData.filter(item => !isInventoryLandbankRecord(item)));
+        filterDataByEntity(invAuditPlanData);
 
     const cycles =
         ['c1', 'c2', 'c3', 'c4'];
@@ -13084,7 +12960,7 @@ function renderInvAuditPlanTable() {
 
         function exportInvAuditPlanToExcel() {
 
-    const exportData = invAuditPlanData.filter(item => !isInventoryLandbankRecord(item)).map((item, index) => {
+    const exportData = invAuditPlanData.map((item, index) => {
 
         const getCycleDuration = (cycle) => {
             if (!cycle?.siteVisitDate || !cycle?.qasDate) return '';
@@ -13850,7 +13726,7 @@ items
 
     const filtered =
         filterDataByEntity(
-            invAuditPlanData.filter(item => !isInventoryLandbankRecord(item))
+            invAuditPlanData
         );
 
 
@@ -14093,13 +13969,15 @@ function renderDashboardAuditCompletionOrbits(){
 
     const rows = Array.isArray(specialAuditsData) ? specialAuditsData : [];
     const progressMilestones = [
-        { key: 'preWorksDate', label: 'Pre-works', short: 'PW', title: 'Pre-works' },
-        { key: 'openingMeetingDate', label: 'Opening Meeting', short: 'OM', title: 'Opening Meeting' },
-        { key: 'siteVisitDate', label: 'Site Visit', short: 'SV', title: 'Site Visit' },
-        { key: 'closingDate', label: 'Closing Meeting', short: 'CM', title: 'Closing Meeting' },
-        { key: 'qasDate', label: 'QAS', short: 'QAS', title: 'QAS' }
+        { key: 'siteVisitDate', label: 'Visit' },
+        { key: 'auditReportDate', label: 'Report' },
+        { key: 'closingDate', label: 'Closing' },
+        { key: 'qasDate', label: 'QAS' }
     ];
-    const displayMilestones = progressMilestones;
+    const displayMilestones = [
+        { key: 'siteVisitDate', short: 'SV', title: 'Site Visit' },
+        { key: 'auditReportDate', short: 'AR', title: 'Audit Report' }
+    ];
 
     const compactTitle = (title) => String(title || 'Untitled Engagement')
         .replace('Construction Equipment Management', 'Construction Equipment')
@@ -14215,7 +14093,7 @@ function countDistinctPlanProjects(records) {
 }
 
 function getDefaultAnnualPlanTarget(planType) {
-    const records = planType === 'inventory' ? invAuditPlanData.filter(item => !isInventoryLandbankRecord(item)) : auditPlanData;
+    const records = planType === 'inventory' ? invAuditPlanData : auditPlanData;
     const projectCount = Math.max(1, countDistinctPlanProjects(records));
     return projectCount * 4;
 }
@@ -14229,7 +14107,7 @@ function normalizeAnnualPlanSetting(data, planType) {
 
     const legacy = Number(data?.[legacyKey] || 0);
     if (Number.isFinite(legacy) && legacy > 0) {
-        const records = planType === 'inventory' ? invAuditPlanData.filter(item => !isInventoryLandbankRecord(item)) : auditPlanData;
+        const records = planType === 'inventory' ? invAuditPlanData : auditPlanData;
         return Math.max(1, countDistinctPlanProjects(records)) * Math.floor(legacy);
     }
     return getDefaultAnnualPlanTarget(planType);
@@ -14673,9 +14551,8 @@ function renderCombinedAuditProgress() {
     const globalSelection = document.getElementById('globalProjectFilter')?.value || 'ALL';
     const activeYear = getActiveAuditProgressYear();
     applyAuditProgressSettingsForYear(activeYear);
-    const inventoryScopeRecords = invAuditPlanData.filter(item => !isInventoryLandbankRecord(item));
     const warehouse = summarizeAuditPlanProgress(auditPlanData, entityType, cycleSelection, globalSelection, 'warehouse', activeYear);
-    const inventory = summarizeAuditPlanProgress(inventoryScopeRecords, entityType, cycleSelection, globalSelection, 'inventory', activeYear);
+    const inventory = summarizeAuditPlanProgress(invAuditPlanData, entityType, cycleSelection, globalSelection, 'inventory', activeYear);
     const combined = {
         done: warehouse.done + inventory.done,
         active: warehouse.active + inventory.active,
@@ -14710,7 +14587,7 @@ function renderCombinedAuditProgress() {
     updateCombinedPlanProgress('inventory', inventory);
 
     const warehouseTrendSeries = buildAuditTrendSeries(auditPlanData, entityType, globalSelection, 'warehouse', activeYear);
-    const inventoryTrendSeries = buildAuditTrendSeries(inventoryScopeRecords, entityType, globalSelection, 'inventory', activeYear);
+    const inventoryTrendSeries = buildAuditTrendSeries(invAuditPlanData, entityType, globalSelection, 'inventory', activeYear);
     renderSeparateAuditBreakdown(warehouseTrendSeries, inventoryTrendSeries, trendScopeLabel);
 
     renderDashboardAuditCompletionOrbits();
@@ -18133,7 +18010,7 @@ function inferAuditActivityModule(action = '', title = '') {
     const value = `${action} ${title}`.toLowerCase();
     if (value.includes('inventory')) return 'Inventory Management';
     if (value.includes('warehouse') || value.includes('warehousing')) return 'Site Warehousing';
-    if (value.includes('special') || value.includes('processed')) return 'Regular / Special Audit';
+    if (value.includes('special') || value.includes('processed')) return 'Processed / Special Audit';
     if (value.includes('qas') || value.includes('finding')) return 'QAS';
     if (value.includes('progress') || value.includes('annual plan')) return 'Audit Progress';
     if (value.includes('export')) return 'Export';
@@ -18992,7 +18869,7 @@ function renderQASRiskOversight(filtered) {
         window.ensureQASBaselinePersisted = ensureQASBaselinePersisted;
 
         /* ==================== V53 FIREBASE PERSISTENCE ASSURANCE ====================
-           QAS is already Firebase-only. Regular / Special Audit has eight built-in
+           QAS is already Firebase-only. Processed / Special Audit has eight built-in
            master engagements used to define the audit program. In earlier builds,
            untouched master engagements could remain browser-local until edited.
            V53 performs an idempotent, create-if-missing Firestore transaction after
@@ -19605,7 +19482,7 @@ function renderQASRiskOversight(filtered) {
 
 <script>
 /* =========================================================
-   V27 — Re-render Regular / Special Audit Completion
+   V27 — Re-render Processed / Special Audit Completion
    using cleaner Combined Audit Progress-like cards
 ========================================================= */
 (function(){
@@ -19617,10 +19494,9 @@ function renderQASRiskOversight(filtered) {
 
         const rows = (typeof specialAuditsData !== 'undefined' && Array.isArray(specialAuditsData)) ? specialAuditsData : [];
         const progressMilestones = [
-            { key: 'preWorksDate', label: 'Pre-works', short: 'PW', title: 'Pre-works' },
-            { key: 'openingMeetingDate', label: 'Opening Meeting', short: 'OM', title: 'Opening Meeting' },
-            { key: 'siteVisitDate', label: 'Site Visit', short: 'SV', title: 'Site Visit' },
-            { key: 'closingDate', label: 'Closing Meeting', short: 'CM', title: 'Closing Meeting' },
+            { key: 'siteVisitDate', label: 'Visit', short: 'SV', title: 'Site Visit' },
+            { key: 'auditReportDate', label: 'Report', short: 'AR', title: 'Audit Report' },
+            { key: 'closingDate', label: 'Closing', short: 'CL', title: 'Closing Meeting' },
             { key: 'qasDate', label: 'QAS', short: 'QAS', title: 'QAS' }
         ];
 
@@ -19914,24 +19790,24 @@ function renderQASRiskOversight(filtered) {
     function normalizeAuditType(item){
         const raw=String(item?.type||item?.auditType||item?.engagementType||item?.category||'').trim().toLowerCase();
         const title=String(item?.title||'').toLowerCase();
-        return raw.includes('special')||title.includes('special audit')?'Special Audit':'Regular Audit';
+        return raw.includes('special')||title.includes('special audit')?'Special Audit':'Processed Audit';
     }
 
     function appendProcessedSpecialSheet(wb, records){
-        const headers=['Audit Engagement','Audit Type','Pre-works','Opening Meeting','Site Visit','Closing Meeting','QAS','Legacy Audit Report','Completed Milestones','Completion %','Firebase Synced At'];
-        const aoa=[[REPORT_TITLE],['Regular / Special Audit - five-stage milestone completion'],[`Generated: ${new Date().toLocaleString()}`],[],headers];
+        const headers=['Audit Engagement','Audit Type','Site Visit','Audit Report','Closing','QAS','Completed Milestones','Completion %','Firebase Synced At'];
+        const aoa=[[REPORT_TITLE],['Processed / Special Audit - formula-driven milestone completion'],[`Generated: ${new Date().toLocaleString()}`],[],headers];
         const rows=Array.isArray(records)?records:[];
-        rows.forEach(item=>aoa.push([item?.title||'',normalizeAuditType(item),item?.preWorksDate||'',item?.openingMeetingDate||'',item?.siteVisitDate||'',item?.closingDate||'',item?.qasDate||'',item?.auditReportDate||'','','',item?.firebaseSyncedAt||'']));
+        rows.forEach(item=>aoa.push([item?.title||'',normalizeAuditType(item),item?.siteVisitDate||'',item?.auditReportDate||'',item?.closingDate||'',item?.qasDate||'','','',item?.firebaseSyncedAt||'']));
         if(!rows.length) aoa.push(['No data']);
         const ws=XLSX.utils.aoa_to_sheet(aoa);
         for(let r=6;r<=5+rows.length;r++){
-            ws[`I${r}`]={t:'n',f:`COUNTA(C${r}:G${r})`,z:'0'};
-            ws[`J${r}`]={t:'n',f:`IFERROR(I${r}/5,0)`,z:'0%'};
+            ws[`G${r}`]={t:'n',f:`COUNTA(C${r}:F${r})`,z:'0'};
+            ws[`H${r}`]={t:'n',f:`IFERROR(G${r}/4,0)`,z:'0%'};
         }
-        ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:10}},{s:{r:1,c:0},e:{r:1,c:10}},{s:{r:2,c:0},e:{r:2,c:10}}];
-        ws['!autofilter']={ref:`A5:K${5+Math.max(1,rows.length)}`};
-        ws['!cols']=[30,18,15,18,15,18,13,20,19,14,22].map(wch=>({wch}));
-        XLSX.utils.book_append_sheet(wb,ws,safeSheetName('Regular Special',wb));
+        ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:8}},{s:{r:1,c:0},e:{r:1,c:8}},{s:{r:2,c:0},e:{r:2,c:8}}];
+        ws['!autofilter']={ref:`A5:I${5+Math.max(1,rows.length)}`};
+        ws['!cols']=[30,18,15,15,15,15,19,14,22].map(wch=>({wch}));
+        XLSX.utils.book_append_sheet(wb,ws,safeSheetName('Processed Special',wb));
         return ws;
     }
 
@@ -19984,7 +19860,7 @@ function renderQASRiskOversight(filtered) {
 
     function appendTop10Sheets(wb,mode){
         const configs=mode==='inventory'?
-            [['Top10 Inv Projects','topInvProjectsTableBody'],['Top10 Inv Support','topInvSupportTableBody']]:
+            [['Top10 Inv Projects','topInvProjectsTableBody'],['Top10 Inv Support','topInvSupportTableBody'],['Top10 Inv Landbank','topInvLandbankTableBody']]:
             [['Top10 Projects','topSitesTableBody'],['Top10 Support','topSupportTableBody'],['Top10 Landbank','topLandbankTableBody']];
         configs.forEach(([name,id])=>appendTitledJsonSheet(wb,extractTableRows(document.getElementById(id)?.closest('table')),name,'Management-level Top 10 ranking'));
     }
@@ -19995,7 +19871,7 @@ function renderQASRiskOversight(filtered) {
         const qasLastRow = 5 + qasCount;
         const processedLastRow = 5 + processedCount;
         const qasRange = column => qasCount ? `'QAS Findings'!${column}6:${column}${qasLastRow}` : '';
-        const processedRange = column => processedCount ? `'Regular Special'!${column}6:${column}${processedLastRow}` : '';
+        const processedRange = column => processedCount ? `'Processed Special'!${column}6:${column}${processedLastRow}` : '';
         const ws=XLSX.utils.aoa_to_sheet([
             [REPORT_TITLE],
             ['Executive Summary - formulas recalculate from exported source sheets'],
@@ -20003,7 +19879,7 @@ function renderQASRiskOversight(filtered) {
             [],
             ['Metric','Value'],
             ['Total Audit Checks',''],['Open Findings',''],['Closed Rate',''],['Non-Compliance Rate',''],['High Risk Areas',''],
-            ['Regular Audit Average',''],['Special Audit Average',''],
+            ['Processed Audit Average',''],['Special Audit Average',''],
             ['Portfolio Rated Sites',document.getElementById('projectRiskRatedCount')?.innerText?.trim()||''],
             ['Portfolio Score',document.getElementById('projectRiskAverageScore')?.innerText?.trim()||''],
             ['Entity Filter',document.getElementById('globalProjectFilter')?.selectedOptions?.[0]?.text||'All Entities'],
@@ -20015,7 +19891,7 @@ function renderQASRiskOversight(filtered) {
         ws['B8']=qasCount?{t:'n',f:`IFERROR((COUNTIF(${qasRange('E')},"Closed")+COUNTIF(${qasRange('E')},"Accepted"))/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['B9']=qasCount?{t:'n',f:`IFERROR(COUNTIF(${qasRange('N')},"Non Compliant")/COUNTA(${qasRange('A')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['B10']=qasCount?{t:'n',f:`COUNTIF(${qasRange('Q')},"High")+COUNTIF(${qasRange('Q')},"Critical")`,z:'0'}:{t:'n',v:0,z:'0'};
-        ws['B11']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Regular Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
+        ws['B11']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Processed Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['B12']=processedCount?{t:'n',f:`IFERROR(AVERAGEIF(${processedRange('B')},"Special Audit",${processedRange('H')}),0)`,z:'0%'}:{t:'n',v:0,z:'0%'};
         ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}},{s:{r:1,c:0},e:{r:1,c:1}},{s:{r:2,c:0},e:{r:2,c:1}}];
         ws['!cols']=[{wch:28},{wch:28}];
@@ -20576,24 +20452,23 @@ function renderQASRiskOversight(filtered) {
     function getEngagementYear(item,defaultYear){
         const explicit=Number(item?.year||item?.planYear||item?.auditYear);
         if(Number.isFinite(explicit)&&explicit>2000) return explicit;
-        const dates=['preWorksDate','openingMeetingDate','siteVisitDate','closingDate','qasDate','auditReportDate'].map(k=>safeDate(item?.[k])).filter(Boolean);
+        const dates=['siteVisitDate','auditReportDate','closingDate','qasDate'].map(k=>safeDate(item?.[k])).filter(Boolean);
         return dates[0]?.getFullYear()||Number(defaultYear||2026);
     }
     function collectEngagementRows(year){
         const defaultYear=(()=>{try{return Number(auditProgressSettings?.year)||2026}catch(_){return 2026}})();
         return (Array.isArray(specialAuditsData)?specialAuditsData:[]).map((item,index)=>{
-            const milestoneKeys=['preWorksDate','openingMeetingDate','siteVisitDate','closingDate','qasDate'];
-            const dates=milestoneKeys.map(k=>safeDate(item?.[k])).filter(Boolean);
+            const dates=['siteVisitDate','auditReportDate','closingDate','qasDate'].map(k=>safeDate(item?.[k])).filter(Boolean);
             const itemYear=getEngagementYear(item,defaultYear);
             if(itemYear!==year) return null;
             const rawType=String(item?.type||'Processed Audit');
             const category=/special/i.test(rawType)?'Special Audit':'Processed Audit';
             const explicit=normalizeStatus(item?.status);
-            const completedMilestones=milestoneKeys.filter(k=>Boolean(item?.[k])).length;
+            const completedMilestones=['siteVisitDate','auditReportDate','closingDate','qasDate'].filter(k=>Boolean(item?.[k])).length;
             let status=explicit;
             // V60: Manual Delayed is authoritative; progress remains milestone/date based.
             if(/cancel|defer|delay|overdue|hold/i.test(String(item?.status||'')) || explicit==='Delayed') status='Delayed';
-            else if(completedMilestones===5) status='Completed';
+            else if(completedMilestones===4) status='Completed';
             else if(completedMilestones>0 || explicit==='In Progress') status='In Progress';
             else status='Pending';
             return {
@@ -20601,7 +20476,7 @@ function renderQASRiskOversight(filtered) {
                 icon:item?.icon||(/special/i.test(category)?'fa-file-circle-check':'fa-clipboard-check'),status,
                 start:dates.length?new Date(Math.min(...dates.map(d=>d.getTime()))):null,
                 end:dates.length?new Date(Math.max(...dates.map(d=>d.getTime()))):null,
-                meta:`${completedMilestones}/5 milestones completed`,source:'specialAudits',sourceIndex:index
+                meta:`${completedMilestones}/4 milestones completed`,source:'specialAudits',sourceIndex:index
             };
         }).filter(Boolean);
     }
@@ -20664,7 +20539,7 @@ function renderQASRiskOversight(filtered) {
 
         let warehouse=[],inventory=[],engagements=[];
         try{warehouse=typeof auditPlanData!=='undefined'?auditPlanData:[]}catch(_){ }
-        try{inventory=typeof invAuditPlanData!=='undefined'?invAuditPlanData.filter(item=>!isInventoryLandbankRecord(item)):[]}catch(_){ }
+        try{inventory=typeof invAuditPlanData!=='undefined'?invAuditPlanData:[]}catch(_){ }
         try{engagements=collectEngagementRows(year)}catch(_){engagements=[]}
         const allRows=[
             ...collectPlanCycleRows(warehouse,'warehouse','Site Warehousing','fa-warehouse',year),
